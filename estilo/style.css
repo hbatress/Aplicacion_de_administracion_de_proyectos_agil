@@ -1,59 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Young+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');
+body, html {
+  font-family: 'Young Serif', serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+  background: linear-gradient(to right, hsl(272, 80%, 50%), hsl(159, 80%, 50%));
+  color: #333;
+
+}
+/*
+html, body {
+  font-family: 'Young Serif', serif;
+  text-align: center;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; 
+}
+
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url('../Imagenes/fondo.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
+  background-image: url("../Imagenes/fondo5.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  background-repeat: no-repeat;
+}
+*/
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+h1 {
+  font-size: 28px;
+  color: #333;
+}
 
 form {
   max-width: 400px;
-  width: 100%;
-  padding: 20px;
-  background-color: rgba(242, 242, 242, 0.8);
-  border-radius: 25px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.648);
+  padding: 30px;
+  border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border: 2px solid #2600ff;
+
 }
 
-  label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
+.input-container {
+  position: relative;
+  margin-bottom: 15px;
+}
 
-  input[type="text"],
-  input[type="password"] {
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-  }
+.input-container i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: #888;
+}
 
-  input[type="submit"] {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-  }
+.input-container input,
+.input-container select {
+  font-family: 'Young Serif', serif;
+  width: 90%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  color: #333;
+  padding-left: 30px;
+}
+.input-container select {
+  width: 100%;
+}
 
-  .options {
-    margin-top: 20px;
-    text-align: center;
-  }
+.input-container input:focus::placeholder {
+  opacity: 0;
+  visibility: hidden;
+}
 
-  .options a {
-    margin-right: 10px;
-    color: #999;
-    text-decoration: none;
-    font-size: 14px;
-  }
+input[type="submit"] {
+  background-color: #fff;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
 
-  .options a:hover {
-    color: #0831fc;
-  }
+input[type="submit"]:hover {
+  background-color: #eee;
+}
+.boton-atractivo {
+  background-color: #ff6f00;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.boton-atractivo:hover {
+  background-color: #ff8f00;
+}
+/* Estilos del encabezado */
+header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #fff;
+}
+
+.logo {
+  cursor: pointer;
+  font-family: 'Alfa Slab One', serif;
+  font-size: 35px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  padding: 8px;
+  margin: 2px;
+}
+
+.menu {
+  position: relative;
+}
+
+.menu a {
+  margin-right: 25px;
+  color: #333;
+  text-decoration: none;
+}
+.Inicio {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ff6f00;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.Inicio:hover {
+  background-color: #ff8f00;
+}
+
+
+
+/* Estilos del pie de página */
+footer {
+  padding: 20px;
+  text-align: center;
+}
