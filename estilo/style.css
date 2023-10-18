@@ -63,7 +63,8 @@ form {
 }
 
 .input-container input,
-.input-container select {
+.input-container select,
+.payment-container select {
   font-family: 'Young Serif', serif;
   width: 90%;
   padding: 10px;
@@ -73,7 +74,8 @@ form {
   color: #333;
   padding-left: 30px;
 }
-.input-container select {
+.input-container select,
+.payment-container select {
   width: 100%;
 }
 
@@ -138,7 +140,7 @@ header {
   color: #333;
   text-decoration: none;
 }
-.Inicio {
+.Inicio,.Crear{
   display: inline-block;
   padding: 10px 20px;
   background-color: #ff6f00;
@@ -159,3 +161,9 @@ footer {
   padding: 20px;
   text-align: center;
 }
+
+.payment-container select:focus {
+  outline: none;
+}
+
+

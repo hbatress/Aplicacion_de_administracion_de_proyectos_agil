@@ -4,71 +4,28 @@
     <title>Crear Usuario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="../estilo/style.css">
+    <script src="/codigo.js"></script>
     
-  </head>
+</head>
 <body>
-  <header>
-    <h1 class="logo" onclick="location.reload();">ProTasker</h1>
+<header>
+    <h1 class="logo" onclick="location.reload();">ScrumWave</h1>
     <nav class="menu">
-      <a href="#">Funciones</a>
-      <a href="#">Soluciones</a>
-      <a href="#">Planes</a>
-      <a href="#">Precio</a>
-      <a href="#">Recursos</a>
-      <a href="#" class="Inicio">Iniciar Sesión</a>
-      
+    <a href="#">Funciones</a>
+    <a href="#">Soluciones</a>
+    <a href="#">Planes</a>
+    <a href="#">Precio</a>
+    <a href="#">Recursos</a>
+    <a href="#" class="Crear" id="crearCuenta">Crear Cuenta</a>
+    <a href="#" class="Inicio">Iniciar Sesión</a>
+    
     </nav>
 </header>
 
-<h2>Registrate</h2>
-<form action="guardar_usuario.php" method="POST">
-    <div class="input-container">
-        <i class="fas fa-id-card"></i>
-        <input type="text" name="id" id="id" placeholder="ID" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-user"></i>
-        <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-envelope"></i>
-        <input type="email" name="correo" id="correo" placeholder="Correo Electrónico" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-user-tag"></i>
-        <select name="rol" id="rol" required>
-            <option value="">Selecciona un rol</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Usuario">Usuario</option>
-            <option value="Invitado">Invitado</option>
-        </select>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-calendar-alt"></i>
-        <input type="date" name="fecha" id="fecha" placeholder="Fecha de Registro" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-credit-card"></i>
-        <select name="tipoCuenta" id="tipoCuenta" required>
-            <option value="">Selecciona un tipo de cuenta</option>
-            <option value="Cuenta básica">Cuenta básica</option>
-            <option value="Cuenta premium">Cuenta premium</option>
-            <option value="Cuenta empresarial">Cuenta empresarial</option>
-        </select>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-money-check-alt"></i>
-        <input type="text" name="tipoPago" id="tipoPago" placeholder="Tipo de Pago" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-lock"></i>
-        <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>
-    </div>
-    <button class="boton-atractivo">Crear Usuario</button>
-</form>
 
+    <div id="main"></div>
 <footer>
-    <p>© 2023 ProTasker. Todos los derechos reservados.</p>
+    <p>© 2023 ScrumWave. Todos los derechos reservados.</p>
 </footer>
 </body>
 </html>
