@@ -1,0 +1,59 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../Imagenes/fondo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+form {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(242, 242, 242, 0.8);
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #2600ff;
+}
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+  }
+
+  input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+  }
+
+  .options {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .options a {
+    margin-right: 10px;
+    color: #999;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .options a:hover {
+    color: #0831fc;
+  }

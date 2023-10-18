@@ -1,0 +1,125 @@
+CREATE TABLE `Usuario` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre` VARCHAR(50),
+  `Correo_Electronico` VARCHAR(100),
+  `Rol` VARCHAR(20),
+  `Fecha_de_Registro` DATE,
+  `Tipo_de_Cuenta` INT,
+  `Tipo_de_Pago` INT
+);
+
+CREATE TABLE `Tablero` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_del_Tablero` VARCHAR(100),
+  `Descripcion` VARCHAR(255),
+  `Fecha_de_Creacion` DATE,
+  `Usuario_Propietario` INT
+);
+
+CREATE TABLE `Lista_de_Tarea` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_de_la_Lista` VARCHAR(50),
+  `Posicion_en_el_Tablero` INT,
+  `Tablero_Perteneciente` INT
+);
+
+CREATE TABLE `Tarjeta` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Titulo_de_la_Tarjeta` VARCHAR(100),
+  `Descripcion` VARCHAR(255),
+  `Fecha_de_Creacion` DATE,
+  `Lista_Perteneciente` INT,
+  `Asignado_a` INT,
+  `Estado_de_la_Tarjeta` INT
+);
+
+CREATE TABLE `Comentario` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Texto_del_Comentario` VARCHAR(255),
+  `Fecha_de_Publicacion` DATE,
+  `Usuario_que_Realizo_el_Comentario` INT,
+  `Tarjeta_que_se_Refiere` INT
+);
+
+CREATE TABLE `Etiqueta` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_de_la_Etiqueta` VARCHAR(30),
+  `Color_de_la_Etiqueta` VARCHAR(20)
+);
+
+CREATE TABLE `Historial_de_Movimiento` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Fecha_y_Hora_del_Movimiento` DATE,
+  `Usuario_que_Realizo_el_Movimiento` INT,
+  `Tipo_de_Movimiento` INT,
+  `Tarjeta_Afectada` INT
+);
+
+CREATE TABLE `Tipo_de_Movimiento` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_del_Tipo_de_Movimiento` VARCHAR(50),
+  `Descripcion_del_Tipo_de_Movimiento` VARCHAR(255)
+);
+
+CREATE TABLE `Tipo_de_Cuenta` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_del_Tipo_de_Cuenta` VARCHAR(30),
+  `Descripcion_del_Tipo_de_Cuenta` VARCHAR(255)
+);
+
+CREATE TABLE `Tipo_de_Pago` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_del_Tipo_de_Pago` VARCHAR(30),
+  `Descripcion_del_Tipo_de_Pago` VARCHAR(255)
+);
+
+CREATE TABLE `Estado_de_la_Tarjeta` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Nombre_del_Estado` VARCHAR(20),
+  `Descripcion_del_Estado` VARCHAR(255)
+);
+
+CREATE TABLE `Participante` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Usuario_Participante` INT,
+  `Tarjeta_asociada` INT
+);
+
+CREATE TABLE `Datos_de_Tarjeta` (
+  `ID` INT PRIMARY KEY AUTO_INCREMENT,
+  `Numero_de_Tarjeta` VARCHAR(16),
+  `Mes_de_Vencimiento` VARCHAR(2),
+  `Ano_de_Vencimiento` VARCHAR(4),
+  `Codigo_de_Seguridad` VARCHAR(3),
+  `Tipo_de_Pago` INT
+);
+
+ALTER TABLE `Usuario` ADD FOREIGN KEY (`Tipo_de_Cuenta`) REFERENCES `Tipo_de_Cuenta` (`ID`);
+
+ALTER TABLE `Usuario` ADD FOREIGN KEY (`Tipo_de_Pago`) REFERENCES `Tipo_de_Pago` (`ID`);
+
+ALTER TABLE `Tablero` ADD FOREIGN KEY (`Usuario_Propietario`) REFERENCES `Usuario` (`ID`);
+
+ALTER TABLE `Lista_de_Tarea` ADD FOREIGN KEY (`Tablero_Perteneciente`) REFERENCES `Tablero` (`ID`);
+
+ALTER TABLE `Tarjeta` ADD FOREIGN KEY (`Lista_Perteneciente`) REFERENCES `Lista_de_Tarea` (`ID`);
+
+ALTER TABLE `Tarjeta` ADD FOREIGN KEY (`Asignado_a`) REFERENCES `Usuario` (`ID`);
+
+ALTER TABLE `Tarjeta` ADD FOREIGN KEY (`Estado_de_la_Tarjeta`) REFERENCES `Estado_de_la_Tarjeta` (`ID`);
+
+ALTER TABLE `Comentario` ADD FOREIGN KEY (`Usuario_que_Realizo_el_Comentario`) REFERENCES `Usuario` (`ID`);
+
+ALTER TABLE `Comentario` ADD FOREIGN KEY (`Tarjeta_que_se_Refiere`) REFERENCES `Tarjeta` (`ID`);
+
+ALTER TABLE `Historial_de_Movimiento` ADD FOREIGN KEY (`Usuario_que_Realizo_el_Movimiento`) REFERENCES `Usuario` (`ID`);
+
+ALTER TABLE `Historial_de_Movimiento` ADD FOREIGN KEY (`Tipo_de_Movimiento`) REFERENCES `Tipo_de_Movimiento` (`ID`);
+
+ALTER TABLE `Historial_de_Movimiento` ADD FOREIGN KEY (`Tarjeta_Afectada`) REFERENCES `Tarjeta` (`ID`);
+
+ALTER TABLE `Participante` ADD FOREIGN KEY (`Usuario_Participante`) REFERENCES `Usuario` (`ID`);
+
+ALTER TABLE `Participante` ADD FOREIGN KEY (`Tarjeta_asociada`) REFERENCES `Tarjeta` (`ID`);
+
+ALTER TABLE `Datos_de_Tarjeta` ADD FOREIGN KEY (`Tipo_de_Pago`) REFERENCES `Tipo_de_Pago` (`ID`);
