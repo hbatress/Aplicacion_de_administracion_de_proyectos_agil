@@ -157,8 +157,8 @@ header {
 
 
 /* Estilos del pie de página */
-footer {
-  padding: 20px;
+footer, .pie {
+  padding: 5px;
   text-align: center;
 }
 
@@ -167,3 +167,51 @@ footer {
 }
 
 
+/* Fomrato del contenido de la pagina principal*/
+.Informacion {
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 10px;
+}
+
+.izquierda {
+  border-radius: 20px;
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 10px double #17f303;
+}
+
+.derecha {
+  border-radius: 0px 20px 20px 0px;
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+}
+
+h1, p {
+  text-align: justify;
+  color: #000000; 
+}
+
+.grid {
+  display: grid;
+  gap: 5px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+/*
+.check {
+  margin: 10px 10px 10px 10px;
+  margin-right: 10px;
+}
+*/
+.titulo{
+  text-align: center;
+  color: black ;
+}

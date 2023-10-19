@@ -1,90 +1,68 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const main = document.getElementById("main");
 
-
-//VISTAS
+// VISTA
 function indexView() {
-const html=`
-    <h2>Registrate</h2>
-<form action="guardar_usuario.php" method="POST">
-    <div class="input-container">
-        <i class="fas fa-id-card"></i>
-        <input type="text" name="id" id="id" placeholder="ID" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-user"></i>
-        <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-envelope"></i>
-        <input type="email" name="correo" id="correo" placeholder="Correo Electrónico" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-user-tag"></i>
-        <select name="rol" id="rol" required>
-            <option value="">Selecciona un rol</option>
-            <option value="Administrador">Administrador</option>
-            <option value="Usuario">Miembro </option>
-            <option value="Observador ">Observador </option>
-        </select>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-calendar-alt"></i>
-        <input type="date" name="fecha" id="fecha" placeholder="Fecha de Registro" required>
-    </div>
-    <div class="input-container">
-        <i class="fas fa-credit-card"></i>
-        <select name="tipoCuenta" id="tipoCuenta" required>
-            <option value="">Selecciona un tipo de cuenta</option>
-            <option value="Cuenta básica">Cuenta Básica</option>
-            <option value="Cuenta premium">Cuenta Premium</option>
-            <option value="Cuenta empresarial">Cuenta Empresarial</option>
-        </select>
-    </div>
-    <div class="payment-container">
-        <select name="tipoPago" id="tipoPago" required>
-            <option value="">Selecciona una forma de pago</option>
-            <option value="pago1" style="background-image: url('../ImagenPago/tarjetasCredito.jpg');"><img src="../ImagenPago/tarjetasCredito.jpg"> Tarjetas de Crédito</option>
-            <option value="pago2" style="background-image: url('../ImagenPago/tarjetasDebito.jpg');">Tarjetas de Débito</option>
-            <option value="pago3" style="background-image: url('../ImagenPago/paypal.jpg');">PayPal</option>
-            <option value="pago4" style="background-image: url('../ImagenPago/skrill.jpg');">Skrill</option>
-            <option value="pago5" style="background-image: url('../ImagenPago/westernUnion.jpg');">Western Union</option>
-        </select>
-    </div>
-    <br>
-    <div class="input-container">
-        <i class="fas fa-lock"></i>
-        <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>
-    </div>
-    <button class="boton-atractivo">Crear Usuario</button>
-</form>
+    var html = `
+    <header>
+    <h1 class="logo" onclick="location.reload();">ScrumWave</h1>
+    <nav class="menu">
+    <a href="#">Funciones</a>
+    <a href="#">Soluciones</a>
+    <a href="#">Planes</a>
+    <a href="#">Precio</a>
+    <a href="#">Recursos</a>
+    <a href="#" class="Crear" id="crearCuenta">Crear Cuenta</a>
+    <a href="#" class="Inicio">Iniciar Sesión</a>
     
+    </nav>
+</header>
+<div class="Informacion">
+    <div class="izquierda">
+        <h1 class="titulo">Mira ScrumWave</h1>
+        <p>Planifica, gestiona y organiza todo el trabajo en un solo lugar. Trabaja de la manera que prefieras.
+        Con ScrumWave, los equipos cuentan con una plataforma de gestión del trabajo donde todos pueden planificar, gestionar y automatizar su trabajo.
+        </p>
+        
+        <div class="grid">
+            <div class="item">
+                <span class="notebook-icon"><i class="fa fa-book"> </i></span>
+                <p>Trabajar sin interrupciones, en cualquier momento o lugar.</p>
+            </div>
+            <div class="item">
+                <span class="notebook-icon"><i class="fa fa-book"> </i></span>
+                <p>Conectar a toda la organización y cumplir objetivos claros.</p>
+            </div>
+            <div class="item">
+                <span class="notebook-icon"><i class="fa fa-book"> </i></span>
+                <p>Eliminar las reuniones para reservar más tiempo.</p>
+            </div>
+            <div class="item">
+                <span class="notebook-icon"><i class="fa fa-book"> </i></span>
+                <p>Dedicar más tiempo al trabajo concreto.</p>
+            </div>
+        </div>
+    </div>  
+    <div class="derecha">
+        <img src="../Imagenes/planificacion.png">
+    </div>
+</div>
+
+<footer>
+    <p class="pie">© 2023 ScrumWave. Todos los derechos reservados.</p>
+</footer>
+
+
+
     `;
-    
+
     return html ;
 }
 
 
-    // CONTROLADOR
-    function indexContr() {
-        main.innerHTML = indexView();
-    }
 
-    // EVENTO para cargar el MVC
-    document.getElementById("crearCuenta").addEventListener("click", function (e) {
-        e.preventDefault(); // Evita que el enlace se comporte como un enlace normal
-        indexContr();
-    });
-
-    // Llamada inicial al controlador (opcional)
-    // indexContr(); // Puedes descomentar esto si deseas cargar el MVC al cargar la página inicialmente
-});
-
-/*
+// CONTROLADORES
 function indexContr() {
-    const main = document.getElementById("main");
-    main.innerHTML = indexView();
+    document.getElementById("main").innerHTML = indexView();
 }
 
+// EVENTOS
 document.addEventListener('DOMContentLoaded', indexContr);
-*/
