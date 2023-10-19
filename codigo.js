@@ -47,7 +47,21 @@ function indexView() {
 </div>
 
 <footer>
-    <p class="pie">© 2023 ScrumWave. Todos los derechos reservados.</p>
+    <div class="footer-content">
+        <div class="copyright">
+            ©2023|Todos los Derechos Reservados
+        </div>
+        <div class="footer-links">
+            <a href="terminos-y-condiciones">Términos y condiciones</a>
+            <a href="privacidad">Privacidad</a>
+        </div>
+        <div class="social-media">
+            <span class="notebook-icon"><i class="fa fa-facebook"></i> Facebook</span>
+            <span class="notebook-icon"><i class="fa fa-twitter"></i> Twitter</span>
+            <span class="notebook-icon"><i class="fa fa-youtube"></i> YouTube</span>
+            <span class="notebook-icon"><i class="fa fa-github"></i> GitHub</span>
+        </div>
+    </div>
 </footer>
 
 

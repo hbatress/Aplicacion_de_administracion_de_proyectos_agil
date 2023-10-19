@@ -154,16 +154,36 @@ header {
   background-color: #ff8f00;
 }
 
+/* Estilos del pie de página*/
 
-
-/* Estilos del pie de página */
-footer, .pie {
-  padding: 5px;
-  text-align: center;
+footer {
+  background-color: #33333387; 
+  color: #fff; 
+  padding: 20px;
 }
 
-.payment-container select:focus {
-  outline: none;
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
+  gap: 20px; 
+}
+
+/* Estilos para las columnas individuales (copyright, footer-links, social-media) */
+.column {
+  padding: 10px;
+}
+
+.footer-links, .social-media {
+  text-align: justify; 
+}
+
+.social-media {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notebook-icon {
+  margin-right: 10px; /* Ajusta el valor según el espacio que desees entre los elementos */
 }
 
 
