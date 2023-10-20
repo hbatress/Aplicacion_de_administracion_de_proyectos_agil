@@ -112,6 +112,9 @@ header {
   padding: 8px;
   margin: 2px;
 }
+.logo:hover {
+  text-decoration: underline; /* Cambia el estilo al pasar el puntero */
+}
 
 .menu {
   position: relative;
