@@ -47,40 +47,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('click', ev => {
     if (ev.target.matches('#crearCuenta')) {
-        currentState = 'create'; 
+        currentState = 'create';
         createContr();
     } else if (ev.target.matches('#IniciarSesion')) {
-        currentState = 'iniciar'; 
+        currentState = 'iniciar';
         inicarContr();
     } else if (ev.target.matches('#Plataforma')) {
-        currentState = 'plataforma'; 
+        currentState = 'plataforma';
         Plataforma();
     }
     else if (ev.target.matches('#Principal')) {
         localStorage.removeItem('currentView');
-        currentState = 'index'; 
+        currentState = 'index';
         indexContr();
     }
 });
 document.addEventListener('click', (event) => {
     if (event.target.id === 'crear-usuario-btn') {
-        event.preventDefault(); 
+        event.preventDefault();
 
         // Obtén todos los campos de entrada y selección
         const idInput = document.getElementById('id');
         const nombreInput = document.getElementById('nombre');
         const correoInput = document.getElementById('correo');
         const rolSelect = document.getElementById('rol');
-        const fechaInput = document.getElementById('fecha');
+        //const fechaInput = document.getElementById('fecha');
         const tipoCuentaSelect = document.getElementById('tipoCuenta');
         const tipoPagoSelect = document.getElementById('tipoPago');
         const contraseniaInput = document.getElementById('contrasenia');
+        // Obtener la fecha actual de la computadora
+        const fechaActual = new Date();
+        // Formatear la fecha en el formato deseado, por ejemplo, "YYYY-MM-DD"
+        const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
         // Obtén los valores de cada campo
         const Nombre = nombreInput.value;
         const Correo_Electronico = correoInput.value;
         const Rol = rolSelect.value;
-        const Fecha_de_Registro = fechaInput.value;
+        const Fecha_de_Registro = fechaFormateada;
         const Tipo_de_Cuenta = tipoCuentaSelect.value;
         const Tipo_de_Pago = tipoPagoSelect.value;
         const Contrasenia = contraseniaInput.value;
@@ -99,7 +103,7 @@ document.addEventListener('click', (event) => {
         sendDataToServer(userData)
 
             .then((data) => {
-                
+
                 console.log("Datos que se envían al servidor:", userData);
                 //console.log(data.message);
             });

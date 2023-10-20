@@ -84,10 +84,6 @@ function newView() {
     <h2>Registrate</h2>
     <form id="registro-form">
         <div class="input-container">
-            <i class="fas fa-id-card"></i>
-            <input type="text" name="id" id="id" placeholder="ID" required>
-        </div>
-        <div class="input-container">
             <i class="fas fa-user"></i>
             <input type="text" name="nombre" id="nombre" placeholder="Nombre" required>
         </div>
@@ -105,10 +101,7 @@ function newView() {
         
         
         </div>
-        <div class="input-container">
-            <i class="fas fa-calendar-alt"></i>
-            <input type="date" name="fecha" id="fecha" placeholder="Fecha de Registro" required>
-        </div>
+        
         <div class="input-container">
             <i class="fas fa-credit-card"></i>
             <select name="tipoCuenta" id="tipoCuenta" required>

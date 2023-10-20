@@ -1,0 +1,100 @@
+/* Eliminar los márgenes del elemento HTML */
+html {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Eliminar los márgenes del body */
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+
+/* Estilo para el encabezado (div.Superior) */
+/* Estilo para el encabezado (div.Superior) */
+.Superior {
+    background-color: #0df7f7; /* Color de fondo azul */
+    height: 8vh; /* 25% de la altura de la ventana */
+    width: 100%; /* 100% del ancho de la ventana */
+    border: 1px solid #ccc; /* Borde de 1 píxel de color gris claro */
+  }
+  
+  /* Estilo para el cuerpo (div.Cuerpo) */
+  .Cuerpo {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; /* 75% de la altura de la ventana */
+    width: 100%; /* 100% del ancho de la ventana */
+  }
+  
+  /* Estilo para el menú (div.Menu) */
+  .Menu {
+    background-color: #2ecc71; /* Verde */
+    width: 25%; /* 25% del ancho del cuerpo */
+  }
+  
+  /* Estilo para el área principal (div.Area) */
+  .Area {
+    background-color: #f39c12; /* Amarillo */
+    width: 75%; /* 75% del ancho del cuerpo */
+  }
+  
+
+  /* Estilo para el encabezado del administrador */
+.admin-header {
+    width: 100%; /* Ocupa el 100% del ancho de su contenedor */
+  }
+  
+  /* Estilo para el logo */
+  .admin-header .logo {
+    width: auto; /* Se adapta al contenido */
+  }
+  
+  /* Estilo para la navegación */
+  .admin-header nav {
+    width: auto; /* Se adapta al contenido */
+  }
+  
+  /* Estilo para la lista de navegación */
+  .admin-header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  /* Estilo para los elementos de la lista de navegación */
+  .admin-header nav li {
+    margin-right: 20px;
+  }
+  
+
+  /* Estilo para el encabezado del usuario (trabajador) */
+.user-header {
+    width: 100%; /* Ocupa el 100% del ancho de su contenedor */
+  }
+  
+  /* Estilo para el logo */
+  .user-header .logo {
+    width: auto; /* Se adapta al contenido */
+  }
+  
+  /* Estilo para la navegación */
+  .user-header nav {
+    width: auto; /* Se adapta al contenido */
+  }
+  
+  /* Estilo para la lista de navegación */
+  .user-header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+  }
+  
+  /* Estilo para los elementos de la lista de navegación */
+  .user-header nav li {
+    margin-right: 20px;
+  }
+  
