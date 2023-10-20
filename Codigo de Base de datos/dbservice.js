@@ -9,15 +9,91 @@ const dbservice = () => {
             database : process.env.DB,
         }
     });
-    const table = 'tipo_de_cuenta';
+// Declaraciones de constantes
+const Usuario = 'Usuario';
+const Tablero = 'Tablero';
+const ListaDeTarea = 'Lista_de_Tarea';
+const Tarjeta = 'Tarjeta';
+const Comentario = 'Comentario';
+const Etiqueta = 'Etiqueta';
+const HistorialDeMovimiento = 'Historial_de_Movimiento';
+const TipoDeMovimiento = 'tipo_de_movimiento';
+const TipoDeCuenta = 'tipo_de_cuenta';
+const TipoDePago = 'tipo_de_Pago';
+const EstadoDeLaTarjeta = 'Estado_de_la_Tarjeta';
+const Participante = 'Participante';
+const DatosDeTarjeta = 'Datos_de_Tarjeta';
 
-    const gettipo_de_cuenta = () => {
-        return knex(table).select();
+// Funciones de consulta
+const getUsuario = () => {
+return knex(Usuario).select();
+};
+
+const getTablero = () => {
+return knex(Tablero).select();
+};
+
+const getListaDeTarea = () => {
+return knex(ListaDeTarea).select();
+};
+
+const getTarjeta = () => {
+return knex(Tarjeta).select();
+};
+
+const getComentario = () => {
+return knex(Comentario).select();
+};
+
+const getEtiqueta = () => {
+return knex(Etiqueta).select();
+};
+
+const getHistorialDeMovimiento = () => {
+return knex(HistorialDeMovimiento).select();
+};
+
+const getTipoDeMovimiento = () => {
+return knex(TipoDeMovimiento).select();
+};
+
+const getTipoDeCuenta = () => {
+return knex(TipoDeCuenta).select();
+};
+
+const getTipoDePago = () => {
+return knex(TipoDePago).select();
+};
+
+const getEstadoDeLaTarjeta = () => {
+return knex(EstadoDeLaTarjeta).select();
+};
+
+const getParticipante = () => {
+return knex(Participante).select();
+};
+
+const getDatosDeTarjeta = () => {
+return knex(DatosDeTarjeta).select();
+};
+    return {getUsuario,
+        getTablero,
+        getListaDeTarea,
+        getTarjeta,
+        getComentario,
+        getEtiqueta,
+        getHistorialDeMovimiento,
+        getTipoDeMovimiento,
+        getTipoDeCuenta,
+        getTipoDePago,
+        getEstadoDeLaTarjeta,
+        getParticipante,
+        getDatosDeTarjeta,
     };
 
-    return {gettipo_de_cuenta};
 };
 
 module.exports = {
     dbservice
 };
+

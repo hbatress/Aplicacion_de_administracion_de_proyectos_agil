@@ -72,7 +72,7 @@ function indexView() {
         </div>
     </div>  
     <div class="derecha">
-        <img src="../Imagenes/planificacion.png">
+        <img src="/public/Imagenes/Planificacion_2.png">
     </div>
 </div>
     `;
