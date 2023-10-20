@@ -1,4 +1,5 @@
-import{encabezado,pie,indexView,newView,iniciarcontr}from'./Vistas.js';
+import { encabezado, pie, indexView, newView, iniciarcontr } from './Vistas.js';
+import { sendDataToServer } from './Intermediario.js';
 
 // CONTROLADORES
 function indexContr() {
@@ -23,11 +24,12 @@ function inicarContr() {
     localStorage.setItem('currentView', document.getElementById("main").innerHTML);
 }
 
-function Plataforma(){
+function Plataforma() {
     //document.getElementById("Encabezado").innerHTML = encabezado();
     document.getElementById("main").innerHTML = iniciarcontr();
     //document.getElementById("pie").innerHTML = pie();
 }
+
 // Variable para llevar un registro del estado actual
 let currentState = 'index'; // Puedes establecer el estado inicial aquí
 
@@ -45,20 +47,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('click', ev => {
     if (ev.target.matches('#crearCuenta')) {
-        currentState = 'create'; // Actualiza el estado
+        currentState = 'create'; 
         createContr();
     } else if (ev.target.matches('#IniciarSesion')) {
-        currentState = 'iniciar'; // Actualiza el estado
+        currentState = 'iniciar'; 
         inicarContr();
     } else if (ev.target.matches('#Plataforma')) {
-        currentState = 'plataforma'; // Actualiza el estado
+        currentState = 'plataforma'; 
         Plataforma();
-    } 
+    }
     else if (ev.target.matches('#Principal')) {
         localStorage.removeItem('currentView');
-        currentState = 'index'; // Actualiza el estado
+        currentState = 'index'; 
         indexContr();
-    } 
+    }
 });
-    
+document.addEventListener('click', (event) => {
+    if (event.target.id === 'crear-usuario-btn') {
+        event.preventDefault(); 
 
+        // Obtén todos los campos de entrada y selección
+        const idInput = document.getElementById('id');
+        const nombreInput = document.getElementById('nombre');
+        const correoInput = document.getElementById('correo');
+        const rolSelect = document.getElementById('rol');
+        const fechaInput = document.getElementById('fecha');
+        const tipoCuentaSelect = document.getElementById('tipoCuenta');
+        const tipoPagoSelect = document.getElementById('tipoPago');
+        const contraseniaInput = document.getElementById('contrasenia');
+
+        // Obtén los valores de cada campo
+        const Nombre = nombreInput.value;
+        const Correo_Electronico = correoInput.value;
+        const Rol = rolSelect.value;
+        const Fecha_de_Registro = fechaInput.value;
+        const Tipo_de_Cuenta = tipoCuentaSelect.value;
+        const Tipo_de_Pago = tipoPagoSelect.value;
+        const Contrasenia = contraseniaInput.value;
+
+        // Crea un objeto con todos los datos
+        const userData = {
+            Nombre,
+            Correo_Electronico,
+            Rol,
+            Fecha_de_Registro,
+            Tipo_de_Cuenta,
+            Tipo_de_Pago,
+            Contrasenia
+        };
+
+        sendDataToServer(userData)
+
+            .then((data) => {
+                
+                console.log("Datos que se envían al servidor:", userData);
+                //console.log(data.message);
+            });
+    }
+});

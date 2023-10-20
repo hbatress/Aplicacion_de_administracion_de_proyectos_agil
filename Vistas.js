@@ -80,9 +80,9 @@ function indexView() {
     return html ;
 }
 function newView() {
-    return `
+    var html= `
     <h2>Registrate</h2>
-    <form action="guardar_usuario.php" method="POST">
+    <form id="registro-form">
         <div class="input-container">
             <i class="fas fa-id-card"></i>
             <input type="text" name="id" id="id" placeholder="ID" required>
@@ -98,11 +98,12 @@ function newView() {
         <div class="input-container">
             <i class="fas fa-user-tag"></i>
             <select name="rol" id="rol" required>
-                <option value="">Selecciona un rol</option>
-                <option value="Administrador">Administrador</option>
-                <option value="Usuario">Miembro </option>
-                <option value="Observador ">Observador </option>
-            </select>
+            <option value="Administrador">Administrador</option>
+            <option value="Miembro">Miembro</option>
+            <option value="Observador">Observador</option>
+        </select>
+        
+        
         </div>
         <div class="input-container">
             <i class="fas fa-calendar-alt"></i>
@@ -111,35 +112,39 @@ function newView() {
         <div class="input-container">
             <i class="fas fa-credit-card"></i>
             <select name="tipoCuenta" id="tipoCuenta" required>
-                <option value="">Selecciona un tipo de cuenta</option>
-                <option value="Cuenta básica">Cuenta Básica</option>
-                <option value="Cuenta premium">Cuenta Premium</option>
-                <option value="Cuenta empresarial">Cuenta Empresarial</option>
-            </select>
+            <option value="0">Selecciona un tipo de cuenta</option>
+            <option value="1">Cuenta Básica</option>
+            <option value="2">Cuenta Premium</option>
+            <option value="3">Cuenta Empresarial</option>
+        </select>
+        
         </div>
         <div class="payment-container">
-            <select name="tipoPago" id="tipoPago" required>
-                <option value="">Selecciona una forma de pago</option>
-                <option value="pago1" style="background-image: url('../ImagenPago/tarjetasCredito.jpg');"><img src="../ImagenPago/tarjetasCredito.jpg"> Tarjetas de Crédito</option>
-                <option value="pago2" style="background-image: url('../ImagenPago/tarjetasDebito.jpg');">Tarjetas de Débito</option>
-                <option value="pago3" style="background-image: url('../ImagenPago/paypal.jpg');">PayPal</option>
-                <option value="pago4" style="background-image: url('../ImagenPago/skrill.jpg');">Skrill</option>
-                <option value="pago5" style="background-image: url('../ImagenPago/westernUnion.jpg');">Western Union</option>
-            </select>
+        <select name="tipoPago" id="tipoPago" required>
+        <option value="0">Selecciona una forma de pago</option>
+        <option value="1">Tarjetas de Crédito</option>
+        <option value="2">Tarjetas de Débito</option>
+        <option value="3">PayPal</option>
+        <option value="4">Skrill</option>
+        <option value="5">Western Union</option>
+    </select>
+    
+    
         </div>
         <br>
         <div class="input-container">
             <i class="fas fa-lock"></i>
             <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>
         </div>
-        <button class="boton-atractivo">Crear Usuario</button>
+        <button class="boton-atractivo" id="crear-usuario-btn" type="button">Crear Usuario</button>
     </form>
     <br>
     `;
+    return html ;
 }
 
 function iniciarcontr(){
-    return `
+    var html= `
     <div class="ContenedorInicio">
     <h2>Iniciar Sesión</h2>
     <form action="guardar_usuario.php" method="POST">
@@ -155,4 +160,5 @@ function iniciarcontr(){
     </form>
     </div>
     `;
+    return html ;
 }
