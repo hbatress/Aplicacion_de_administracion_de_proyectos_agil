@@ -84,17 +84,20 @@ const dbservice = () => {
         Rol,
         Fecha_de_Registro,
         Tipo_de_Cuenta,
-        Tipo_de_Pago
+        Tipo_de_Pago,
+        Contrasenia
     ) => {
-        return knex(Usuario).insert({
+        return knex('Usuario').insert({
             Nombre: Nombre,
             Correo_Electronico: Correo_Electronico,
             Rol: Rol,
             Fecha_de_Registro: Fecha_de_Registro,
             Tipo_de_Cuenta: Tipo_de_Cuenta,
             Tipo_de_Pago: Tipo_de_Pago,
+            Contrasenia: Contrasenia
         });
     };
+    
 
     const crearTablero = (
         Nombre_del_Tablero,

@@ -86,14 +86,15 @@ module.exports = function (app, dbservice) {
     //estos son los post para agregar los datos
     app.post('/usuarios', (req, res) => {
         const newUser = req.body;
-        databaseSer
+        dbservice
             .crearUsuario(
                 newUser.Nombre,
                 newUser.Correo_Electronico,
                 newUser.Rol,
                 newUser.Fecha_de_Registro,
                 newUser.Tipo_de_Cuenta,
-                newUser.Tipo_de_Pago
+                newUser.Tipo_de_Pago,
+                newUser.Contrasenia 
             )
             .then(() => {
                 res.json({ message: "Agregado con éxito" });
@@ -102,11 +103,12 @@ module.exports = function (app, dbservice) {
                 res.status(500).send(e);
             });
     });
+    
 
 
     app.post('/tableros', (req, res) => {
         const newTablero = req.body;
-        databaseSer
+        dbservice
             .crearTablero(
                 newTablero.Nombre_del_Tablero,
                 newTablero.Descripcion,
@@ -124,7 +126,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/listas', (req, res) => {
         const newList = req.body;
-        databaseSer
+        dbservice
             .crearListaDeTarea(
                 newList.Nombre_de_la_Lista,
                 newList.Posicion_en_el_Tablero,
@@ -141,7 +143,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/tarjetas', (req, res) => {
         const newCard = req.body;
-        databaseSer
+        dbservice
             .crearTarjeta(
                 newCard.Titulo_de_la_Tarjeta,
                 newCard.Descripcion,
@@ -161,7 +163,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/comentarios', (req, res) => {
         const newComment = req.body;
-        databaseSer
+        dbservice
             .crearComentario(
                 newComment.Texto_del_Comentario,
                 newComment.Fecha_de_Publicacion,
@@ -179,7 +181,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/etiquetas', (req, res) => {
         const newTag = req.body;
-        databaseSer
+        dbservice
             .crearEtiqueta(
                 newTag.Nombre_de_la_Etiqueta,
                 newTag.Color_de_la_Etiqueta
@@ -195,7 +197,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/historiales', (req, res) => {
         const newHistory = req.body;
-        databaseSer
+        dbservice
             .crearHistorialDeMovimiento(
                 newHistory.Fecha_y_Hora_del_Movimiento,
                 newHistory.Usuario_que_Realizo_el_Movimiento,
@@ -213,7 +215,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/tiposdemovimiento', (req, res) => {
         const newTipoMovimiento = req.body;
-        databaseSer
+        dbservice
             .crearTipoDeMovimiento(
                 newTipoMovimiento.Nombre_del_Tipo_de_Movimiento,
                 newTipoMovimiento.Descripcion_del_Tipo_de_Movimiento
@@ -229,7 +231,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/tiposdecuenta', (req, res) => {
         const newTipoCuenta = req.body;
-        databaseSer
+        dbservice
             .crearTipoDeCuenta(
                 newTipoCuenta.Nombre_del_Tipo_de_Cuenta,
                 newTipoCuenta.Descripcion_del_Tipo_de_Cuenta
@@ -245,7 +247,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/tiposdepago', (req, res) => {
         const newTipoPago = req.body;
-        databaseSer
+        dbservice
             .crearTipoDePago(
                 newTipoPago.Nombre_del_Tipo_de_Pago,
                 newTipoPago.Descripcion_del_Tipo_de_Pago
@@ -261,7 +263,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/estadosdetarjeta', (req, res) => {
         const newEstadoTarjeta = req.body;
-        databaseSer
+        dbservice
             .crearEstadoDeLaTarjeta(
                 newEstadoTarjeta.Nombre_del_Estado,
                 newEstadoTarjeta.Descripcion_del_Estado
@@ -277,7 +279,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/participantes', (req, res) => {
         const newParticipante = req.body;
-        databaseSer
+        dbservice
             .crearParticipante(
                 newParticipante.Usuario_Participante,
                 newParticipante.Tarjeta_asociada
@@ -293,7 +295,7 @@ module.exports = function (app, dbservice) {
 
     app.post('/datosdetarjeta', (req, res) => {
         const newDatosTarjeta = req.body;
-        databaseSer
+        dbservice
             .crearDatosDeTarjeta(
                 newDatosTarjeta.Numero_de_Tarjeta,
                 newDatosTarjeta.Mes_de_Vencimiento,
