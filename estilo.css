@@ -29,7 +29,7 @@ html {
   }
   
   /* Estilo para el menú (div.Menu) */
-  .Menu {
+  .Listado {
     background-color: #2ecc71; /* Verde */
     width: 25%; /* 25% del ancho del cuerpo */
   }
@@ -39,62 +39,94 @@ html {
     background-color: #f39c12; /* Amarillo */
     width: 75%; /* 75% del ancho del cuerpo */
   }
-  
 
-  /* Estilo para el encabezado del administrador */
-.admin-header {
-    width: 100%; /* Ocupa el 100% del ancho de su contenedor */
-  }
-  
-  /* Estilo para el logo */
-  .admin-header .logo {
-    width: auto; /* Se adapta al contenido */
-  }
-  
-  /* Estilo para la navegación */
-  .admin-header nav {
-    width: auto; /* Se adapta al contenido */
-  }
-  
-  /* Estilo para la lista de navegación */
-  .admin-header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-  
-  /* Estilo para los elementos de la lista de navegación */
-  .admin-header nav li {
-    margin-right: 20px;
-  }
-  
 
-  /* Estilo para el encabezado del usuario (trabajador) */
-.user-header {
-    width: 100%; /* Ocupa el 100% del ancho de su contenedor */
-  }
-  
-  /* Estilo para el logo */
-  .user-header .logo {
-    width: auto; /* Se adapta al contenido */
-  }
-  
-  /* Estilo para la navegación */
-  .user-header nav {
-    width: auto; /* Se adapta al contenido */
-  }
-  
-  /* Estilo para la lista de navegación */
-  .user-header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-  }
-  
-  /* Estilo para los elementos de la lista de navegación */
-  .user-header nav li {
-    margin-right: 20px;
-  }
-  
+/*estilo del contenido del encabezado*/
+.beautiful-header {
+  background-color: #333; /* Cambia el color de fondo a tu elección */
+  color: white; /* Cambia el color del texto a tu elección */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.beautiful-header .logo {
+  font-size: 24px;
+}
+
+.beautiful-header ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+}
+
+.beautiful-header li {
+  margin: 0 15px;
+}
+
+.beautiful-header a {
+  text-decoration: none;
+  color: white;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 400px; /* Ajusta el ancho del contenedor a tu preferencia */
+}
+
+.search-bar input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+  flex: 1; /* Esto permite que el input ocupe el espacio restante dentro del contenedor */
+}
+
+.search-bar button {
+  background-color: #07c7f2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px; /* Ajusta el tamaño del botón a tu preferencia */
+  cursor: pointer;
+  width: 100px;
+}
+
+/*estilo del Menu*/
+.Menu {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  background-color: #0074cc; /* Cambia el color del icono a tu elección */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-details p {
+  margin: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Define estilos de iconos, texto y otros elementos similares para las secciones restantes */

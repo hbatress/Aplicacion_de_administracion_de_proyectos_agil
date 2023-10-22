@@ -1,4 +1,4 @@
-export function sendDataToServer(data) {
+export function AgregarUser(data) {
 
 
     return fetch('http://localhost:3000/usuarios', {
@@ -8,11 +8,21 @@ export function sendDataToServer(data) {
         },
         body: JSON.stringify(data),
     })
-    .then((response) => response.json())
-    .then(data => {
-        console.log('Respuesta del servidor:', data);
+        .then((response) => response.json())
+        .then(data => {
+            console.log('Respuesta del servidor:', data);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+export function LeerUser() {
+    return fetch('http://localhost:3000/Usuario', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
     })
-    .catch((error) => {
-        console.error(error);
-    });
+        .then((response) => response.json());
+
 }

@@ -149,7 +149,7 @@ function iniciarcontr(){
             <i class="fas fa-lock"></i>
             <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>
         </div>
-        <button class="boton-atractivo">Iniciar</button>
+        <button class="boton-atractivo" id="BTN_Iniciar">Iniciar</button>
     </form>
     </div>
     `;
