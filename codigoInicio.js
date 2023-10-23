@@ -1,4 +1,4 @@
-import { encabezado, pie, indexView, newView, iniciarcontr,} from './Vistas.js';
+import { encabezado, pie, indexView, newView, iniciarcontr,Mostrarprecios,funcionesMostrar,solucionesMO,Condiciones} from './Vistas.js';
 import { AgregarUser, LeerUser } from './Intermediario.js';
 
 // CONTROLADORES
@@ -182,8 +182,35 @@ function iniciar() {
       });
   }
 }
+function MostrarP() {
+  document.getElementById("main").innerHTML = Mostrarprecios();
+  document.getElementById("Encabezado").innerHTML = encabezado();
+  localStorage.setItem('currentView', document.getElementById("main").innerHTML);
+  document.getElementById("pie").innerHTML = pie();
+}
 
+function MostrarFunciones() {
+  document.getElementById("main").innerHTML = funcionesMostrar();
+  document.getElementById("Encabezado").innerHTML = encabezado();
+  localStorage.setItem('currentView', document.getElementById("main").innerHTML);
+  document.getElementById("pie").innerHTML = pie();
+}
 
+function MostrarSoluciones() {
+  document.getElementById("main").innerHTML = solucionesMO();
+  document.getElementById("Encabezado").innerHTML = encabezado();
+  document.getElementById("pie").innerHTML = pie();
+  localStorage.setItem('currentView', document.getElementById("main").innerHTML);
+
+}
+
+function condicionesF() {
+  document.getElementById("main").innerHTML = Condiciones();
+  document.getElementById("Encabezado").innerHTML = encabezado();
+  document.getElementById("pie").innerHTML = pie();
+  localStorage.setItem('currentView', document.getElementById("main").innerHTML);
+
+}
 // Variable para llevar un registro del estado actual
 let currentState = 'index'; // Puedes establecer el estado inicial aquí
 
@@ -200,28 +227,39 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('click', ev => {
-    if (ev.target.matches('#crearCuenta')) {
-        currentState = 'create';
-        createContr();
-    } else if (ev.target.matches('#IniciarSesion')) {
-        currentState = 'iniciar';
-        inicarContr();
-    } else if (ev.target.matches('#Planes')) {
-        currentState = 'planes';
-        mostrarPlanes();
-    } else if (ev.target.matches('#Principal')) {
-        localStorage.removeItem('currentView');
-        currentState = 'index';
-        indexContr();
-    } else if (ev.target.id === 'crear-usuario-btn') {
-        ev.preventDefault();
-        Crear();
-    } if (ev.target.id === 'BTN_Iniciar') {
-        ev.preventDefault();
-        iniciar();
-    }
+  if (ev.target.matches('#crearCuenta')) {
+    currentState = 'create';
+    createContr();
+  } else if (ev.target.matches('#IniciarSesion')) {
+    currentState = 'iniciar';
+    inicarContr();
+  }else if (ev.target.matches('#Principal')) {
+    localStorage.removeItem('currentView');
+    currentState = 'index';
+    indexContr();
+  } else if (ev.target.id === 'crear-usuario-btn') {
+    ev.preventDefault();
+    Crear();
+  } else if (ev.target.id === 'BTN_Iniciar') {
+    ev.preventDefault();
+    iniciar();
+  } else if (ev.target.matches('#planes')) {
+    currentState = 'mostrarPrecios';
+    MostrarP();
+  }
+  else if (ev.target.matches('#funciones')) {
+    currentState = 'funcionesMostrar';
+    MostrarFunciones();
+  }
+  else if (ev.target.matches('#soluciones')) {
+    currentState = 'solucionesMO';
+    MostrarSoluciones();
+  }
+  else if (ev.target.matches('#terminosCondicionesLink')) {
+    currentState = 'Condiciiones';
+    condicionesF();
+  }
 });
-
 
 
 

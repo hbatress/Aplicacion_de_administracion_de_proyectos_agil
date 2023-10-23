@@ -48,7 +48,7 @@ form {
 .input-container select,
 .payment-container select {
   font-family: 'Young Serif', serif;
-  width: 90%;
+  width: 100%;
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -267,4 +267,57 @@ estilo del inicio de seccion
 
 .menu-item:hover + #infoPopup {
   display: block;
+}
+
+
+/* mostrar planes*/
+.feature {
+  text-align: left;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.feature i {
+  font-size: 48px;
+  color: #007bff;
+}
+
+/* aplicar estilo a las funciones  */
+#function-container {
+  background-color: rgba(0, 0, 0, 0.568);
+  padding: 20px;
+  width: 100%;
+  color: white;
+}
+
+#function-container h1 {
+  color: white;
+  text-align: center;
+}
+
+#function-container ul {
+  list-style: disc;
+  margin-left: 20px;
+  text-align: left;
+}
+
+#function-container li {
+  margin: 10px 0;
+}
+
+/* Color a los ajustes de terminos y condicioens*/ 
+
+.link-azul-subrayado {
+  color: blue; 
+  text-decoration: underline; 
+  cursor: pointer; 
+}
+
+.link-azul-subrayado:hover {
+  font-weight: bold; 
+}
+li{
+  text-align: left;
 }
