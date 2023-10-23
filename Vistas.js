@@ -1,23 +1,25 @@
-export{encabezado,pie,indexView,newView,iniciarcontr};
+export { encabezado, pie, indexView, newView, iniciarcontr };
 // VISTA
 function encabezado() {
     var html = `
     <header>
     <h1 class="logo" id="Principal">ScrumWave</h1>
     <nav class="menu">
-    <button class="button">Funciones</button>
-    <button class="button">Soluciones</button>
-    <button class="button">Planes</button>
-    <button class="button">Precio</button>
-    <button class="button">Recursos</button>
-    <button class="Crear" id="crearCuenta">Crear Cuenta</button>
-    <button class="Inicio" id="IniciarSesion">Iniciar Sesión</button>
-    
+        <a href="#" class="menu-item" id="funciones">Funciones</a>
+        <a href="#" class="menu-item" id="soluciones">Soluciones</a>
+        <a href="#" class="menu-item" id="planes">Planes</a>
+        <a href="#" class="menu-item" id="precio">Precio</a>
+        <a href="#" class="menu-item" id="recursos">Recursos</a>
+        <button class="Crear" id="crearCuenta" title="Crear una cuenta">Crear Cuenta</button>
+        <button class="Inicio" id="IniciarSesion" title="Iniciar Sesión">Iniciar Sesión</button>
     </nav>
 </header>
+<div class="info-popup" id="infoPopup">s</div>
+
+
     `;
 
-    return html ;
+    return html;
 }
 function pie() {
     var html = `
@@ -40,7 +42,7 @@ function pie() {
 </footer>
     `;
 
-    return html ;
+    return html;
 }
 function indexView() {
     var html = `
@@ -77,11 +79,11 @@ function indexView() {
 </div>
     `;
 
-    return html ;
+    return html;
 }
 function newView() {
-    var html= `
-    <h2>Registrate</h2>
+    var html = `
+    <h2>Regístrate</h2>
     <form id="registro-form">
         <div class="input-container">
             <i class="fas fa-user"></i>
@@ -94,50 +96,47 @@ function newView() {
         <div class="input-container">
             <i class="fas fa-user-tag"></i>
             <select name="rol" id="rol" required>
-            <option value="Administrador">Administrador</option>
-            <option value="Miembro">Miembro</option>
-            <option value="Observador">Observador</option>
-        </select>
-        
-        
+                <option value="Administrador">Administrador</option>
+                <option value="Miembro">Miembro</option>
+                <option value="Observador">Observador</option>
+            </select>
         </div>
-        
         <div class="input-container">
             <i class="fas fa-credit-card"></i>
             <select name="tipoCuenta" id="tipoCuenta" required>
-            <option value="0">Selecciona un tipo de cuenta</option>
-            <option value="1">Cuenta Básica</option>
-            <option value="2">Cuenta Premium</option>
-            <option value="3">Cuenta Empresarial</option>
-        </select>
-        
+                <option value="0">Selecciona un tipo de cuenta</option>
+                <option value="1">Cuenta Básica</option>
+                <option value="2">Cuenta Premium</option>
+                <option value="3">Cuenta Empresarial</option>
+            </select>
         </div>
-        <div class="payment-container">
+        <div class="payment-container" id="forma-pago-container" style="display: none;">
         <select name="tipoPago" id="tipoPago" required>
-        <option value="0">Selecciona una forma de pago</option>
-        <option value="1">Tarjetas de Crédito</option>
-        <option value="2">Tarjetas de Débito</option>
-        <option value="3">PayPal</option>
-        <option value="4">Skrill</option>
-        <option value="5">Western Union</option>
-    </select>
+            <option value="0">Selecciona una forma de pago</option>
+            <option value="1">Tarjetas de Crédito</option>
+            <option value="2">Tarjetas de Débito</option>
+            <option value="3">PayPal</option>
+            <option value="4">Skrill</option>
+            <option value="5">Western Union</option>
+        </select>
+    </div>
     
-    
-        </div>
-        <br>
+<br>
         <div class="input-container">
             <i class="fas fa-lock"></i>
             <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>
         </div>
+        <div id="mensaje-error" class="mensaje-error"></div> <!-- Aquí se muestra el mensaje de error -->
         <button class="boton-atractivo" id="crear-usuario-btn" type="button">Crear Usuario</button>
     </form>
     <br>
+    
     `;
-    return html ;
+    return html;
 }
 
-function iniciarcontr(){
-    var html= `
+function iniciarcontr() {
+    var html = `
     <div class="ContenedorInicio">
     <h2>Iniciar Sesión</h2>
     <form action="guardar_usuario.php" method="POST">
@@ -149,9 +148,12 @@ function iniciarcontr(){
             <i class="fas fa-lock"></i>
             <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>
         </div>
+        <div id="mensaje-error" class="mensaje-error"></div> <!-- Aquí se muestra el mensaje de error -->
         <button class="boton-atractivo" id="BTN_Iniciar">Iniciar</button>
     </form>
-    </div>
+</div>
+
+
     `;
-    return html ;
+    return html;
 }

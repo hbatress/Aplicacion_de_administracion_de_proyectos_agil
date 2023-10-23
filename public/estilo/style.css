@@ -248,3 +248,23 @@ estilo del inicio de seccion
   text-align: center;
   width: 80%; /* Ancho del formulario, puedes ajustarlo según tus necesidades */
 }
+/* Color del mensaje de error*/
+.mensaje-error {
+  color: red; /* Color de texto rojo */
+  font-weight: bold; /* Texto en negrita */
+  margin-top: 10px; /* Espacio entre el mensaje y el botón */
+}
+
+/* para aplicar el estilo a la ventana flotante */
+.info-popup {
+  position: fixed;
+  display: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.menu-item:hover + #infoPopup {
+  display: block;
+}

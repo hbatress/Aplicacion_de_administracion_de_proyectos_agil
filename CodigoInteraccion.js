@@ -98,22 +98,25 @@ function Menu() {
 
 //CONTROLADORES
 
-//function inicarContr() {
-  //  document.getElementById("Superior").innerHTML = encabezado_admin();
+function inicarContr() {
+  document.getElementById("Listado").innerHTML = Menu();
 
-//}
+}
 
 
 //EVENTOS
 //document.addEventListener('DOMContentLoaded', () => {
-  //  inicarContr();
+  //inicarContr();
 //});
 
 function mostrarEncabezado(tipoUsuario) {
     var encabezadoHTML = '';
+    //var menuHTML = '';
 
     if (tipoUsuario === 'admin') {
         encabezadoHTML = encabezado_admin();
+      //  menuHTML = Menu();
+      inicarContr();
     } else if (tipoUsuario === 'user') {
         encabezadoHTML = encabezado_user();
     } else if (tipoUsuario === 'observador') {
@@ -124,7 +127,8 @@ function mostrarEncabezado(tipoUsuario) {
     }
 
     document.getElementById("Superior").innerHTML = encabezadoHTML;
-    document.getElementById("Listado").innerHTML = Menu();
+    //document.getElementById("Listado").innerHTML = menuHTML;
+
 }
 
 // Ejemplo de uso:
@@ -132,4 +136,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Supongamos que el tipo de usuario se obtiene de algún lugar, como una variable o una función.
     var tipoUsuario = 'admin'; // Cambia esto según el tipo de usuario actual.
     mostrarEncabezado(tipoUsuario);
+    inicarContr();
 });
