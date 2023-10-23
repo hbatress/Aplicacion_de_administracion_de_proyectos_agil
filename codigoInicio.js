@@ -1,4 +1,4 @@
-import { encabezado, pie, indexView, newView, iniciarcontr } from './Vistas.js';
+import { encabezado, pie, indexView, newView, iniciarcontr,} from './Vistas.js';
 import { AgregarUser, LeerUser } from './Intermediario.js';
 
 // CONTROLADORES
@@ -23,7 +23,6 @@ function inicarContr() {
   localStorage.setItem('currentView', document.getElementById("main").innerHTML);
 }
 
-//Funciones
 function Crear() {
   // Obtén todos los campos de entrada y selección
   const nombreInput = document.getElementById('nombre');
@@ -32,133 +31,159 @@ function Crear() {
   const tipoCuentaSelect = document.getElementById('tipoCuenta');
   const tipoPagoSelect = document.getElementById('tipoPago');
   const contraseniaInput = document.getElementById('contrasenia');
- 
+
   // Obtener la fecha actual de la computadora
   const fechaActual = new Date();
   // Formatear la fecha en el formato deseado, por ejemplo, "YYYY-MM-DD"
   const fechaFormateada = fechaActual.toISOString().split('T')[0];
 
   // Obtén los valores de cada campo
-const Nombre = nombreInput.value;
-const Correo_Electronico = correoInput.value;
-const Rol = rolSelect.value;
-const Fecha_de_Registro = fechaFormateada;
-const Tipo_de_Cuenta = tipoCuentaSelect.value;
-const Tipo_de_Pago = tipoPagoSelect.value;
-const Contrasenia = contraseniaInput.value;
+  const Nombre = nombreInput.value;
+  const Correo_Electronico = correoInput.value;
+  const Rol = rolSelect.value;
+  const Fecha_de_Registro = fechaFormateada;
+  const Tipo_de_Cuenta = tipoCuentaSelect.value;
+  const Tipo_de_Pago = tipoPagoSelect.value;
+  const Contrasenia = contraseniaInput.value;
 
-// Obtén el elemento del mensaje de error
-const mensajeError = document.getElementById("mensaje-error");
+  // Expresión regular para validar un correo electrónico
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-
-// Verifica si todos los campos están llenos
-if (
-  Nombre.trim() === '' ||
-  Correo_Electronico.trim() === '' ||
-  Rol.trim() === '' ||
-  Tipo_de_Cuenta.trim() === '' ||
-  Tipo_de_Pago.trim() === '' ||
-  Contrasenia.trim() === ''
-) {
-  mensajeError.innerHTML = 'Por favor, completa todos los campos.';
-} else {
-  mensajeError.innerHTML = ''; // Limpia el mensaje de error si todos los campos están llenos
-
-  // Crea un objeto con todos los datos
-  const userData = {
-    Nombre,
-    Correo_Electronico,
-    Rol,
-    Fecha_de_Registro,
-    Tipo_de_Cuenta,
-    Tipo_de_Pago,
-    Contrasenia
-  };
-
-  LeerUser()
-    .then((data) => {
-      let datosCoinciden = false; // Declaración y definición de la variable
-      // Aquí puedes trabajar con los datos obtenidos
-      console.log('Datos obtenidos:', data);
-
-      // Por ejemplo, si la respuesta es un array de objetos de usuarios:
-      data.forEach((usuario) => {
-        console.log('Nombre:', usuario.Contrasenia);
-        console.log('Correo Electrónico:', usuario.Correo_Electronico);
-
-        if (usuario.Correo_Electronico === Correo_Electronico) {
-          console.log('Correo Electrónico:', usuario.Correo_Electronico);
-          console.log('Correo Electrónico ya está registrado.');
-          datosCoinciden = true;
-        }
-      });
-
-      if (datosCoinciden) {
-        mensajeError.innerHTML = 'El correo ya está registrado.';
-      } else {
-        console.log("Datos que se envían al servidor:", userData);
-        AgregarUser(userData);
-        window.location.href = '/Pagina/Pagina.html';
-      }
-    })
-    .catch((error) => {
-      console.error('Error en la solicitud:', error);
+  // Verifica si todos los campos están llenos
+  if (
+    Nombre.trim() === '' ||
+    Rol.trim() === '' ||
+    Tipo_de_Cuenta.trim() === '' ||
+    Tipo_de_Pago.trim() === '' ||
+    Contrasenia.trim() === ''
+  ) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Campos vacíos',
+      text: 'Por favor, completa todos los campos.',
     });
+  } else if (!emailRegex.test(Correo_Electronico)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Correo no válido',
+      text: 'Por favor, ingresa un correo electrónico válido.',
+    });
+  } else {
+    LeerUser()
+      .then((data) => {
+        let correoExistente = false;
+
+        data.forEach((usuario) => {
+          if (usuario.Correo_Electronico === Correo_Electronico) {
+            correoExistente = true;
+          }
+        });
+
+        if (correoExistente) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Correo ya registrado',
+            text: 'El correo ya está registrado en la base de datos.',
+          });
+        } else {
+          // Crea un objeto con todos los datos
+          const userData = {
+            Nombre,
+            Correo_Electronico,
+            Rol,
+            Fecha_de_Registro,
+            Tipo_de_Cuenta,
+            Tipo_de_Pago,
+            Contrasenia,
+          };
+
+          AgregarUser(userData);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Usuario creado',
+            text: 'El usuario se ha creado correctamente.',
+          }).then(() => {
+            window.location.href = '/Pagina/Pagina.html';
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Ha ocurrido un error en la solicitud.',
+        });
+      });
+  }
 }
-}
+
 
 function iniciar() {
   // Obtén todos los campos de entrada y selección
   const correoInput = document.getElementById('correo');
   const contraseniaInput = document.getElementById('contrasenia');
 
-// Obtén los valores de cada campo
-const Correo_Electronico = correoInput.value;
-const Contrasenia = contraseniaInput.value;
+  // Obtén los valores de cada campo
+  const Correo_Electronico = correoInput.value;
+  const Contrasenia = contraseniaInput.value;
 
-// Obtén el elemento del mensaje de error
-const mensajeError = document.getElementById("mensaje-error");
-
-// Verifica si los campos están llenos
-if (Correo_Electronico.trim() === '' || Contrasenia.trim() === '') {
-  mensajeError.innerHTML = 'Por favor, completa todos los campos.';
-} else {
-  mensajeError.innerHTML = ''; // Limpia el mensaje de error si los campos están llenos
-
-  LeerUser()
-    .then((data) => {
-      let correoEncontrado = false;
-      let contraseniaCorrecta = false;
-
-      data.forEach((usuario) => {
-        if (usuario.Correo_Electronico === Correo_Electronico) {
-          correoEncontrado = true;
-
-          if (usuario.Contrasenia === Contrasenia) {
-            contraseniaCorrecta = true;
-          }
-        }
-      });
-
-      if (correoEncontrado) {
-        if (contraseniaCorrecta) {
-          // Redirigir a otra página si los datos coinciden
-          window.location.href = '/Pagina/Pagina.html'; // Reemplaza con la URL de la página a la que deseas redirigir
-        } else {
-          mensajeError.innerHTML = 'Contraseña incorrecta. Inténtalo de nuevo.';
-        }
-      } else {
-        mensajeError.innerHTML = 'El correo no existe en la base de datos. Regístrate o verifica tus datos.';
-      }
-    })
-    .catch((error) => {
-      console.error('Error en la solicitud:', error);
+  // Verifica si los campos están llenos y si el correo es válido
+  if (Correo_Electronico.trim() === '' || Contrasenia.trim() === '') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Campos vacíos',
+      text: 'Por favor, completa todos los campos.',
     });
+  } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(Correo_Electronico)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Correo inválido',
+      text: 'Por favor, ingresa un correo electrónico válido.',
+    });
+  } else {
+    LeerUser()
+      .then((data) => {
+        let correoEncontrado = false;
+        let contraseniaCorrecta = false;
+
+        data.forEach((usuario) => {
+          if (usuario.Correo_Electronico === Correo_Electronico) {
+            correoEncontrado = true;
+
+            if (usuario.Contrasenia === Contrasenia) {
+              contraseniaCorrecta = true;
+            }
+          }
+        });
+
+        if (correoEncontrado) {
+          if (contraseniaCorrecta) {
+            // Redirigir a otra página si los datos coinciden
+            window.location.href = '/Pagina/Pagina.html'; // Reemplaza con la URL de la página a la que deseas redirigir
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Contraseña incorrecta',
+              text: 'Inténtalo de nuevo.',
+            });
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Correo no encontrado',
+            text: 'El correo no existe en la base de datos. Regístrate o verifica tus datos.',
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud:', error);
+      });
+  }
 }
 
 
-
-}
 // Variable para llevar un registro del estado actual
 let currentState = 'index'; // Puedes establecer el estado inicial aquí
 

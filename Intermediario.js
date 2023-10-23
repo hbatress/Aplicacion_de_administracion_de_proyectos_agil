@@ -26,3 +26,14 @@ export function LeerUser() {
         .then((response) => response.json());
 
 }
+
+export function leerTipoCuenta() {
+    return fetch('http://localhost:3000/Tipo_de_Cuenta', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then((response) => response.json());
+
+}

@@ -110,7 +110,7 @@ function newView() {
                 <option value="3">Cuenta Empresarial</option>
             </select>
         </div>
-        <div class="payment-container" id="forma-pago-container" style="display: none;">
+        <div class="payment-container" id="forma-pago-container" >
         <select name="tipoPago" id="tipoPago" required>
             <option value="0">Selecciona una forma de pago</option>
             <option value="1">Tarjetas de Crédito</option>
@@ -157,3 +157,4 @@ function iniciarcontr() {
     `;
     return html;
 }
+
