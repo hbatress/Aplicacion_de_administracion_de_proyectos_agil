@@ -186,5 +186,56 @@ module.exports = function (app, dbservice) {
             });
     });
 
+    app.get('/usuario/:id', (req, res) => {
+        const usuarioId = req.params.id;
+
+        dbservice.getUsuarioPorId(usuarioId)
+            .then((usuario) => {
+                if (usuario) {
+                    res.json({ nombre: usuario.Nombre});
+                } else {
+                    res.status(404).json({ error: 'Usuario no encontrado' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar el usuario' });
+            });
+    });
+
+
+    app.get('/CuentaTI/:id', (req, res) => {
+        const usuarioId = req.params.id;
+        console.log('Valor de usuarioId:', usuarioId);
+        dbservice.getBuscarUsuarioPorId(usuarioId)
+          .then((usuario) => {
+            if (usuario) {
+              res.json(usuario);
+            } else {
+              res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+          })
+          .catch((error) => {
+            res.status(500).json({ error: 'Error al leer el usuario' });
+          });
+      });
+      
+
+
+    app.put('/UPdatauser/:id', (req, res) => {
+        const usuarioId = req.params.id;
+        const updateUser = req.body;
+      
+        console.log('Usuario ID:', usuarioId);
+        console.log('Datos actualizados:', updateUser);
+
+        dbservice.actualizarUsuario(usuarioId, updateUser)
+          .then(() => {
+            res.json({ message: 'Usuario actualizado con éxito' });
+          })
+          .catch((error) => {
+            res.status(500).json({ error: 'Error al actualizar el usuario' });
+          });
+      });
+      
     
 }

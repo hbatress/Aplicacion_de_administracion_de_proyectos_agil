@@ -27,13 +27,62 @@ export function LeerUser() {
 
 }
 
-export function leerTipoCuenta() {
-    return fetch('http://localhost:3000/Tipo_de_Cuenta', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
+export function buscarUsuario(usuarioId) {
+    fetch(`http://localhost:3000/usuario/${usuarioId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          console.log('Nombre del usuario:', data.nombre);
         }
-    })
-        .then((response) => response.json());
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
-}
+  export function actualizarUsuario(usuarioId, datosActualizados) {
+    fetch(`http://localhost:3000/UPdatauser/${usuarioId}`, {
+      method: 'PUT', // Utiliza el método PUT para actualizar el usuario
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(datosActualizados),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          console.log('Usuario actualizado con éxito');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  
+
+  export function definicionTipoCuenta(usuarioId) {
+    fetch(`http://localhost:3000/CuentaTI/${usuarioId}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log('Datos recibidos:', data); 
+        if (data.error) {
+          console.error(data.error);
+        } else {
+          console.log('Nombre del usuario:', data.nombre);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  
+  

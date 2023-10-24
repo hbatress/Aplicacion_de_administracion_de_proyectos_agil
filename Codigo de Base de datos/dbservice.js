@@ -162,8 +162,35 @@ const dbservice = () => {
         });
     };
 
+/*  Realizar una busqueda por un datto*/
+const getUsuarioPorId = (usuarioId) => {
+    return knex(Usuario)
+      .select('Nombre')
+      .where('ID', usuarioId)
+      .first();
+  };
+
+  /* Sirve para actualizar los datos por medio del ID */
+  const actualizarUsuario = (usuarioId, userData) => {
+    return knex(Usuario)
+      .where('ID', usuarioId)
+      .update(userData);
+  };
+
+/* Sirve para buscar y unir tablas*/ 
+const getBuscarUsuarioPorId = (usuarioId) => {
+    return knex('Usuario')
+      .select('Usuario.Nombre', 'Tipo_de_Cuenta.Nombre_del_Tipo_de_Cuenta', 'Tipo_de_Cuenta.Descripcion_del_Tipo_de_Cuenta')
+      .leftJoin('Tipo_de_Cuenta', 'Usuario.Tipo_de_Cuenta', 'Tipo_de_Cuenta.ID')
+      .where('Usuario.ID', usuarioId)
+      .first();
+  };
+  
+  
     return {
-        getUsuarioProyectosTareas,
+        getBuscarUsuarioPorId,
+        actualizarUsuario,
+        getUsuarioPorId,
         getUsuario,
         getProyectos,
         getTarea,
@@ -184,6 +211,8 @@ const dbservice = () => {
     };
 
 };
+
+
 
 module.exports = {
     dbservice,
