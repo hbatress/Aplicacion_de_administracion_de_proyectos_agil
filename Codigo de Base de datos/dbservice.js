@@ -11,265 +11,219 @@ const dbservice = () => {
     });
     // Declaraciones de constantes
     const Usuario = "Usuario";
-    const Tablero = "Tablero";
-    const ListaDeTarea = "Lista_de_Tarea";
-    const Tarjeta = "Tarjeta";
-    const Comentario = "Comentario";
-    const Etiqueta = "Etiqueta";
+    const Proyectos = "Proyectos";
+    const Tarea = "Tarea";
+    const Colaborador = "Colaborador";
+    const Notificacion = "Notificacion";
     const HistorialDeMovimiento = "Historial_de_Movimiento";
-    const TipoDeMovimiento = "tipo_de_movimiento";
-    const TipoDeCuenta = "tipo_de_cuenta";
-    const TipoDePago = "tipo_de_Pago";
-    const EstadoDeLaTarjeta = "Estado_de_la_Tarjeta";
-    const Participante = "Participante";
+    const TipoDeCuenta = "Tipo_de_Cuenta";
+    const TipoDePago = "Tipo_De_Pago";
+    const EstadoDeLaTarea = "Estado_de_la_Tarea";
     const DatosDeTarjeta = "Datos_de_Tarjeta";
-
-    // Funciones de consulta
-    const getUsuario = () => {
-        return knex(Usuario).select();
-    };
-
-    const getTablero = () => {
-        return knex(Tablero).select();
-    };
-
-    const getListaDeTarea = () => {
-        return knex(ListaDeTarea).select();
-    };
-
-    const getTarjeta = () => {
-        return knex(Tarjeta).select();
-    };
-
-    const getComentario = () => {
-        return knex(Comentario).select();
-    };
-
-    const getEtiqueta = () => {
-        return knex(Etiqueta).select();
-    };
-
-    const getHistorialDeMovimiento = () => {
-        return knex(HistorialDeMovimiento).select();
-    };
-
-    const getTipoDeMovimiento = () => {
-        return knex(TipoDeMovimiento).select();
-    };
-
-    const getTipoDeCuenta = () => {
-        return knex(TipoDeCuenta).select();
-    };
-
-    const getTipoDePago = () => {
-        return knex(TipoDePago).select();
-    };
-
-    const getEstadoDeLaTarjeta = () => {
-        return knex(EstadoDeLaTarjeta).select();
-    };
-
-    const getParticipante = () => {
-        return knex(Participante).select();
-    };
-
-    const getDatosDeTarjeta = () => {
-        return knex(DatosDeTarjeta).select();
-    };
-
-    //Funciones para ingresar
-    const crearUsuario = (
-        Nombre,
-        Correo_Electronico,
-        Rol,
-        Fecha_de_Registro,
-        Tipo_de_Cuenta,
-        Tipo_de_Pago,
-        Contrasenia
-    ) => {
-        return knex('Usuario').insert({
-            Nombre: Nombre,
-            Correo_Electronico: Correo_Electronico,
-            Rol: Rol,
-            Fecha_de_Registro: Fecha_de_Registro,
-            Tipo_de_Cuenta: Tipo_de_Cuenta,
-            Tipo_de_Pago: Tipo_de_Pago,
-            Contrasenia: Contrasenia
-        });
-    };
     
 
-    const crearTablero = (
-        Nombre_del_Tablero,
-        Descripcion,
-        Fecha_de_Creacion,
-        Usuario_Propietario
-    ) => {
-        return knex(Tablero).insert({
-            Nombre_del_Tablero: Nombre_del_Tablero,
-            Descripcion: Descripcion,
-            Fecha_de_Creacion: Fecha_de_Creacion,
-            Usuario_Propietario: Usuario_Propietario,
-        });
-    };
+    // Funciones de consulta
+const getUsuario = () => {
+    return knex(Usuario).select();
+};
 
-    const crearListaDeTarea = (
-        Nombre_de_la_Lista,
-        Posicion_en_el_Tablero,
-        Tablero_Perteneciente
-    ) => {
-        return knex(ListaDeTarea).insert({
-            Nombre_de_la_Lista: Nombre_de_la_Lista,
-            Posicion_en_el_Tablero: Posicion_en_el_Tablero,
-            Tablero_Perteneciente: Tablero_Perteneciente,
-        });
-    };
+const getProyectos = () => {
+    return knex(Proyectos).select();
+};
 
-    const crearTarjeta = (
-        Titulo_de_la_Tarjeta,
-        Descripcion,
-        Fecha_de_Creacion,
-        Lista_Perteneciente,
-        Asignado_a,
-        Estado_de_la_Tarjeta
-    ) => {
-        return knex(Tarjeta).insert({
-            Titulo_de_la_Tarjeta: Titulo_de_la_Tarjeta,
-            Descripcion: Descripcion,
-            Fecha_de_Creacion: Fecha_de_Creacion,
-            Lista_Perteneciente: Lista_Perteneciente,
-            Asignado_a: Asignado_a,
-            Estado_de_la_Tarjeta: Estado_de_la_Tarjeta,
-        });
-    };
+const getTarea = () => {
+    return knex(Tarea).select();
+};
 
-    const crearComentario = (
-        Texto_del_Comentario,
-        Fecha_de_Publicacion,
-        Usuario_que_Realizo_el_Comentario,
-        Tarjeta_que_se_Refiere
-    ) => {
-        return knex(Comentario).insert({
-            Texto_del_Comentario: Texto_del_Comentario,
-            Fecha_de_Publicacion: Fecha_de_Publicacion,
-            Usuario_que_Realizo_el_Comentario: Usuario_que_Realizo_el_Comentario,
-            Tarjeta_que_se_Refiere: Tarjeta_que_se_Refiere,
-        });
-    };
+const getColaborador = () => {
+    return knex(Colaborador).select();
+};
 
-    const crearEtiqueta = (Nombre_de_la_Etiqueta, Color_de_la_Etiqueta) => {
-        return knex(Etiqueta).insert({
-            Nombre_de_la_Etiqueta: Nombre_de_la_Etiqueta,
-            Color_de_la_Etiqueta: Color_de_la_Etiqueta,
-        });
-    };
+const getNotificacion = () => {
+    return knex(Notificacion).select();
+};
 
-    const crearHistorialDeMovimiento = (
-        Fecha_y_Hora_del_Movimiento,
-        Usuario_que_Realizo_el_Movimiento,
-        Tipo_de_Movimiento,
-        Tarjeta_Afectada
-    ) => {
-        return knex(HistorialDeMovimiento).insert({
-            Fecha_y_Hora_del_Movimiento: Fecha_y_Hora_del_Movimiento,
-            Usuario_que_Realizo_el_Movimiento: Usuario_que_Realizo_el_Movimiento,
-            Tipo_de_Movimiento: Tipo_de_Movimiento,
-            Tarjeta_Afectada: Tarjeta_Afectada,
-        });
-    };
+const getHistorialDeMovimiento = () => {
+    return knex(HistorialDeMovimiento).select();
+};
 
-    const crearTipoDeMovimiento = (
-        Nombre_del_Tipo_de_Movimiento,
-        Descripcion_del_Tipo_de_Movimiento
-    ) => {
-        return knex(TipoDeMovimiento).insert({
-            Nombre_del_Tipo_de_Movimiento: Nombre_del_Tipo_de_Movimiento,
-            Descripcion_del_Tipo_de_Movimiento: Descripcion_del_Tipo_de_Movimiento,
-        });
-    };
+const getTipoDeCuenta = () => {
+    return knex(TipoDeCuenta).select();
+};
 
-    const crearTipoDeCuenta = (
-        Nombre_del_Tipo_de_Cuenta,
-        Descripcion_del_Tipo_de_Cuenta
-    ) => {
-        return knex(TipoDeCuenta).insert({
-            Nombre_del_Tipo_de_Cuenta: Nombre_del_Tipo_de_Cuenta,
-            Descripcion_del_Tipo_de_Cuenta: Descripcion_del_Tipo_de_Cuenta,
-        });
-    };
+const getTipoDePago = () => {
+    return knex(TipoDePago).select();
+};
 
-    const crearTipoDePago = (
-        Nombre_del_Tipo_de_Pago,
-        Descripcion_del_Tipo_de_Pago
-    ) => {
-        return knex(TipoDePago).insert({
-            Nombre_del_Tipo_de_Pago: Nombre_del_Tipo_de_Pago,
-            Descripcion_del_Tipo_de_Pago: Descripcion_del_Tipo_de_Pago,
-        });
-    };EstadoDeLaTarjeta
+const getEstadoDeLaTarea = () => {
+    return knex(EstadoDeLaTarea).select();
+};
 
-    const crearEstadoDeLaTarjeta = (
-        Nombre_del_Estado,
-        Descripcion_del_Estado
-    ) => {
-        return knex(EstadoDeLaTarjeta).insert({
-            Nombre_del_Estado: Nombre_del_Estado,
-            Descripcion_del_Estado: Descripcion_del_Estado,
-        });
-    };
+const getDatosDeTarjeta = () => {
+    return knex(DatosDeTarjeta).select();
+};
 
-    const crearParticipante = (Usuario_Participante, Tarjeta_asociada) => {
-        return knex(Participante).insert({
-            Usuario_Participante: Usuario_Participante,
-            Tarjeta_asociada: Tarjeta_asociada,
-        });
-    };
 
-    const crearDatosDeTarjeta = (
-        Numero_de_Tarjeta,
-        Mes_de_Vencimiento,
-        Ano_de_Vencimiento,
-        Codigo_de_Seguridad,
-        Tipo_de_Pago
-    ) => {
-        return knex(DatosDeTarjeta).insert({
-            Numero_de_Tarjeta: Numero_de_Tarjeta,
-            Mes_de_Vencimiento: Mes_de_Vencimiento,
-            Ano_de_Vencimiento: Ano_de_Vencimiento,
-            Codigo_de_Seguridad: Codigo_de_Seguridad,
-            Tipo_de_Pago: Tipo_de_Pago,
-        });
-    };
+   // Funciones de  agregar
+const crearUsuario = (
+    Nombre,
+    Correo_Electronico,
+    Rol,
+    Fecha_de_Registro,
+    Tipo_de_Cuenta,
+    Tipo_de_Pago,
+    Contrasenia
+) => {
+    return knex(Usuario).insert({
+        Nombre: Nombre,
+        Correo_Electronico: Correo_Electronico,
+        Rol: Rol,
+        Fecha_de_Registro: Fecha_de_Registro,
+        Tipo_de_Cuenta: Tipo_de_Cuenta,
+        Tipo_de_Pago: Tipo_de_Pago,
+        Contrasenia: Contrasenia
+    });
+};
 
-    return {
-        getUsuario,
-        getTablero,
-        getListaDeTarea,
-        getTarjeta,
-        getComentario,
-        getEtiqueta,
-        getHistorialDeMovimiento,
-        getTipoDeMovimiento,
-        getTipoDeCuenta,
-        getTipoDePago,
-        getEstadoDeLaTarjeta,
-        getParticipante,
-        getDatosDeTarjeta,
-        crearUsuario,
-        crearTablero,
-        crearListaDeTarea,
-        crearTarjeta,
-        crearComentario,
-        crearEtiqueta,
-        crearHistorialDeMovimiento,
-        crearTipoDeMovimiento,
-        crearTipoDeCuenta,
-        crearTipoDePago,
-        crearEstadoDeLaTarjeta,
-        crearParticipante,
-        crearDatosDeTarjeta
+const crearProyectos = (
+    Nombre_del_Proyecto,
+    Descripcion,
+    Fecha_de_Creacion,
+    Usuario_Propietario
+) => {
+    return knex(Proyectos).insert({
+        Nombre_del_Proyecto: Nombre_del_Proyecto,
+        Descripcion: Descripcion,
+        Fecha_de_Creacion: Fecha_de_Creacion,
+        Usuario_Propietario: Usuario_Propietario,
+    });
+};
 
-    };
+const crearTarea = (
+    Nombre_de_la_Tarea,
+    Descripcion,
+    Fecha_de_Creacion,
+    Proyecto_Perteneciente,
+    Estado_de_la_Tarea
+) => {
+    return knex(Tarea).insert({
+        Nombre_de_la_Tarea: Nombre_de_la_Tarea,
+        Descripcion: Descripcion,
+        Fecha_de_Creacion: Fecha_de_Creacion,
+        Proyecto_Perteneciente: Proyecto_Perteneciente,
+        Estado_de_la_Tarea: Estado_de_la_Tarea,
+    });
+};
+
+const crearColaborador = (
+    Usuario_Participante,
+    Proyecto_Perteneciente,
+    Tarea_Asignada
+) => {
+    return knex(Colaborador).insert({
+        Usuario_Participante: Usuario_Participante,
+        Proyecto_Perteneciente: Proyecto_Perteneciente,
+        Tarea_Asignada: Tarea_Asignada,
+    });
+};
+
+const crearNotificacion = (
+    Titulo_de_la_Notificacion,
+    Descripcion,
+    Usuario
+) => {
+    return knex(Notificacion).insert({
+        Titulo_de_la_Notificacion: Titulo_de_la_Notificacion,
+        Descripcion: Descripcion,
+        Usuario: Usuario,
+    });
+};
+
+const crearHistorialDeMovimiento = (
+    Fecha_y_Hora_del_Movimiento,
+    Usuario_que_Realizo_el_Movimiento,
+    Tipo_de_Movimiento,
+    Estado_de_la_Tarea,
+    Tarea
+) => {
+    return knex(HistorialDeMovimiento).insert({
+        Fecha_y_Hora_del_Movimiento: Fecha_y_Hora_del_Movimiento,
+        Usuario_que_Realizo_el_Movimiento: Usuario_que_Realizo_el_Movimiento,
+        Tipo_de_Movimiento: Tipo_de_Movimiento,
+        Estado_de_la_Tarea: Estado_de_la_Tarea,
+        Tarea: Tarea
+    });
+};
+
+const crearTipoDeCuenta = (
+    Nombre_del_Tipo_de_Cuenta,
+    Descripcion_del_Tipo_de_Cuenta
+) => {
+    return knex(TipoDeCuenta).insert({
+        Nombre_del_Tipo_de_Cuenta: Nombre_del_Tipo_de_Cuenta,
+        Descripcion_del_Tipo_de_Cuenta: Descripcion_del_Tipo_de_Cuenta,
+    });
+};
+
+const crearTipoDePago = (
+    Nombre_del_Tipo_de_Pago,
+    Descripcion_del_Tipo_de_Pago
+) => {
+    return knex(TipoDePago).insert({
+        Nombre_del_Tipo_de_Pago: Nombre_del_Tipo_de_Pago,
+        Descripcion_del_Tipo_de_Pago: Descripcion_del_Tipo_de_Pago,
+    });
+};
+
+const crearEstadoDeLaTarea = (
+    Nombre_del_Estado,
+    Descripcion_del_Estado
+) => {
+    return knex(EstadoDeLaTarea).insert({
+        Nombre_del_Estado: Nombre_del_Estado,
+        Descripcion_del_Estado: Descripcion_del_Estado,
+    });
+};
+
+const crearDatosDeTarjeta = (
+    Numero_de_Tarjeta,
+    Mes_de_Vencimiento,
+    Ano_de_Vencimiento,
+    Codigo_de_Seguridad,
+    Tipo_de_Pago
+) => {
+    return knex(DatosDeTarjeta).insert({
+        Numero_de_Tarjeta: Numero_de_Tarjeta,
+        Mes_de_Vencimiento: Mes_de_Vencimiento,
+        Ano_de_Vencimiento: Ano_de_Vencimiento,
+        Codigo_de_Seguridad: Codigo_de_Seguridad,
+        Tipo_de_Pago: Tipo_de_Pago,
+    });
+};
+
+return {
+    getUsuario,
+    getProyectos,
+    getTarea,
+    getColaborador,
+    getNotificacion,
+    getHistorialDeMovimiento,
+    getTipoDeCuenta,
+    getTipoDePago,
+    getEstadoDeLaTarea,
+    getDatosDeTarjeta,
+    crearUsuario,
+    crearProyectos,
+    crearTarea,
+    crearColaborador,
+    crearNotificacion,
+    crearHistorialDeMovimiento,
+    crearTipoDeCuenta,
+    crearTipoDePago,
+    crearEstadoDeLaTarea,
+    crearDatosDeTarjeta
+};
+
 };
 
 module.exports = {

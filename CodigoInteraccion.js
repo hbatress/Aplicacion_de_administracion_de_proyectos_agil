@@ -9,19 +9,25 @@ function encabezado_admin() {
             <li><a href="#">Proyectos</a></li>
             <li><a href="#">Tareas</a></li>
             <li><a href="#">Equipos</a></li>
-            <li><a href="#">Mi Perfil</a></li>
+            <li class="profile-menu">
+            <div class="profile-button">Mi Perfil</div>
+            <div class="profile-dropdown">
+                <ul>
+                    <li><a href="#"><i class="fas fa-user"></i> Actualizar Perfil</a></li>
+                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Cambiar Tipo de Cuenta</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+                </ul>
+            </div>
+        </li>
         </ul>
+        
     </nav>
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button>Buscar</button>
-    </div>
 </header>
- 
     `;
 
     return html;
 }
+
 function encabezado_user() {
     var html = `
     <header class="beautiful-header">
@@ -31,19 +37,24 @@ function encabezado_user() {
             <li><a href="#">Inicio</a></li>
             <li><a href="#">Mis Tareas</a></li>
             <li><a href="#">Proyectos Asignados</a></li>
-            <li><a href="#">Mi Perfil</a></li>
+            <li class="profile-menu">
+            <div class="profile-button">Mi Perfil</div>
+            <div class="profile-dropdown">
+                <ul>
+                    <li><a href="#"><i class="fas fa-user"></i> Actualizar Perfil</a></li>
+                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Cambiar Tipo de Cuenta</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+                </ul>
+            </div>
+        </li>
         </ul>
     </nav>
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button>Buscar</button>
-    </div>
 </header>
-    
     `;
 
     return html;
 }
+
 function encabezado_observador() {
     var html = `
     <header class="beautiful-header">
@@ -53,13 +64,18 @@ function encabezado_observador() {
             <li><a href="#">Inicio</a></li>
             <li><a href="#">Proyectos</a></li>
             <li><a href="#">Ver Proyectos</a></li>
-            <li><a href="#">Mi Perfil</a></li>
+            <li class="profile-menu">
+            <div class="profile-button">Mi Perfil</div>
+            <div class="profile-dropdown">
+                <ul>
+                    <li><a href="#"><i class="fas fa-user"></i> Actualizar Perfil</a></li>
+                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Cambiar Tipo de Cuenta</a></li>
+                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
+                </ul>
+            </div>
+        </li>
         </ul>
     </nav>
-    <div class="search-bar">
-        <input type="text" placeholder="Buscar...">
-        <button>Buscar</button>
-    </div>
 </header>
     `;
 

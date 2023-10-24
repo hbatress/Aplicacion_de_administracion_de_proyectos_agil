@@ -3,14 +3,14 @@ export { encabezado, pie, indexView, newView, iniciarcontr, Mostrarprecios, func
 function encabezado() {
     var html = `
     <header>
-      <h1 class="logo" id="Principal">ScrumWave</h1>
-      <nav class="menu">
+    <h1 class="logo" id="Principal">ScrumWave</h1>
+    <nav class="menu">
         <a href="#" class="menu-item" id="funciones">Funciones</a>
         <a href="#" class="menu-item" id="soluciones">Manual</a>
         <a href="#" class="menu-item" id="planes">Planes</a>
         <button class="Crear" id="crearCuenta" title="Crear una cuenta">Crear Cuenta</button>
         <button class="Inicio" id="IniciarSesion" title="Iniciar Sesión">Iniciar Sesión</button>
-      </nav>
+    </nav>
     </header>
     `;
 
@@ -213,31 +213,20 @@ function funcionesMostrar() {
     <h1>Funciones de SCRUMWAVE</h1>
 
     <ul>
-      <li>Creación y Gestión de Tareas: Permite crear, editar y eliminar tareas de forma sencilla, asignarlas a miembros del equipo y establecer fechas de vencimiento.</li>
-
-      <li>Tableros Kanban: Organiza las tareas en tableros Kanban para una visualización clara del flujo de trabajo.</li>
-
-      <li>Planificación de Sprints: Facilita la planificación de sprints y la asignación de tareas para cada iteración.</li>
-
-      <li>Seguimiento de Progreso: Ofrece herramientas para seguir el progreso de las tareas y los hitos del proyecto.</li>
-
-      <li>Gestión de Recursos: Permite asignar recursos, incluyendo miembros del equipo y equipos, a las tareas del proyecto.</li>
-
-      <li>Colaboración en Tiempo Real: Facilita la colaboración entre miembros del equipo en tiempo real a través de comentarios y notificaciones.</li>
-
-      <li>Generación de Informes: Crea informes personalizados para analizar el rendimiento del proyecto y el equipo.</li>
-
-      <li>Integración con Herramientas Externas: Permite la integración con otras herramientas como repositorios de código, servicios de nube y más.</li>
-
-      <li>Automatización de Tareas: Automatiza procesos repetitivos y flujos de trabajo para aumentar la eficiencia.</li>
-
-      <li>Gestión de Cambios: Registra y gestiona los cambios en el proyecto para mantener un historial claro.</li>
-
-      <li>Seguridad y Control de Acceso: Proporciona opciones de seguridad y control de acceso para proteger los datos del proyecto.</li>
-
-      <li>Soporte Móvil: Ofrece una aplicación móvil para acceder y gestionar proyectos desde dispositivos móviles.</li>
+    <li>Creación y Gestión de Tareas: Permite crear, editar y eliminar tareas de forma sencilla, asignarlas a miembros del equipo y establecer fechas de vencimiento.</li>
+    <li>Tableros Kanban: Organiza las tareas en tableros Kanban para una visualización clara del flujo de trabajo.</li>
+    <li>Planificación de Sprints: Facilita la planificación de sprints y la asignación de tareas para cada iteración.</li>
+    <li>Seguimiento de Progreso: Ofrece herramientas para seguir el progreso de las tareas y los hitos del proyecto.</li>
+    <li>Gestión de Recursos: Permite asignar recursos, incluyendo miembros del equipo y equipos, a las tareas del proyecto.</li>
+    <li>Colaboración en Tiempo Real: Facilita la colaboración entre miembros del equipo en tiempo real a través de comentarios y notificaciones.</li>
+    <li>Generación de Informes: Crea informes personalizados para analizar el rendimiento del proyecto y el equipo.</li>
+    <li>Integración con Herramientas Externas: Permite la integración con otras herramientas como repositorios de código, servicios de nube y más.</li>
+    <li>Automatización de Tareas: Automatiza procesos repetitivos y flujos de trabajo para aumentar la eficiencia.</li>
+    <li>Gestión de Cambios: Registra y gestiona los cambios en el proyecto para mantener un historial claro.</li>
+    <li>Seguridad y Control de Acceso: Proporciona opciones de seguridad y control de acceso para proteger los datos del proyecto.</li>
+    <li>Soporte Móvil: Ofrece una aplicación móvil para acceder y gestionar proyectos desde dispositivos móviles.</li>
     </ul>
-  </div>
+</div>
     `;
     return html;
 }

@@ -5,7 +5,8 @@ CREATE TABLE `Usuario` (
   `Rol` VARCHAR(20),
   `Fecha_de_Registro` DATE,
   `Tipo_de_Cuenta` INT,
-  `Tipo_de_Pago` INT
+  `Tipo_de_Pago` INT,
+  `Contrasenia` VARCHAR(255)
 );
 
 CREATE TABLE `Tablero` (

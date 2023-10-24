@@ -189,6 +189,7 @@ footer {
 
 /* Fomrato del contenido de la pagina principal*/
 .Informacion {
+  height: 80vh; 
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
@@ -236,7 +237,7 @@ estilo del inicio de seccion
 */
 /* Estilo para el contenedor */
 .ContenedorInicio {
-  height: 80vh; /* Establece la altura en el 80% de la altura de la ventana (viewport height) */
+  height: 80vh; 
   display: flex;
   flex-direction: column;
   justify-content: center;

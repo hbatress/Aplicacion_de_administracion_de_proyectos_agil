@@ -127,10 +127,10 @@ function iniciar() {
 
   // Obtén los valores de cada campo
   const Correo_Electronico = correoInput.value;
-  const Contrasenia = contraseniaInput.value;
+  const contrasenia = contraseniaInput.value;
 
   // Verifica si los campos están llenos y si el correo es válido
-  if (Correo_Electronico.trim() === '' || Contrasenia.trim() === '') {
+  if (Correo_Electronico.trim() === '' || contrasenia.trim() === '') {
     Swal.fire({
       icon: 'warning',
       title: 'Campos vacíos',
@@ -143,6 +143,7 @@ function iniciar() {
       text: 'Por favor, ingresa un correo electrónico válido.',
     });
   } else {
+
     LeerUser()
       .then((data) => {
         let correoEncontrado = false;
@@ -152,7 +153,7 @@ function iniciar() {
           if (usuario.Correo_Electronico === Correo_Electronico) {
             correoEncontrado = true;
 
-            if (usuario.Contrasenia === Contrasenia) {
+            if (usuario.contrasenia === contrasenia) {
               contraseniaCorrecta = true;
             }
           }
@@ -182,6 +183,7 @@ function iniciar() {
       });
   }
 }
+
 function MostrarP() {
   document.getElementById("main").innerHTML = Mostrarprecios();
   document.getElementById("Encabezado").innerHTML = encabezado();

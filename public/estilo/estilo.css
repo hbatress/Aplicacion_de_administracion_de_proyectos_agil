@@ -10,21 +10,7 @@ html {
     padding: 0;
   }
   
-
-/* Estilo para el encabezado (div.Superior) */
-.Superior {
-    background-color: #0df7f7; /* Color de fondo azul */
-    height: 8vh; /* 25% de la altura de la ventana */
-    width: 100%; /* 100% del ancho de la ventana */
-    border: 1px solid #ccc; /* Borde de 1 píxel de color gris claro */
-  }
-  
-   /* Estilo para el menú (div.Menu) */
-  .Listado {
-    background-color: #2ecc71; /* Verde */
-    width: 25%; /* 25% del ancho del cuerpo */
-  }
-  
+ 
 /*estilo del contenido del encabezado*/
 .beautiful-header {
   background-color: #333; /* Cambia el color de fondo a tu elección */
@@ -59,65 +45,51 @@ html {
   align-items: center;
   width: 400px; /* Ajusta el ancho del contenedor a tu preferencia */
 }
-
-.search-bar input {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin-right: 10px;
-  flex: 1; /* Esto permite que el input ocupe el espacio restante dentro del contenedor */
+/* Contenido del perfil despegable*/
+/* Estilo del menú desplegable */
+.profile-menu {
+  position: relative;
+  display: inline-block;
 }
 
-.search-bar button {
-  background-color: #07c7f2;
+.profile-button {
+  background-color: #333;
   color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px; /* Ajusta el tamaño del botón a tu preferencia */
+  padding: 10px 15px;
   cursor: pointer;
-  width: 100px;
 }
 
-        /* Estilo para el contenedor principal */
-        .container {
-          display: flex;
-      }
 
-      /* Estilo para la columna izquierda (pequeña) */
-      .column-left {
-          flex: 1;
-          background-color: #f2f2f2;
-          padding: 20px;
-      }
+.profile-dropdown a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
 
-      /* Estilo para la columna derecha (vacía) */
-      .column-right {
-          flex: 1;
-          background-color: #ffffff;
-          padding: 0;
-      }
+.profile-button:hover + .profile-dropdown, .profile-dropdown:hover {
+  display: block;
+}
 
-      /* Estilo para el menú */
-      .menu {
-          list-style-type: none;
-          padding: 0;
-      }
+/* Estilo del menú desplegable */
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  width: auto; /* Cambia el ancho a automático para adaptarse al contenido */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 100%; /* Alineación hacia abajo */
+  left: 0; /* Alineación a la izquierda */
+}
 
-      .menu li {
-          margin-bottom: 10px;
-      }
+.profile-dropdown ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
 
-      /* Estilo para el botón "Premium Ahora" */
-      .premium-button {
-          background-color: #3498db;
-          color: #fff;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-      }
-
-      /* Estilo para los iconos (puedes agregar tus propios íconos) */
-      .icon {
-          margin-right: 10px;
-      }
+.profile-dropdown li {
+  padding: 10px;
+  margin-right: 0;
+  display: block; /* Muestra cada elemento en una nueva línea */
+}
