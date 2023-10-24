@@ -9,20 +9,14 @@ function encabezado_admin() {
             <li><a href="#">Proyectos</a></li>
             <li><a href="#">Tareas</a></li>
             <li><a href="#">Equipos</a></li>
-            <li class="profile-menu">
-            <div class="profile-button">Mi Perfil</div>
-            <div class="profile-dropdown">
-                <ul>
-                    <li><a href="#"><i class="fas fa-user"></i> Actualizar Perfil</a></li>
-                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Cambiar Tipo de Cuenta</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
-                </ul>
-            </div>
-        </li>
-        </ul>
+            <li><a href="#">Registro</a></li>
+            <li><a href="#">Notificaciones</a></li>
+            <li><a href="#">Perfil</a></li>
         
+        </ul>
     </nav>
 </header>
+
     `;
 
     return html;
@@ -38,41 +32,8 @@ function encabezado_user() {
             <li><a href="#">Mis Tareas</a></li>
             <li><a href="#">Proyectos Asignados</a></li>
             <li class="profile-menu">
-            <div class="profile-button">Mi Perfil</div>
-            <div class="profile-dropdown">
-                <ul>
-                    <li><a href="#"><i class="fas fa-user"></i> Actualizar Perfil</a></li>
-                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Cambiar Tipo de Cuenta</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
-                </ul>
-            </div>
-        </li>
-        </ul>
-    </nav>
-</header>
-    `;
-
-    return html;
-}
-
-function encabezado_observador() {
-    var html = `
-    <header class="beautiful-header">
-    <div class="logo">ScrumWave</div>
-    <nav>
-        <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Proyectos</a></li>
-            <li><a href="#">Ver Proyectos</a></li>
-            <li class="profile-menu">
-            <div class="profile-button">Mi Perfil</div>
-            <div class="profile-dropdown">
-                <ul>
-                    <li><a href="#"><i class="fas fa-user"></i> Actualizar Perfil</a></li>
-                    <li><a href="#"><i class="fas fa-exchange-alt"></i> Cambiar Tipo de Cuenta</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i> Salir</a></li>
-                </ul>
-            </div>
+            <li><a href="#">Notificaciones</a></li>
+            <li><a href="#">Perfil</a></li>
         </li>
         </ul>
     </nav>
@@ -84,30 +45,12 @@ function encabezado_observador() {
 
 function Menu() {
     var html = `
-    <div class="Menu">
-    <div class="user-info">
-        <div class="icon">Icono de Usuario</div>
-        <div class="user-details">
-            <p>Nombre del Usuario</p>
-            <p>Tipo de Usuario</p>
-        </div>
-    </div>
-    <div class="menu-item">
-        <div class="icon">Icono de Tablero</div>
-        <p>Tablero</p>
-    </div>
-    <div class="menu-item">
-        <div class="icon">Icono de Miembro</div>
-        <p>Miembro</p>
-    </div>
-    <div class="menu-item">
-        <p>Lista de Tableros</p>
-    </div>
-    <!-- Otros elementos similares para las otras secciones -->
+    <div class="container">
+    <div class="first-div">Div 1 (80%)</div>
+    <div class="second-div">Div 2 (20%)</div>
 </div>
 
     `;
-
     return html;
 }
 
@@ -115,15 +58,8 @@ function Menu() {
 //CONTROLADORES
 
 function inicarContr() {
-  document.getElementById("Listado").innerHTML = Menu();
-
+    document.getElementById("Listado").innerHTML = Menu();
 }
-
-
-//EVENTOS
-//document.addEventListener('DOMContentLoaded', () => {
-  //inicarContr();
-//});
 
 function mostrarEncabezado(tipoUsuario) {
     var encabezadoHTML = '';
@@ -131,26 +67,30 @@ function mostrarEncabezado(tipoUsuario) {
 
     if (tipoUsuario === 'admin') {
         encabezadoHTML = encabezado_admin();
-      //  menuHTML = Menu();
-      inicarContr();
+        //  menuHTML = Menu();
+        inicarContr();
     } else if (tipoUsuario === 'user') {
         encabezadoHTML = encabezado_user();
-    } else if (tipoUsuario === 'observador') {
-        encabezadoHTML = encabezado_observador();
     } else {
         // Si el tipo de usuario no es válido, puedes manejarlo de acuerdo a tus necesidades.
         encabezadoHTML = 'Tipo de usuario no válido';
     }
 
     document.getElementById("Superior").innerHTML = encabezadoHTML;
-    //document.getElementById("Listado").innerHTML = menuHTML;
-
 }
 
 // Ejemplo de uso:
 document.addEventListener('DOMContentLoaded', () => {
-    // Supongamos que el tipo de usuario se obtiene de algún lugar, como una variable o una función.
-    var tipoUsuario = 'admin'; // Cambia esto según el tipo de usuario actual.
+    var tipoUsuario = 'user';
     mostrarEncabezado(tipoUsuario);
     inicarContr();
+});
+document.addEventListener('click', ev => {
+    if (ev.target.matches('#crearCuenta')) {
+        currentState = 'create';
+        createContr();
+    } else if (ev.target.matches('#IniciarSesion')) {
+        currentState = 'iniciar';
+        inicarContr();
+    }
 });

@@ -10,5 +10,26 @@
 <body>
     <div class="Superior" id="Superior"></div>
     <div id="Listado"></div>
+    <script>
+        function toggleProfileMenu() {
+    var profileDropdown = document.getElementById("profile-dropdown");
+    if (profileDropdown.style.display === "block") {
+        profileDropdown.style.display = "none";
+    } else {
+        profileDropdown.style.display = "block";
+    }
+}
+
+// Cerrar el menú si se hace clic en cualquier otro lugar de la página
+window.onclick = function(event) {
+    if (!event.target.matches('.profile-button')) {
+        var profileDropdown = document.getElementById("profile-dropdown");
+        if (profileDropdown.style.display === "block") {
+            profileDropdown.style.display = "none";
+        }
+    }
+};
+
+    </script>
 </body>
 </html>

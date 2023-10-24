@@ -1,7 +1,7 @@
 export function AgregarUser(data) {
 
 
-    return fetch('http://localhost:3000/usuarios', {
+    return fetch('http://localhost:3000/AddUser', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,7 +17,7 @@ export function AgregarUser(data) {
         });
 }
 export function LeerUser() {
-    return fetch('http://localhost:3000/Usuario', {
+    return fetch('http://localhost:3000/login', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

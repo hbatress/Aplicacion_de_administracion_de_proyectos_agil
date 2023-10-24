@@ -5,7 +5,7 @@ module.exports = function (app, dbservice) {
     });
 
     // Rutas para leer la información
-    app.get('/Usuario', (req, res) => {
+    app.get('/login', (req, res) => {
         dbservice.getUsuario()
             .then(usuarios => res.json(usuarios))
             .catch(error => res.status(500).send(error));
@@ -46,28 +46,16 @@ module.exports = function (app, dbservice) {
             .then(cuentas => res.json(cuentas))
             .catch(error => res.status(500).send(error));
     });
-
-    app.get('/Tipo_de_Pago', (req, res) => {
-        dbservice.getTipoDePago()
-            .then(pagos => res.json(pagos))
-            .catch(error => res.status(500).send(error));
-    });
-
     app.get('/Estado_de_la_Tarea', (req, res) => {
         dbservice.getEstadoDeLaTarea()
             .then(estados => res.json(estados))
             .catch(error => res.status(500).send(error));
     });
 
-    app.get('/Datos_de_Tarjeta', (req, res) => {
-        dbservice.getDatosDeTarjeta()
-            .then(datos => res.json(datos))
-            .catch(error => res.status(500).send(error));
-    });
 
 
     //estos son los post para agregar los datos
-    app.post('/usuarios', (req, res) => {
+    app.post('/AddUser', (req, res) => {
         const newUser = req.body;
         dbservice
             .crearUsuario(
@@ -76,7 +64,6 @@ module.exports = function (app, dbservice) {
                 newUser.Rol,
                 newUser.Fecha_de_Registro,
                 newUser.Tipo_de_Cuenta,
-                newUser.Tipo_de_Pago,
                 newUser.Contrasenia
             )
             .then(() => {
@@ -169,21 +156,6 @@ module.exports = function (app, dbservice) {
             });
     });
 
-    app.post('/tiposdepago', (req, res) => {
-        const newPaymentType = req.body;
-        dbservice
-            .crearTipoDePago(
-                newPaymentType.Nombre_del_Tipo_de_Pago,
-                newPaymentType.Descripcion_del_Tipo_de_Pago
-            )
-            .then(() => {
-                res.json({ message: "Tipo de pago agregado con éxito" });
-            })
-            .catch(e => {
-                res.status(500).send(e);
-            });
-    });
-
     app.post('/estadosdetarea', (req, res) => {
         const newTaskState = req.body;
         dbservice
@@ -198,23 +170,7 @@ module.exports = function (app, dbservice) {
                 res.status(500).send(e);
             });
     });
-    app.post('/datosdetarjeta', (req, res) => {
-        const newCardData = req.body;
-        dbservice
-            .crearDatosDeTarjeta(
-                newCardData.Numero_de_Tarjeta,
-                newCardData.Mes_de_Vencimiento,
-                newCardData.Ano_de_Vencimiento,
-                newCardData.Codigo_de_Seguridad,
-                newCardData.Tipo_de_Pago
-            )
-            .then(() => {
-                res.json({ message: "Datos de tarjeta agregados con éxito" });
-            })
-            .catch(e => {
-                res.status(500).send(e);
-            });
-    });
+
     app.post('/tiposdecuenta', (req, res) => {
         const newAccountType = req.body;
         dbservice
@@ -229,6 +185,6 @@ module.exports = function (app, dbservice) {
                 res.status(500).send(e);
             });
     });
-    
 
+    
 }

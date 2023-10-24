@@ -91,8 +91,7 @@ function newView() {
             <i class="fas fa-user-tag"></i>
             <select name="rol" id="rol" required>
                 <option value="Administrador">Administrador</option>
-                <option value="Miembro">Miembro</option>
-                <option value="Observador">Observador</option>
+                <option value="Colaborador">Miembro</option>
             </select>
         </div>
         <div class="input-container">
@@ -101,21 +100,9 @@ function newView() {
                 <option value="0">Selecciona un tipo de cuenta</option>
                 <option value="1">Cuenta Básica</option>
                 <option value="2">Cuenta Premium</option>
-                <option value="3">Cuenta Empresarial</option>
             </select>
         </div>
-        <div class="payment-container" id="forma-pago-container" >
-        <select name="tipoPago" id="tipoPago" required>
-            <option value="0">Selecciona una forma de pago</option>
-            <option value="1">Tarjetas de Crédito</option>
-            <option value="2">Tarjetas de Débito</option>
-            <option value="3">PayPal</option>
-            <option value="4">Skrill</option>
-            <option value="5">Western Union</option>
-        </select>
-    </div>
-    
-<br>
+
         <div class="input-container">
             <i class="fas fa-lock"></i>
             <input type="password" name="contrasenia" id="contrasenia" placeholder="Contraseña" required>

@@ -8,6 +8,7 @@ html {
   body {
     margin: 0;
     padding: 0;
+
   }
   
  
@@ -19,6 +20,8 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  height: 10vh; /* El 35% de la altura de la ventana (viewport height) */
+  
 }
 
 .beautiful-header .logo {
@@ -46,50 +49,18 @@ html {
   width: 400px; /* Ajusta el ancho del contenedor a tu preferencia */
 }
 /* Contenido del perfil despegable*/
-/* Estilo del menú desplegable */
-.profile-menu {
-  position: relative;
-  display: inline-block;
+.container {
+  display: flex;
+  height: 90vh; /* El 90% de la altura de la ventana */
 }
 
-.profile-button {
-  background-color: #333;
-  color: white;
-  padding: 10px 15px;
-  cursor: pointer;
+.first-div {
+  flex: 10%;
+
+  background-color: #ffcc00; /* Color de fondo amarillo para el primer div */
 }
 
-
-.profile-dropdown a {
-  text-decoration: none;
-  color: #333;
-  display: block;
-}
-
-.profile-button:hover + .profile-dropdown, .profile-dropdown:hover {
-  display: block;
-}
-
-/* Estilo del menú desplegable */
-.profile-dropdown {
-  display: none;
-  position: absolute;
-  background-color: #fff;
-  width: auto; /* Cambia el ancho a automático para adaptarse al contenido */
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  top: 100%; /* Alineación hacia abajo */
-  left: 0; /* Alineación a la izquierda */
-}
-
-.profile-dropdown ul {
-  list-style: none;
-  padding: 0;
-  text-align: left;
-}
-
-.profile-dropdown li {
-  padding: 10px;
-  margin-right: 0;
-  display: block; /* Muestra cada elemento en una nueva línea */
+.second-div {
+  flex: 90%;
+  background-color: #00ccff; /* Color de fondo azul para el segundo div */
 }

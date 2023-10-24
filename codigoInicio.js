@@ -29,7 +29,6 @@ function Crear() {
   const correoInput = document.getElementById('correo');
   const rolSelect = document.getElementById('rol');
   const tipoCuentaSelect = document.getElementById('tipoCuenta');
-  const tipoPagoSelect = document.getElementById('tipoPago');
   const contraseniaInput = document.getElementById('contrasenia');
 
   // Obtener la fecha actual de la computadora
@@ -43,7 +42,6 @@ function Crear() {
   const Rol = rolSelect.value;
   const Fecha_de_Registro = fechaFormateada;
   const Tipo_de_Cuenta = tipoCuentaSelect.value;
-  const Tipo_de_Pago = tipoPagoSelect.value;
   const Contrasenia = contraseniaInput.value;
 
   // Expresión regular para validar un correo electrónico
@@ -54,7 +52,6 @@ function Crear() {
     Nombre.trim() === '' ||
     Rol.trim() === '' ||
     Tipo_de_Cuenta.trim() === '' ||
-    Tipo_de_Pago.trim() === '' ||
     Contrasenia.trim() === ''
   ) {
     Swal.fire({
@@ -93,7 +90,6 @@ function Crear() {
             Rol,
             Fecha_de_Registro,
             Tipo_de_Cuenta,
-            Tipo_de_Pago,
             Contrasenia,
           };
 
