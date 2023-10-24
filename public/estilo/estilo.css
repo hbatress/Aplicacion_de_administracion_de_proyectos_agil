@@ -20,7 +20,7 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  height: 10vh; /* El 35% de la altura de la ventana (viewport height) */
+  height: 8vh; /* El 35% de la altura de la ventana (viewport height) */
   
 }
 
@@ -42,25 +42,211 @@ html {
   text-decoration: none;
   color: white;
 }
+nav ul li {
+  cursor: pointer;
+}
+
 
 .search-bar {
   display: flex;
   align-items: center;
   width: 400px; /* Ajusta el ancho del contenedor a tu preferencia */
 }
-/* Contenido del perfil despegable*/
-.container {
+/* ajuestes del taablero para mostrar datos*/
+.Tablero {
   display: flex;
-  height: 90vh; /* El 90% de la altura de la ventana */
+  height: 92vh;
+  flex: 100%;
+  background-image: url(../Imagenes/fondo8.jpg);
+
+  background-size: cover; 
+  align-items: center;
+  justify-content: center;
+}
+/* Mensaje de Bienvenida */
+.mensaje-bienvenida {
+color: white;
+  background-color: rgba(0, 0, 0, 0.573);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+text-align: center;
 }
 
-.first-div {
-  flex: 10%;
 
-  background-color: #ffcc00; /* Color de fondo amarillo para el primer div */
+.titulo-bienvenida {
+  font-size: 36px;
+  margin: 0;
 }
 
-.second-div {
-  flex: 90%;
-  background-color: #00ccff; /* Color de fondo azul para el segundo div */
+.descripcion-bienvenida,.numero-especial {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+/* decoracion de los ajustse */
+
+.Contenido-ajuste {
+  display: inline-block;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  width: auto; 
+  height: auto;
+}
+
+
+.titulo {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #3498db;
+  margin-bottom: 20px;
+}
+
+.icono {
+  font-size: 36px;
+  color: #3498db;
+}
+
+.encabezados {
+  font-size: 18px;
+  margin-top: 20px;
+
+}
+
+.item {
+  display: flex;
+  align-items: last baseline;
+  justify-content: left;
+  margin: 10px 0;
+
+}
+.Enca{
+  display: inline;
+  white-space: nowrap;
+  color: black;
+  font-weight: bold;
+}
+.item i {
+  font-size: 20px;
+  color: #3498db;
+  margin-right: 10px;
+}
+
+.botones {
+  margin-top: 20px;
+}
+
+.boton {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.boton:hover {
+  background-color: #45a049;
+}
+
+/* Formato para el formulario*/
+/* Estilo para los campos de entrada (input) */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    color: #3498db;
+}
+
+/* Estilo para los placeholders en los campos de entrada */
+input::placeholder {
+    color: #ccc; /* Color del texto del placeholder */
+    font-size: 14px;
+}
+/* formato para los de seleccion*/
+.input-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.input-container i {
+  font-size: 20px;
+  color: #3498db;
+  margin-right: 10px;
+}
+
+.input-container select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-container select:focus {
+  border-color: #3498db;
+}
+
+.input-container select::placeholder {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.input-container select:focus::placeholder {
+  color: #a5a5a5;
+}
+
+/*Estilo para la tarea */
+.tarea {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.tarea h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.tarea p {
+  margin: 0;
+  font-size: 14px;
+  color: #777;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin: 0 auto; 
 }

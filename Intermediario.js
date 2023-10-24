@@ -29,19 +29,22 @@ export function LeerUser() {
 
 /*Funcino para buscar un Usuario espesifico */
 export function buscarUsuario(usuarioId) {
+  return new Promise((resolve, reject) => {
     fetch(`http://localhost:3000/usuario/${usuarioId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
-          console.error(data.error);
+          reject(data.error);
         } else {
-          console.log('Nombre del usuario:', data.nombre);
+          resolve(data);
         }
       })
       .catch((error) => {
-        console.error(error);
+        reject(error);
       });
-  }
+  });
+}
+
 
   /* Funcino para actualizar un dato del usuario*/
   export function actualizarUsuario(usuarioId, datosActualizados) {

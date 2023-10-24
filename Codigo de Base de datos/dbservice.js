@@ -140,7 +140,14 @@ const dbservice = () => {
         return knex(Usuario)
             .select('Nombre')
             .where('ID', usuarioId)
-            .first();
+            .first()
+            .then((usuario) => {
+                if (usuario) {
+                    return usuario;
+                } else {
+                    throw new Error('Usuario no encontrado');
+                }
+            });
     };
 
     /* Sirve para actualizar los datos por medio del ID */

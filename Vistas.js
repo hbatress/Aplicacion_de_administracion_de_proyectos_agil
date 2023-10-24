@@ -297,3 +297,263 @@ function Condiciones() {
   //  `;
   //  return html;
 //}
+
+
+// Vistas del pagina de interaccion
+export{encabezado_admin,encabezado_user,Menu,Configuracion,actualizarConfiguracion,Tareas,adminProyectos,Proyectos}
+function encabezado_admin() {
+    var html = `
+    <header class="beautiful-header">
+    <div class="logo" id="logo">ScrumWave</div>
+    <nav>
+        <ul>
+            <li id="inicio">Inicio</li>
+            <li id="proyectos">Proyectos</li>
+            <li id="tareas">Tareas</li>
+            <li id="equipos">Equipos</li>
+            <li id="registro">Registro</li>
+            <li id="Grafico">Notificaciones</li>
+            <li id="perfil">Perfil</li>
+        </ul>
+    </nav>
+</header>
+
+    `;
+
+    return html;
+}
+
+function encabezado_user() {
+    var html = `
+    <header class="beautiful-header">
+    <div class="logo">ScrumWave</div>
+    <nav>
+    <ul>
+        <li id="inicio">Inicio</li>
+        <li id="mis-tareas">Mis Tareas</li>
+        <li id="proyectos-asignados">Proyectos Asignados</li>
+        <li id="perfil">Perfil</li>
+    </ul>
+</nav>
+
+</header>
+    `;
+
+    return html;
+}
+
+function Menu(nombreUsuario) {
+    let nombre = nombreUsuario; // Si nombreUsuario es un objeto como {"nombre":"Herber"}, obtén el valor de "nombre"
+    if (typeof nombreUsuario === 'object' && nombreUsuario.nombre) {
+        nombre = nombreUsuario.nombre; // Si es un objeto con la propiedad "nombre", obtenla
+    }
+
+    console.log("Nombre de usuario que se envía:", nombre);
+    var html = `
+    <div class="Tablero">
+    <div class="mensaje-bienvenida">
+        <h1 class="titulo-bienvenida">Bienvenido a ScrumWave</h1>
+        <p class="descripcion-bienvenida">Tu plataforma de Gestión  de Proyecto Ágil.</p>
+        <span class="numero-especial" id="Nombre">${nombre}</span>
+    </div>
+</div>
+    `;
+    return html;
+}
+
+function Configuracion() {
+    var html = `
+    <div class="Tablero">
+    <div class="Contenido-ajuste">
+        <div class="titulo">
+            <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
+        </div>
+        <div class="encabezados">
+            <div class="item">
+                <i class="fa fa-id-card-o"></i>
+                <span class="Enca">Identificacion: </span>
+                <span>1 </span>
+            </div>
+            <div class="item">
+                <i class="fa fa-user"></i>
+                <span class="Enca">Nombre</span>
+                <span>1 </span>
+            </div>
+            <div class="item">
+                <i class="fa fa-envelope"></i>
+                <span class="Enca">Correo Electrónico: </span>
+                <span>1 </span>
+            </div>
+            <div class="item">
+                <i class="fa fa-briefcase"></i>
+                <span class="Enca">Rol</span>
+                <span>1 2111111111111111111111111111111455555555555555555</span>
+            </div>
+            <div class="item">
+                <i class="fa fa-calendar"></i>
+                <span class="Enca">Fecha de Registro</span>
+                <span>1 </span>
+            </div>
+            <div class="item">
+                <i class="fa fa-lock"></i>
+                <span class="Enca">Contraseña</span>
+                <span>1 </span>
+            </div>
+            <div class="item">
+                <i class="fa fa-check-circle"></i>
+                <span class="Enca">Tipo de Cuenta</span>
+                <span>1 </span>
+            </div>
+        </div>
+        <div class="botones">
+            <button id="boton-actualizar" class="boton"><i class="fa fa-pencil"></i> Actualizar</button>
+            <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>        
+        </div>
+    </div>
+</div>
+
+
+    `;
+    return html;
+}
+function actualizarConfiguracion(){
+    var html = `
+    <div class="Tablero">
+    <div class="Contenido-ajuste">
+        <div class="titulo">
+            <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
+        </div>
+        <div class="encabezados">
+            <div class="item">
+                <i class="fa fa-user"></i>
+                <span class="Enca">Nombre: </span>
+                <input type="text" id="nombre" placeholder="Ingrese su nombre" />
+            </div>
+            <div class="item">
+                <i class="fa fa-envelope"></i>
+                <span class="Enca">Correo Electrónico: </span>
+                <input type="email" id="correo" placeholder="Ingrese su correo electrónico" />
+            </div>
+            <div class="item">
+                <i class="fa fa-briefcase"></i>
+                <span class="Enca">Rol: </span>
+                <div class="input-container">
+                <i class="fas fa-user-tag"></i>
+                <select name="rol" id="rol" required>
+                <option value="Administrador">Administrador</option>
+                <option value="Colaborador">Miembro</option>
+                </div>
+    </select>
+</div>
+
+            </div>
+            <div class="item">
+                <i class="fa fa-lock"></i>
+                <span class="Enca">Contraseña: </span>
+                <input type="password" id="contrasena" placeholder="Ingrese su contraseña" />
+            </div>
+            <div class="item">
+                <i class="fa fa-check-circle"></i>
+                <span class="Enca">Tipo de Cuenta: </span>
+                <div class="input-container">
+                <i class="fas fa-user-tag"></i>
+                <select name="tipoCuenta" id="tipoCuenta" required>
+                <option value="0">Selecciona un tipo de cuenta</option>
+                <option value="1">Cuenta Básica</option>
+                <option value="2">Cuenta Premium</option>
+                </select>
+</div>
+
+            </div>
+        </div>
+        <div class="botones">
+            <button id="boton-guardar" class="boton"><i class="fa fa-floppy-o"></i> Guardar</button>
+            <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>        
+        </div>
+    </div>
+</div>
+
+    `;
+    return html;
+}
+
+function Tareas() {
+    var html = `
+    <div class="Tablero">
+    <div class="tarea">
+        <div class="tarea-info">
+            <h3>Nombre de la Tarea</h3>
+            <br>
+            <p>Descripción de la tarea 1</p>
+            <br>
+            <p>Fecha de Creación: 2023-01-15</p>
+            <br>
+            <p>Proyecto Perteneciente: Proyecto 1</p>
+        </div>
+        <br>
+        <div class="estado-select">
+            <select name="estado" id="estado-tarea">
+                <option value="Pendiente">Pendiente</option>
+                <option value="En Progreso">En Progreso</option>
+                <option value="Completada">Completada</option>
+            </select>
+        </div>
+    </div>
+    </div>
+    `;
+    return html;
+}
+
+function adminProyectos() {
+    var html = `
+    <div class="Tablero">
+    <div class="tarea">
+    <h3>Proyecto 1</h3>
+    <p>Descripción del proyecto 1</p>
+    <p>Fecha de Creación: 2023-01-15</p>
+    <p>Usuario Propietario: Usuario 1</p>
+    <select name="estado" id="estado-proyecto">
+        <option value="Pendiente">Pendiente</option>
+        <option value="En Progreso">En Progreso</option>
+        <option value="Completada">Completada</option>
+    </select>
+</div>
+</div>
+
+
+    `;
+    return html;
+}
+
+function Proyectos() {
+    var html = `
+    <div class="Tablero">
+    <div class="tarea">
+    <h3>Proyecto 1</h3>
+    <p>Descripción del proyecto 1</p>
+    <p>Fecha de Creación: 2023-01-15</p>
+    <p>Usuario Propietario: Usuario 1</p>
+</div>
+</div>
+
+
+    `;
+    return html;
+}
+
+
+function Notificacion() {
+    var html = `
+    <div class="Tablero">
+    <div class="tarea">
+    <h3>Proyecto 1</h3>
+    <p>Descripción del proyecto 1</p>
+    <p>Fecha de Creación: 2023-01-15</p>
+    <p>Usuario Propietario: Usuario 1</p>
+</div>
+</div>
+
+
+    `;
+    return html;
+}

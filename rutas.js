@@ -12,7 +12,7 @@ module.exports = function (app, dbservice) {
     });
     app.get('/usuario/:id', (req, res) => {
         const usuarioId = req.params.id;
-
+        console.log(usuarioId);
         dbservice.getUsuarioPorId(usuarioId)
             .then((usuario) => {
                 if (usuario) {

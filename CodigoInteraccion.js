@@ -1,96 +1,80 @@
-// VISTA
-function encabezado_admin() {
-    var html = `
-    <header class="beautiful-header">
-    <div class="logo">ScrumWave</div>
-    <nav>
-        <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Proyectos</a></li>
-            <li><a href="#">Tareas</a></li>
-            <li><a href="#">Equipos</a></li>
-            <li><a href="#">Registro</a></li>
-            <li><a href="#">Notificaciones</a></li>
-            <li><a href="#">Perfil</a></li>
-        
-        </ul>
-    </nav>
-</header>
-
-    `;
-
-    return html;
-}
-
-function encabezado_user() {
-    var html = `
-    <header class="beautiful-header">
-    <div class="logo">ScrumWave</div>
-    <nav>
-        <ul>
-            <li><a href="#">Inicio</a></li>
-            <li><a href="#">Mis Tareas</a></li>
-            <li><a href="#">Proyectos Asignados</a></li>
-            <li class="profile-menu">
-            <li><a href="#">Notificaciones</a></li>
-            <li><a href="#">Perfil</a></li>
-        </li>
-        </ul>
-    </nav>
-</header>
-    `;
-
-    return html;
-}
-
-function Menu() {
-    var html = `
-    <div class="container">
-    <div class="first-div">Div 1 (80%)</div>
-    <div class="second-div">Div 2 (20%)</div>
-</div>
-
-    `;
-    return html;
-}
-
-
+//nos servira para leer la informacino de la base de datos
+import { buscarUsuario } from "./Intermediario.js";
+import {
+    encabezado_admin,
+    encabezado_user,
+    Menu,
+    Configuracion,
+    actualizarConfiguracion,
+    Tareas,
+    adminProyectos,
+    Proyectos,
+} from "./Vistas.js";
 //CONTROLADORES
 
+function Ajustes() {
+    document.getElementById("Tablero").innerHTML = Configuracion();
+}
+function actualizarAjustes() {
+    document.getElementById("Tablero").innerHTML = actualizarConfiguracion();
+}
 function inicarContr() {
-    document.getElementById("Listado").innerHTML = Menu();
+  
+    const usuarioId = 3; // Cambia este ID por el que necesitas
+    console.log('ID Enviado:', usuarioId);
+    buscarUsuario(usuarioId)
+      .then((data) => {
+        console.log("Datos del servidor:", data);
+        const nombre =data;
+        console.log('ID Enviado:', data);
+        document.getElementById("Tablero").innerHTML =Menu(data);
+      })
+      .catch((error) => {
+        console.error("Error en la solicitud:", error);
+      });
+    }
+
+function VerTarea() {
+    document.getElementById("Tablero").innerHTML = Tareas();
+}
+function VerProyectos() {
+    document.getElementById("Tablero").innerHTML = Proyectos();
 }
 
 function mostrarEncabezado(tipoUsuario) {
-    var encabezadoHTML = '';
-    //var menuHTML = '';
+    var encabezadoHTML = "";
 
-    if (tipoUsuario === 'admin') {
+    if (tipoUsuario === "admin") {
         encabezadoHTML = encabezado_admin();
-        //  menuHTML = Menu();
-        inicarContr();
-    } else if (tipoUsuario === 'user') {
+        IncioSeccion();
+    } else if (tipoUsuario === "user") {
         encabezadoHTML = encabezado_user();
     } else {
-        // Si el tipo de usuario no es válido, puedes manejarlo de acuerdo a tus necesidades.
-        encabezadoHTML = 'Tipo de usuario no válido';
+        encabezadoHTML = "Tipo de usuario no válido";
     }
 
     document.getElementById("Superior").innerHTML = encabezadoHTML;
 }
 
 // Ejemplo de uso:
-document.addEventListener('DOMContentLoaded', () => {
-    var tipoUsuario = 'user';
+document.addEventListener("DOMContentLoaded", () => {
+    var tipoUsuario = "user";
     mostrarEncabezado(tipoUsuario);
     inicarContr();
 });
-document.addEventListener('click', ev => {
-    if (ev.target.matches('#crearCuenta')) {
-        currentState = 'create';
-        createContr();
-    } else if (ev.target.matches('#IniciarSesion')) {
-        currentState = 'iniciar';
+document.addEventListener("click", (ev) => {
+    if (ev.target.matches("#perfil")) {
+        //ev.preventDefault();
+        Ajustes();
+    } else if (ev.target.matches("#boton-cancelar")) {
         inicarContr();
+    } else if (ev.target.matches("#inicio")) {
+        inicarContr();
+    } else if (ev.target.matches("#boton-actualizar")) {
+        actualizarAjustes();
+    } else if (ev.target.matches("#proyectos-asignados")) {
+        VerProyectos();
+    } else if (ev.target.matches("#mis-tareas")) {
+        VerTarea();
     }
 });
