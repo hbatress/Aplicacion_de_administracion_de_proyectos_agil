@@ -4,56 +4,43 @@ module.exports = function (app, dbservice) {
         res.json({ "Mensaje": "Todo bien" });
     });
 
-    // Rutas para leer la información
+    // los get para leer informacion
     app.get('/login', (req, res) => {
         dbservice.getUsuario()
             .then(usuarios => res.json(usuarios))
             .catch(error => res.status(500).send(error));
     });
+    app.get('/usuario/:id', (req, res) => {
+        const usuarioId = req.params.id;
 
-    app.get('/Proyectos', (req, res) => {
-        dbservice.getProyectos()
-            .then(proyectos => res.json(proyectos))
-            .catch(error => res.status(500).send(error));
+        dbservice.getUsuarioPorId(usuarioId)
+            .then((usuario) => {
+                if (usuario) {
+                    res.json({ nombre: usuario.Nombre });
+                } else {
+                    res.status(404).json({ error: 'Usuario no encontrado' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar el usuario' });
+            });
     });
 
-    app.get('/Tarea', (req, res) => {
-        dbservice.getTarea()
-            .then(tareas => res.json(tareas))
-            .catch(error => res.status(500).send(error));
+    app.get('/CuentaTI/:id', (req, res) => {
+        const usuarioId = req.params.id;
+        console.log('Valor de usuarioId:', usuarioId);
+        dbservice.getBuscarUsuarioPorId(usuarioId)
+            .then((usuario) => {
+                if (usuario) {
+                    res.json(usuario);
+                } else {
+                    res.status(404).json({ error: 'Usuario no encontrado' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al leer el usuario' });
+            });
     });
-
-    app.get('/Colaborador', (req, res) => {
-        dbservice.getColaborador()
-            .then(colaboradores => res.json(colaboradores))
-            .catch(error => res.status(500).send(error));
-    });
-
-    app.get('/Notificacion', (req, res) => {
-        dbservice.getNotificacion()
-            .then(notificaciones => res.json(notificaciones))
-            .catch(error => res.status(500).send(error));
-    });
-
-    app.get('/Historial_de_Movimiento', (req, res) => {
-        dbservice.getHistorialDeMovimiento()
-            .then(historiales => res.json(historiales))
-            .catch(error => res.status(500).send(error));
-    });
-
-    app.get('/Tipo_de_Cuenta', (req, res) => {
-        dbservice.getTipoDeCuenta()
-            .then(cuentas => res.json(cuentas))
-            .catch(error => res.status(500).send(error));
-    });
-    app.get('/Estado_de_la_Tarea', (req, res) => {
-        dbservice.getEstadoDeLaTarea()
-            .then(estados => res.json(estados))
-            .catch(error => res.status(500).send(error));
-    });
-
-
-
     //estos son los post para agregar los datos
     app.post('/AddUser', (req, res) => {
         const newUser = req.body;
@@ -186,56 +173,22 @@ module.exports = function (app, dbservice) {
             });
     });
 
-    app.get('/usuario/:id', (req, res) => {
-        const usuarioId = req.params.id;
-
-        dbservice.getUsuarioPorId(usuarioId)
-            .then((usuario) => {
-                if (usuario) {
-                    res.json({ nombre: usuario.Nombre});
-                } else {
-                    res.status(404).json({ error: 'Usuario no encontrado' });
-                }
-            })
-            .catch((error) => {
-                res.status(500).json({ error: 'Error al buscar el usuario' });
-            });
-    });
-
-
-    app.get('/CuentaTI/:id', (req, res) => {
-        const usuarioId = req.params.id;
-        console.log('Valor de usuarioId:', usuarioId);
-        dbservice.getBuscarUsuarioPorId(usuarioId)
-          .then((usuario) => {
-            if (usuario) {
-              res.json(usuario);
-            } else {
-              res.status(404).json({ error: 'Usuario no encontrado' });
-            }
-          })
-          .catch((error) => {
-            res.status(500).json({ error: 'Error al leer el usuario' });
-          });
-      });
-      
-
-
+ /* put para actualizar*/
     app.put('/UPdatauser/:id', (req, res) => {
         const usuarioId = req.params.id;
         const updateUser = req.body;
-      
+
         console.log('Usuario ID:', usuarioId);
         console.log('Datos actualizados:', updateUser);
 
         dbservice.actualizarUsuario(usuarioId, updateUser)
-          .then(() => {
-            res.json({ message: 'Usuario actualizado con éxito' });
-          })
-          .catch((error) => {
-            res.status(500).json({ error: 'Error al actualizar el usuario' });
-          });
-      });
-      
-    
+            .then(() => {
+                res.json({ message: 'Usuario actualizado con éxito' });
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al actualizar el usuario' });
+            });
+    });
+
+
 }

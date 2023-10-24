@@ -1,6 +1,5 @@
+/* Funcion para agregar Usuario*/
 export function AgregarUser(data) {
-
-
     return fetch('http://localhost:3000/AddUser', {
         method: 'POST',
         headers: {
@@ -16,6 +15,7 @@ export function AgregarUser(data) {
             console.error(error);
         });
 }
+/* Funcion para Buscar el usuario*/
 export function LeerUser() {
     return fetch('http://localhost:3000/login', {
         method: 'GET',
@@ -27,6 +27,7 @@ export function LeerUser() {
 
 }
 
+/*Funcino para buscar un Usuario espesifico */
 export function buscarUsuario(usuarioId) {
     fetch(`http://localhost:3000/usuario/${usuarioId}`)
       .then((response) => response.json())
@@ -42,6 +43,7 @@ export function buscarUsuario(usuarioId) {
       });
   }
 
+  /* Funcino para actualizar un dato del usuario*/
   export function actualizarUsuario(usuarioId, datosActualizados) {
     fetch(`http://localhost:3000/UPdatauser/${usuarioId}`, {
       method: 'PUT', // Utiliza el método PUT para actualizar el usuario
@@ -63,7 +65,7 @@ export function buscarUsuario(usuarioId) {
       });
   }
   
-
+/* Fcuncion para saber el tipo de cuenta del usuario*/
   export function definicionTipoCuenta(usuarioId) {
     fetch(`http://localhost:3000/CuentaTI/${usuarioId}`)
       .then((response) => {

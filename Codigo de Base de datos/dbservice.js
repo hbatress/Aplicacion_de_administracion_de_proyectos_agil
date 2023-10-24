@@ -26,34 +26,6 @@ const dbservice = () => {
         return knex(Usuario).select();
     };
 
-    const getProyectos = () => {
-        return knex(Proyectos).select();
-    };
-
-    const getTarea = () => {
-        return knex(Tarea).select();
-    };
-
-    const getColaborador = () => {
-        return knex(Colaborador).select();
-    };
-
-    const getNotificacion = () => {
-        return knex(Notificacion).select();
-    };
-
-    const getHistorialDeMovimiento = () => {
-        return knex(HistorialDeMovimiento).select();
-    };
-
-    const getTipoDeCuenta = () => {
-        return knex(TipoDeCuenta).select();
-    };
-
-    const getEstadoDeLaTarea = () => {
-        return knex(EstadoDeLaTarea).select();
-    };
-
     // Funciones de  agregar
     const crearUsuario = (
         Nombre,
@@ -162,43 +134,37 @@ const dbservice = () => {
         });
     };
 
-/*  Realizar una busqueda por un datto*/
-const getUsuarioPorId = (usuarioId) => {
-    return knex(Usuario)
-      .select('Nombre')
-      .where('ID', usuarioId)
-      .first();
-  };
 
-  /* Sirve para actualizar los datos por medio del ID */
-  const actualizarUsuario = (usuarioId, userData) => {
-    return knex(Usuario)
-      .where('ID', usuarioId)
-      .update(userData);
-  };
+    /*  Realizar una busqueda por un datto*/
+    const getUsuarioPorId = (usuarioId) => {
+        return knex(Usuario)
+            .select('Nombre')
+            .where('ID', usuarioId)
+            .first();
+    };
 
-/* Sirve para buscar y unir tablas*/ 
-const getBuscarUsuarioPorId = (usuarioId) => {
-    return knex('Usuario')
-      .select('Usuario.Nombre', 'Tipo_de_Cuenta.Nombre_del_Tipo_de_Cuenta', 'Tipo_de_Cuenta.Descripcion_del_Tipo_de_Cuenta')
-      .leftJoin('Tipo_de_Cuenta', 'Usuario.Tipo_de_Cuenta', 'Tipo_de_Cuenta.ID')
-      .where('Usuario.ID', usuarioId)
-      .first();
-  };
-  
-  
+    /* Sirve para actualizar los datos por medio del ID */
+    const actualizarUsuario = (usuarioId, userData) => {
+        return knex(Usuario)
+            .where('ID', usuarioId)
+            .update(userData);
+    };
+
+    /* Sirve para buscar y unir tablas*/
+    const getBuscarUsuarioPorId = (usuarioId) => {
+        return knex('Usuario')
+            .select('Usuario.Nombre', 'Tipo_de_Cuenta.Nombre_del_Tipo_de_Cuenta', 'Tipo_de_Cuenta.Descripcion_del_Tipo_de_Cuenta')
+            .leftJoin('Tipo_de_Cuenta', 'Usuario.Tipo_de_Cuenta', 'Tipo_de_Cuenta.ID')
+            .where('Usuario.ID', usuarioId)
+            .first();
+    };
+
+
     return {
         getBuscarUsuarioPorId,
         actualizarUsuario,
         getUsuarioPorId,
         getUsuario,
-        getProyectos,
-        getTarea,
-        getColaborador,
-        getNotificacion,
-        getHistorialDeMovimiento,
-        getTipoDeCuenta,
-        getEstadoDeLaTarea,
         crearUsuario,
         crearProyectos,
         crearTarea,
