@@ -135,11 +135,11 @@ const dbservice = () => {
     };
 
 
-    /*  Realizar una busqueda por un datto*/
-    const getUsuarioPorId = (usuarioId) => {
-        return knex(Usuario)
-            .select('Nombre')
-            .where('ID', usuarioId)
+    const getUsuarioPorIdConTipoCuenta = (usuarioId) => {
+        return knex('Usuario as U')
+            .select('U.ID as Usuario_ID', 'U.Nombre as Nombre_Usuario', 'U.Correo_Electronico', 'U.Rol', 'U.Fecha_de_Registro', 'TC.Nombre_del_Tipo_de_Cuenta')
+            .leftJoin('Tipo_de_Cuenta as TC', 'U.Tipo_de_Cuenta', 'TC.ID')
+            .where('U.ID', usuarioId)
             .first()
             .then((usuario) => {
                 if (usuario) {
@@ -149,6 +149,7 @@ const dbservice = () => {
                 }
             });
     };
+    
 
     /* Sirve para actualizar los datos por medio del ID */
     const actualizarUsuario = (usuarioId, userData) => {
@@ -165,13 +166,31 @@ const dbservice = () => {
             .where('Usuario.ID', usuarioId)
             .first();
     };
+    /*Buscar los proyectos que tiene asignados */
+    const getProyectosAsignados = (usuarioId) => {
+        return knex('Proyectos as p')
+            .select('p.ID', 'p.Nombre_del_Proyecto', 'p.Descripcion', 'p.Fecha_de_Creacion')
+            .where('p.Usuario_Propietario', usuarioId);
+    };
+
+    /* Buscar las tareas asignadas a un usuario */
+    const getTareasAsignadas = (usuarioId) => {
+        return knex('Tarea as t')
+            .select('t.ID as Tarea_ID', 't.Nombre_de_la_Tarea', 't.Descripcion as Tarea_Descripcion', 't.Fecha_de_Creacion as Tarea_Fecha_de_Creacion', 'p.Nombre_del_Proyecto', 'e.Nombre_del_Estado as Estado_de_la_Tarea')
+            .innerJoin('Proyectos as p', 't.Proyecto_Perteneciente', 'p.ID')
+            .innerJoin('Estado_de_la_Tarea as e', 't.Estado_de_la_Tarea', 'e.ID')
+            .innerJoin('Colaborador as c', 't.ID', 'c.Tarea_Asiganda')
+            .where('c.Usuario_Participante', usuarioId);
+    };
 
 
     return {
         getBuscarUsuarioPorId,
         actualizarUsuario,
-        getUsuarioPorId,
+        getUsuarioPorIdConTipoCuenta,
         getUsuario,
+        getProyectosAsignados,
+        getTareasAsignadas,
         crearUsuario,
         crearProyectos,
         crearTarea,

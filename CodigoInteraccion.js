@@ -1,5 +1,5 @@
 //nos servira para leer la informacino de la base de datos
-import { buscarUsuario } from "./Intermediario.js";
+import { buscarUsuario, buscarProyectosAsignados, buscarTareasAsignadas } from "./Intermediario.js";
 import {
     encabezado_admin,
     encabezado_user,
@@ -13,32 +13,95 @@ import {
 //CONTROLADORES
 
 function Ajustes() {
-    document.getElementById("Tablero").innerHTML = Configuracion();
+    const usuarioId = 4; // Cambia este ID por el que necesitas
+
+    console.log('ID Enviado:', usuarioId);
+
+    buscarUsuario(usuarioId)
+        .then((data) => {
+            console.log("Datos del servidor:", data);
+
+            // Llamar a la función Configuracion con todos los datos del usuario
+            document.getElementById("Tablero").innerHTML = Configuracion(data);
+        })
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
+
 }
 function actualizarAjustes() {
     document.getElementById("Tablero").innerHTML = actualizarConfiguracion();
 }
 function inicarContr() {
-  
-    const usuarioId = 3; // Cambia este ID por el que necesitas
+    const usuarioId = 4; // Cambia este ID por el que necesitas
+
     console.log('ID Enviado:', usuarioId);
+
     buscarUsuario(usuarioId)
-      .then((data) => {
-        console.log("Datos del servidor:", data);
-        const nombre =data;
-        console.log('ID Enviado:', data);
-        document.getElementById("Tablero").innerHTML =Menu(data);
-      })
-      .catch((error) => {
-        console.error("Error en la solicitud:", error);
-      });
-    }
+        .then((data) => {
+            console.log("Datos del servidor:", data);
+            const nombre = data.Nombre_Usuario; // Obtener el nombre del usuario
+            console.log('Nombre del usuario:', nombre);
+
+            document.getElementById("Tablero").innerHTML = Menu(nombre); // Enviar el nombre a la función Menu
+        })
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
+
+
+
+}
 
 function VerTarea() {
-    document.getElementById("Tablero").innerHTML = Tareas();
+    const usuarioId = 4; // Cambia este ID por el que necesitas
+    console.log('ID Enviado:', usuarioId);
+
+    buscarTareasAsignadas(usuarioId)
+        .then((data) => {
+            console.log("Datos del servidor:", data);
+
+            // Convierte los datos en una cadena de texto JSON
+            const dataText = JSON.stringify(data, null, 2); // El segundo argumento es para la indentación
+
+            // Muestra la cadena de texto JSON en la consola
+            console.log("Datos como texto:", dataText);
+
+            if (data && Array.isArray(data)) {
+                document.getElementById("Tablero").innerHTML = Tareas(data);
+            } else {
+                console.log("Los datos no son un array.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
 }
+
+
 function VerProyectos() {
-    document.getElementById("Tablero").innerHTML = Proyectos();
+    const usuarioId = 4; // Cambia este ID por el que necesitas
+    console.log('ID Enviado:', usuarioId);
+
+    buscarProyectosAsignados(usuarioId)
+        .then((data) => {
+            console.log("Datos del servidor:", data);
+
+            // Convierte los datos en una cadena de texto JSON
+            const dataText = JSON.stringify(data, null, 2); // El segundo argumento es para la indentación
+
+            // Muestra la cadena de texto JSON en la consola
+            console.log("Datos como texto:", dataText);
+
+            if (data && Array.isArray(data)) {
+                document.getElementById("Tablero").innerHTML = Proyectos(data);
+            } else {
+                console.log("Los datos no son un array.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error en la solicitud:", error);
+        });
 }
 
 function mostrarEncabezado(tipoUsuario) {

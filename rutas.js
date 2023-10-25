@@ -12,11 +12,11 @@ module.exports = function (app, dbservice) {
     });
     app.get('/usuario/:id', (req, res) => {
         const usuarioId = req.params.id;
-        console.log(usuarioId);
-        dbservice.getUsuarioPorId(usuarioId)
+        dbservice.getUsuarioPorIdConTipoCuenta(usuarioId)
             .then((usuario) => {
                 if (usuario) {
-                    res.json({ nombre: usuario.Nombre });
+                    delete usuario.contrasenia;
+                    res.json(usuario);
                 } else {
                     res.status(404).json({ error: 'Usuario no encontrado' });
                 }
@@ -25,6 +25,43 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al buscar el usuario' });
             });
     });
+    
+
+    /*Sirve para leer los proyectos que tiene el usuario  */
+    app.get('/proyectos/:id', (req, res) => {
+        const usuarioId = req.params.id;
+
+        dbservice.getProyectosAsignados(usuarioId)
+            .then((proyectos) => {
+                if (proyectos && proyectos.length > 0) {
+                    res.json(proyectos);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron proyectos asignados a este usuario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar los proyectos asignados' });
+            });
+    });
+
+    /*Sive para ver las tareas de un usuario espesifico */
+    app.get('/tareas/:id', (req, res) => {
+        const usuarioId = req.params.id;
+    
+        dbservice.getTareasAsignadas(usuarioId)
+            .then((tareas) => {
+                if (tareas && tareas.length > 0) {
+                    res.json(tareas);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas asignadas a este usuario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
+            });
+    });
+    
+    
 
     app.get('/CuentaTI/:id', (req, res) => {
         const usuarioId = req.params.id;
@@ -173,7 +210,7 @@ module.exports = function (app, dbservice) {
             });
     });
 
- /* put para actualizar*/
+    /* put para actualizar*/
     app.put('/UPdatauser/:id', (req, res) => {
         const usuarioId = req.params.id;
         const updateUser = req.body;

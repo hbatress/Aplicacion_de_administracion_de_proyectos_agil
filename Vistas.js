@@ -1,4 +1,4 @@
-export { encabezado, pie, indexView, newView, iniciarcontr, Mostrarprecios, funcionesMostrar,solucionesMO,Condiciones };
+export { encabezado, pie, indexView, newView, iniciarcontr, Mostrarprecios, funcionesMostrar, solucionesMO, Condiciones };
 // VISTA
 function encabezado() {
     var html = `
@@ -285,22 +285,22 @@ function Condiciones() {
 
 
 //function funciones() {
-  //  var html = `
-    
-  //  `;
-  //  return html;
+//  var html = `
+
+//  `;
+//  return html;
 //}
 
 //function funciones() {
-  //  var html = `
-    
-  //  `;
-  //  return html;
+//  var html = `
+
+//  `;
+//  return html;
 //}
 
 
 // Vistas del pagina de interaccion
-export{encabezado_admin,encabezado_user,Menu,Configuracion,actualizarConfiguracion,Tareas,adminProyectos,Proyectos}
+export { encabezado_admin, encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos }
 function encabezado_admin() {
     var html = `
     <header class="beautiful-header">
@@ -354,69 +354,64 @@ function Menu(nombreUsuario) {
     <div class="mensaje-bienvenida">
         <h1 class="titulo-bienvenida">Bienvenido a ScrumWave</h1>
         <p class="descripcion-bienvenida">Tu plataforma de Gestión  de Proyecto Ágil.</p>
-        <span class="numero-especial" id="Nombre">${nombre}</span>
+        <span class="numero-especial" id="Nombre">Hola <b>${nombre}<b> es un gusto verte de nuevo</span>
     </div>
 </div>
     `;
     return html;
 }
 
-function Configuracion() {
+function Configuracion(usuarioData) {
     var html = `
     <div class="Tablero">
-    <div class="Contenido-ajuste">
-        <div class="titulo">
-            <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
-        </div>
-        <div class="encabezados">
-            <div class="item">
-                <i class="fa fa-id-card-o"></i>
-                <span class="Enca">Identificacion: </span>
-                <span>1 </span>
+        <div class="Contenido-ajuste">
+            <div class="titulo">
+                <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
             </div>
-            <div class="item">
-                <i class="fa fa-user"></i>
-                <span class="Enca">Nombre</span>
-                <span>1 </span>
+            <div class="encabezados">
+                <div class="item">
+                    <i class="fa fa-id-card-o"></i>
+                    <span class="Enca">Identificacion: </span>
+                    <span>${usuarioData.Usuario_ID}</span>
+                </div>
+                <div class="item">
+                    <i class="fa fa-user"></i>
+                    <span class="Enca">Nombre</span>
+                    <span>${usuarioData.Nombre_Usuario}</span>
+                </div>
+                <div class="item">
+                    <i class="fa fa-envelope"></i>
+                    <span class="Enca">Correo Electrónico: </span>
+                    <span>${usuarioData.Correo_Electronico}</span>
+                </div>
+                <div class="item">
+                    <i class="fa fa-briefcase"></i>
+                    <span class="Enca">Rol</span>
+                    <span>${usuarioData.Rol}</span>
+                </div>
+                <div class="item">
+                    <i class="fa fa-calendar"></i>
+                    <span class="Enca">Fecha de Registro</span>
+                    <span>${new Date(usuarioData.Fecha_de_Registro).toLocaleDateString()}</span>
+                </div>
+                <div class="item">
+                    <i class="fa fa-check-circle"></i>
+                    <span class="Enca">Tipo de Cuenta</span>
+                    <span>${usuarioData.Nombre_del_Tipo_de_Cuenta}</span>
+                </div>
             </div>
-            <div class="item">
-                <i class="fa fa-envelope"></i>
-                <span class="Enca">Correo Electrónico: </span>
-                <span>1 </span>
+            <div class="botones">
+                <button id="boton-actualizar" class="boton"><i class="fa fa-pencil"></i> Actualizar</button>
+                <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>        
             </div>
-            <div class="item">
-                <i class="fa fa-briefcase"></i>
-                <span class="Enca">Rol</span>
-                <span>1 2111111111111111111111111111111455555555555555555</span>
-            </div>
-            <div class="item">
-                <i class="fa fa-calendar"></i>
-                <span class="Enca">Fecha de Registro</span>
-                <span>1 </span>
-            </div>
-            <div class="item">
-                <i class="fa fa-lock"></i>
-                <span class="Enca">Contraseña</span>
-                <span>1 </span>
-            </div>
-            <div class="item">
-                <i class="fa fa-check-circle"></i>
-                <span class="Enca">Tipo de Cuenta</span>
-                <span>1 </span>
-            </div>
-        </div>
-        <div class="botones">
-            <button id="boton-actualizar" class="boton"><i class="fa fa-pencil"></i> Actualizar</button>
-            <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>        
         </div>
     </div>
-</div>
-
-
     `;
+
     return html;
 }
-function actualizarConfiguracion(){
+
+function actualizarConfiguracion() {
     var html = `
     <div class="Tablero">
     <div class="Contenido-ajuste">
@@ -477,32 +472,37 @@ function actualizarConfiguracion(){
     return html;
 }
 
-function Tareas() {
-    var html = `
-    <div class="Tablero">
-    <div class="tarea">
-        <div class="tarea-info">
-            <h3>Nombre de la Tarea</h3>
-            <br>
-            <p>Descripción de la tarea 1</p>
-            <br>
-            <p>Fecha de Creación: 2023-01-15</p>
-            <br>
-            <p>Proyecto Perteneciente: Proyecto 1</p>
-        </div>
-        <br>
-        <div class="estado-select">
-            <select name="estado" id="estado-tarea">
-                <option value="Pendiente">Pendiente</option>
-                <option value="En Progreso">En Progreso</option>
-                <option value="Completada">Completada</option>
-            </select>
-        </div>
-    </div>
-    </div>
-    `;
+function Tareas(tarea) {
+    let html = '<div class="Tablero">';
+
+    tarea.forEach((tarea) => {
+        html += `
+            <div class="tarea">
+                <div class="tarea-info">
+                    <h3>${tarea.Nombre_de_la_Tarea}</h3>
+                    <br>
+                    <p>${tarea.Tarea_Descripcion}</p>
+                    <br>
+                    <p>Fecha de Creación: ${tarea.Fecha_de_Creacion}</p>
+                    <br>
+                    <p>Proyecto Perteneciente: ${tarea.Nombre_del_Proyecto}</p>
+                </div>
+                <br>
+                <div class="estado-select">
+                    <select name="estado" id="estado-tarea">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En Progreso">En Progreso</option>
+                        <option value="Completada">Completada</option>
+                    </select>
+                </div>
+                <p>Otro elemento: ${tarea.Estado_de_la_Tarea}</p>
+            </div>`;
+    });
+
+    html += '</div>';
     return html;
 }
+
 
 function adminProyectos() {
     var html = `
@@ -525,21 +525,34 @@ function adminProyectos() {
     return html;
 }
 
-function Proyectos() {
-    var html = `
-    <div class="Tablero">
-    <div class="tarea">
-    <h3>Proyecto 1</h3>
-    <p>Descripción del proyecto 1</p>
-    <p>Fecha de Creación: 2023-01-15</p>
-    <p>Usuario Propietario: Usuario 1</p>
-</div>
-</div>
+function Proyectos(data) {
+    var html = `<div class="Tablero">`;
 
+    data.forEach((proyecto, index) => {
+        console.log("ID: " + proyecto.ID);
+        console.log("Nombre del Proyecto: " + proyecto.Nombre_del_Proyecto);
+        console.log("Descripción: " + proyecto.Descripcion);
+        console.log("Fecha de Creación: " + proyecto.Fecha_de_Creacion);
+        console.log("Usuario Propietario: " + proyecto.Usuario_Propietario);
 
+        html += `
+        <div class="tarea">
+            <!--<h3>Proyecto ${proyecto.ID}</h3>-->
+            <h3>${proyecto.Nombre_del_Proyecto}</h3>
+            <p>${proyecto.Descripcion}</p>
+           <!-- <p>Fecha de Creación: ${proyecto.Fecha_de_Creacion}</p>-->
+           <!-- <p>Usuario Propietario: Usuario ${proyecto.Usuario_Propietario}</p>-->
+        </div>
     `;
+    });
+
+    html += `</div>`;
     return html;
 }
+
+
+
+
 
 
 function Notificacion() {

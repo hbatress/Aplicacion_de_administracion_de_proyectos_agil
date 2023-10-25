@@ -27,10 +27,46 @@ export function LeerUser() {
 
 }
 
-/*Funcino para buscar un Usuario espesifico */
+/* Busca un usuario por ID */
 export function buscarUsuario(usuarioId) {
   return new Promise((resolve, reject) => {
     fetch(`http://localhost:3000/usuario/${usuarioId}`)
+      .then((response) => {
+        if (response.status === 404) {
+          // Usuario no encontrado
+          reject('Usuario no encontrado');
+        } else if (response.status === 500) {
+          // Error en el servidor
+          reject('Error al buscar el usuario');
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        // Aquí puedes ajustar los campos según tus necesidades
+        const usuarioConTipoCuenta = {
+          Usuario_ID: data.Usuario_ID,
+          Nombre_Usuario: data.Nombre_Usuario,
+          Correo_Electronico: data.Correo_Electronico,
+          Rol: data.Rol,
+          Fecha_de_Registro: data.Fecha_de_Registro,
+          Contrasenia:data.Contrasenia,
+          Nombre_del_Tipo_de_Cuenta: data.Nombre_del_Tipo_de_Cuenta,
+        };
+
+        resolve(usuarioConTipoCuenta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
+/*Busca los proyectos asignado por ID */
+export function buscarProyectosAsignados(usuarioId) {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/proyectos/${usuarioId}`)
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {
@@ -44,6 +80,25 @@ export function buscarUsuario(usuarioId) {
       });
   });
 }
+/*Sirve para buscar tareas */
+export function buscarTareasAsignadas(usuarioId) {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/tareas/${usuarioId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
 
 
   /* Funcino para actualizar un dato del usuario*/
