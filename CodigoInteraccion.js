@@ -1,10 +1,11 @@
 //nos servira para leer la informacino de la base de datos
-import { buscarUsuario,
-    buscarProyectosAsignados, 
-    buscarTareasAsignadas, 
-    actualizarUsuario, 
+import {
+    buscarUsuario,
+    buscarProyectosAsignados,
+    buscarTareasAsignadas,
+    actualizarUsuario,
     actualizarEstadoTarea,
-    AgregarHistorialMovimiento 
+    AgregarHistorialMovimiento
 } from "./Intermediario.js";
 
 import {
@@ -115,7 +116,7 @@ function inicarContr() {
 
 }
 
-function VerTarea(usuarioId,Estado) {
+function VerTarea(usuarioId, Estado) {
 
     console.log('ID Enviado:', usuarioId);
 
@@ -131,7 +132,7 @@ function VerTarea(usuarioId,Estado) {
 
             if (data && Array.isArray(data)) {
 
-                document.getElementById("Tablero").innerHTML = Tareas(data,Estado);
+                document.getElementById("Tablero").innerHTML = Tareas(data, Estado);
 
             } else {
                 console.log("Los datos no son un array.");
@@ -168,8 +169,8 @@ function VerProyectos() {
         });
 }
 
-function botones_interaccion(){
-    document.getElementById("Tablero").innerHTML =Opciones();
+function botones_interaccion() {
+    document.getElementById("Tablero").innerHTML = Opciones();
 
 }
 
@@ -190,8 +191,8 @@ function mostrarEncabezado(tipoUsuario) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    window.usuarioActual = "4"; 
-    window.estadoActual = "Pendiente"; 
+    window.usuarioActual = "4";
+    window.estadoActual = "Pendiente";
     mostrarEncabezado(usuarioActual);
     inicarContr();
 });
@@ -215,26 +216,26 @@ document.addEventListener("click", (ev) => {
         const tareaID = ev.target.getAttribute('data-tarea-id');
         const proyectoID = ev.target.getAttribute('data-proyecto-id');
         const colaboradorID = ev.target.getAttribute('data-colaborador-id');
-        
-        
+
+
         console.log(`Clic en botón con estado`, estado, `para tarea con ID`, tareaID);
         console.log(`ID del Proyecto para recibir:`, proyectoID);
         console.log(`ID del Colaborador para recibir:`, colaboradorID);
         actualizarEstadoTarea(tareaID, estado);
-    
+
         // Define un objeto con los datos del historial de movimiento que deseas enviar
-       const nuevoHistorial = {
-        Fecha_y_Hora_del_Movimiento: obtenerFechaHoraActual(),
-        Proyecto_Perteneciente: proyectoID,
-        Usuario_que_Realizo_el_Movimiento: colaboradorID,
-        Estado_de_la_Tarea: estado,
-        Tarea: tareaID
-      };
-    
+        const nuevoHistorial = {
+            Fecha_y_Hora_del_Movimiento: obtenerFechaHoraActual(),
+            Proyecto_Perteneciente: proyectoID,
+            Usuario_que_Realizo_el_Movimiento: colaboradorID,
+            Estado_de_la_Tarea: estado,
+            Tarea: tareaID
+        };
+
         // Llama a la función para enviar los datos al servidor
-    AgregarHistorialMovimiento(nuevoHistorial);
+        AgregarHistorialMovimiento(nuevoHistorial);
         VerTarea(usuarioActual, estadoActual);
-    }else if (ev.target.matches("#mostrarRealizadas")) {
+    } else if (ev.target.matches("#mostrarRealizadas")) {
         estadoActual = "Realizado"; // Actualiza la variable global de estado
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarEnProceso")) {
