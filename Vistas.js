@@ -1,4 +1,5 @@
 export { encabezado, pie, indexView, newView, iniciarcontr, Mostrarprecios, funcionesMostrar, solucionesMO, Condiciones };
+import {obtenerInfoHistoria,actualizarEstadoTarea} from './Intermediario.js'
 // VISTA
 function encabezado() {
     var html = `
@@ -300,7 +301,7 @@ function Condiciones() {
 
 
 // Vistas del pagina de interaccion
-export { encabezado_admin, encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos }
+export { encabezado_admin, encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos,Opciones }
 function encabezado_admin() {
     var html = `
     <header class="beautiful-header">
@@ -326,17 +327,20 @@ function encabezado_admin() {
 function encabezado_user() {
     var html = `
     <header class="beautiful-header">
+    <button id="salir" class="boton"> Cerrar Seccion</button>
     <div class="logo">ScrumWave</div>
+
     <nav>
-    <ul>
-        <li id="inicio">Inicio</li>
-        <li id="mis-tareas">Mis Tareas</li>
-        <li id="proyectos-asignados">Proyectos Asignados</li>
-        <li id="perfil">Perfil</li>
-    </ul>
-</nav>
+        <ul>
+            <li id="inicio">Inicio</li>
+            <li id="mis-tareas">Mis Tareas</li>
+            <li id="proyectos-asignados">Proyectos Asignados</li>
+            <li id="perfil">Perfil</li>
+        </ul>
+    </nav>
 
 </header>
+
     `;
 
     return html;
@@ -472,36 +476,61 @@ function actualizarConfiguracion() {
 }
 
 
-function Tareas(tarea) {
+function Tareas(tareas, estado) {
     let html = '<div class="Tablero">';
-
-    tarea.forEach((tarea) => {
-        html += `
-            <div class="tarea">
-                <div class="tarea-info">
-                    <h3>${tarea.Nombre_de_la_Tarea}</h3>
-                    <br>
-                    <p>${tarea.Tarea_Descripcion}</p>
-                    <br>
-                   <!-- <p>Fecha de Creación:${tarea.Fecha_de_Creacion}</p>-->
-                    <br>
-                    <p>Proyecto Perteneciente: ${tarea.Nombre_del_Proyecto}</p>
-                </div>
-                <br>
-                <div class="estado-select">
-                    <select name="estado" id="estado-tarea">
-                        <option value="Pendiente">Pendiente</option>
-                        <option value="En Progreso">En Progreso</option>
-                        <option value="Completada">Completada</option>
-                    </select>
-                </div>
-                <p>Otro elemento: ${tarea.Estado_de_la_Tarea}</p>
-            </div>`;
-    });
-
-    html += '</div>';
-    return html;
+    
+    // Crear una lista de promesas para las consultas de información adicional
+    const infoPromises = tareas.map(tarea => obtenerInfoHistoria(tarea.Tarea_ID));
+    
+    // Esperar a que se completen todas las promesas
+    Promise.all(infoPromises)
+        .then(infoAdicionalArray => {
+            let tareasEnEstado = tareas.filter(tarea => tarea.Estado_de_la_Tarea === estado);
+    
+            if (tareasEnEstado.length > 0) {
+                tareasEnEstado.forEach((tarea, index) => {
+                    const tareaIDToString = tarea.Tarea_ID.toString();
+    
+                    html += `
+                        <div class="tarea">
+                            <div class="tarea-info">
+                                <h3>${tarea.Nombre_de_la_Tarea}</h3>
+                                <br>
+                                <p>${tarea.Tarea_Descripcion}</p>
+                                <br>
+                                <p>Proyecto Perteneciente: ${tarea.Nombre_del_Proyecto}</p>
+                                <p>Información Adicional: ${tarea.Tarea_ID}</p> <!-- Muestra la información adicional -->
+                            </div>
+                            <br>
+                            <p>Estado actual: ${tarea.Estado_de_la_Tarea}</p>
+                            <p>Cambiar el estado de la tarea ${tarea.Tarea_ID.toString()}</p>
+                            <div class="estado-select">
+                                <div class="estado-buttons">
+                                    <button id="pendiente-btn" class="estado-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}">Pendiente</button>
+                                    <button id="progreso-btn" class="estado-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}">En Progreso</button>
+                                    <button id="completada-btn" class="estado-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}">Completada</button>
+                                </div>
+                            </div>
+                        </div>`;
+                });
+            } else {
+                html += `   
+                <div class="mensaje-bienvenida">
+                <div class="aviso">
+                <p class="titulo-bienvenida" >No tiene tarea ${estado}</p>
+                </div></div>`;
+            }
+    
+            html += '<button class="boton" ID="Regreso">Regresar </button> </div>';
+            // Luego de completar todas las tareas y su información adicional, puedes actualizar el DOM
+            document.getElementById("Tablero").innerHTML = html;
+        })
+        .catch(error => {
+            console.error("Error en la solicitud de información adicional:", error);
+        });
 }
+
+
 
 
 function adminProyectos() {
@@ -550,20 +579,40 @@ function Proyectos(data) {
     return html;
 }
 
-
-
-
-
-
-function Notificacion() {
+function Opciones() {
     var html = `
     <div class="Tablero">
-    <div class="tarea">
-    <h3>Proyecto 1</h3>
-    <p>Descripción del proyecto 1</p>
-    <p>Fecha de Creación: 2023-01-15</p>
-    <p>Usuario Propietario: Usuario 1</p>
+    <div id="botones-container">
+        <button id="mostrarPendientes" class="boton"">
+            <span class="icono">&#128340;</span>
+            Mostrar Tareas Pendientes
+        </button>
+        <button id="mostrarEnProceso" class="boton"">
+            <span class="icono">&#9201;</span>
+            Mostrar Tareas en Proceso
+        </button>
+        <button id="mostrarRealizadas" class="boton"">
+            <span class="icono">&#10003;</span>
+            Mostrar Tareas Realizadas
+        </button>
+    </div>
 </div>
+
+
+    `;
+    return html;
+}
+function SinAsignacion() {
+    var html = `
+    <div class="Tablero">
+    <div class="aviso">
+    <p>No hay tareas pendientes en este momento.</p>
+    </div>
+
+<button class="boton-decorado">
+    <i class="icono" ID="Regreso">Icono</i> Texto del botón
+    </button>
+
 </div>
 
 

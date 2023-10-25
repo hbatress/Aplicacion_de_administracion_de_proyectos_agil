@@ -1,5 +1,5 @@
 //nos servira para leer la informacino de la base de datos
-import { buscarUsuario, buscarProyectosAsignados, buscarTareasAsignadas, actualizarUsuario } from "./Intermediario.js";
+import { buscarUsuario, buscarProyectosAsignados, buscarTareasAsignadas, actualizarUsuario, actualizarEstadoTarea} from "./Intermediario.js";
 import {
     encabezado_admin,
     encabezado_user,
@@ -9,6 +9,7 @@ import {
     Tareas,
     adminProyectos,
     Proyectos,
+    Opciones
 } from "./Vistas.js";
 
 //CONTROLADORES
@@ -86,7 +87,6 @@ function actualizarAjustes() {
     });
 }
 
-
 function inicarContr() {
     const usuarioId = 4; // Cambia este ID por el que necesitas
 
@@ -108,8 +108,8 @@ function inicarContr() {
 
 }
 
-function VerTarea() {
-    const usuarioId = 4; // Cambia este ID por el que necesitas
+function VerTarea(usuarioId,datoUsuario) {
+
     console.log('ID Enviado:', usuarioId);
 
     buscarTareasAsignadas(usuarioId)
@@ -123,7 +123,9 @@ function VerTarea() {
             console.log("Datos como texto:", dataText);
 
             if (data && Array.isArray(data)) {
-                document.getElementById("Tablero").innerHTML = Tareas(data);
+
+                document.getElementById("Tablero").innerHTML = Tareas(data,datoUsuario);
+
             } else {
                 console.log("Los datos no son un array.");
             }
@@ -159,6 +161,11 @@ function VerProyectos() {
         });
 }
 
+function botones_interaccion(){
+    document.getElementById("Tablero").innerHTML =Opciones();
+
+}
+
 function mostrarEncabezado(tipoUsuario) {
     var encabezadoHTML = "";
 
@@ -174,15 +181,18 @@ function mostrarEncabezado(tipoUsuario) {
     document.getElementById("Superior").innerHTML = encabezadoHTML;
 }
 
-// Ejemplo de uso:
+
 document.addEventListener("DOMContentLoaded", () => {
     var tipoUsuario = "user";
     mostrarEncabezado(tipoUsuario);
     inicarContr();
 });
+// Declarar las variables globales para el estado y el usuario
+let estadoActual = "Pendiente"; // Puedes establecer un estado predeterminado
+let usuarioActual = 4; // Puedes establecer un usuario predeterminado
+
 document.addEventListener("click", (ev) => {
     if (ev.target.matches("#perfil")) {
-        //ev.preventDefault();
         Ajustes();
     } else if (ev.target.matches("#boton-cancelar")) {
         inicarContr();
@@ -193,6 +203,31 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#proyectos-asignados")) {
         VerProyectos();
     } else if (ev.target.matches("#mis-tareas")) {
-        VerTarea();
+        botones_interaccion();
+    } else if (ev.target && ev.target.classList.contains('estado-btn')) {
+        const estado = ev.target.getAttribute('data-estado');
+        const tareaElement = ev.target.closest('.tarea');
+        const tareaID = ev.target.getAttribute('data-tarea-id');
+        console.log(`Clic en botón con estado `, estado, ` para tarea con ID `, tareaID);
+        actualizarEstadoTarea(tareaID, estado);
+        VerTarea(usuarioActual,estadoActual);
+    } else if (ev.target.matches("#mostrarRealizadas")) {
+        estadoActual = "Realizado";
+        usuarioActual = 4;
+        const datoUsuario = estadoActual;
+        VerTarea(usuarioActual, datoUsuario);
+    } else if (ev.target.matches("#mostrarEnProceso")) {
+        estadoActual = "En Proceso";
+        usuarioActual = 4;
+        const datoUsuario = estadoActual;
+        VerTarea(usuarioActual, datoUsuario);
+    } else if (ev.target.matches("#mostrarPendientes")) {
+        estadoActual = "Pendiente";
+        usuarioActual = 4;
+        const datoUsuario = estadoActual;
+        VerTarea(usuarioActual, datoUsuario);
+    }else if (ev.target.matches("#Regreso")) {
+        botones_interaccion();
     }
 });
+

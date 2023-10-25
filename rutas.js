@@ -25,7 +25,7 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al buscar el usuario' });
             });
     });
-    
+
 
     /*Sirve para leer los proyectos que tiene el usuario  */
     app.get('/proyectos/:id', (req, res) => {
@@ -47,7 +47,7 @@ module.exports = function (app, dbservice) {
     /*Sive para ver las tareas de un usuario espesifico */
     app.get('/tareas/:id', (req, res) => {
         const usuarioId = req.params.id;
-    
+
         dbservice.getTareasAsignadas(usuarioId)
             .then((tareas) => {
                 if (tareas && tareas.length > 0) {
@@ -60,8 +60,25 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
             });
     });
-    
-    
+
+    /* Ruta para ver las tareas de un usuario específico con información adicional */
+    app.get('/infohistoria/:id', (req, res) => {
+        const usuarioId = req.params.id;
+
+        // Utiliza la función de consulta de Knex
+        dbservice.getColaboradorYProyectoPorTarea(usuarioId)
+            .then((result) => {
+                if (result && result.length > 0) {
+                    res.json(result);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas asignadas a este usuario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
+            });
+    });
+
 
     app.get('/CuentaTI/:id', (req, res) => {
         const usuarioId = req.params.id;
@@ -214,13 +231,13 @@ module.exports = function (app, dbservice) {
     app.put('/UPdatauser/:id', (req, res) => {
         const usuarioId = req.params.id;
         const updateUser = req.body;
-    
+
         // Excluye 'Fecha_de_Registro' y 'ID' de los datos a actualizar
         const { Fecha_de_Registro, ID, ...userData } = updateUser;
-    
+
         console.log('Usuario ID:', usuarioId);
         console.log('Datos actualizados:', userData);
-    
+
         dbservice.actualizarUsuario(usuarioId, userData)
             .then(() => {
                 res.json({ message: 'Usuario actualizado con éxito' });
@@ -229,7 +246,20 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al actualizar el usuario' });
             });
     });
-    
+
+/* Ruta PUT para actualizar el estado de una tarea */
+app.put('/updateTareaEstado/:id', (req, res) => {
+    const tareaId = req.params.id;
+    const nuevoEstadoId = req.body.Estado_de_la_Tarea; // Suponiendo que el nuevo estado se proporciona en el cuerpo de la solicitud
+
+    dbservice.actualizarEstadoTarea(tareaId, nuevoEstadoId)
+        .then(() => {
+            res.json({ message: 'Estado de la tarea actualizado con éxito' });
+        })
+        .catch((error) => {
+            res.status(500).json({ error: 'Error al actualizar el estado de la tarea' });
+        });
+});
 
 
 }

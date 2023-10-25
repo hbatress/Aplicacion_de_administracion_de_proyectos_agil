@@ -148,3 +148,48 @@ export function actualizarUsuario(usuarioId, datosActualizados) {
   }
   
   
+  /*Funcion para llamar a la informacion requerida */
+  /* Función para obtener información de la historia del usuario */
+export function obtenerInfoHistoria(usuarioId) {
+  fetch(`http://localhost:3000/infohistoria/${usuarioId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Datos de la historia recibidos:', data);
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        console.log('Información de la historia:', data);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+/*Actualiza el estado de la tarea*/
+export function actualizarEstadoTarea(tareaId, nuevoEstadoId) {
+  console.log(`Actualizando estado de la tarea con ID ${tareaId} a "${nuevoEstadoId}"`);
+  fetch(`http://localhost:3000/updateTareaEstado/${tareaId}`, {
+    method: 'PUT', // Utiliza el método PUT para actualizar el estado de la tarea
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ Estado_de_la_Tarea: nuevoEstadoId }), // Enviar el nuevo estado en el cuerpo de la solicitud
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        console.log('Estado de la tarea actualizado con éxito');
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}

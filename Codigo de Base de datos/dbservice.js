@@ -149,7 +149,7 @@ const dbservice = () => {
                 }
             });
     };
-    
+
 
     /* Sirve para actualizar los datos por medio del ID */
     const actualizarUsuario = (usuarioId, userData) => {
@@ -162,6 +162,15 @@ const dbservice = () => {
                 contrasenia: userData.contrasenia,
                 Tipo_de_Cuenta: userData.Tipo_de_Cuenta
                 // Excluimos 'Fecha_de_Registro' y 'ID' de la actualización
+            });
+    };
+
+    /* sive para actualiza el estado */
+    const actualizarEstadoTarea = (tareaId, nuevoEstadoId) => {
+        return knex('Tarea')
+            .where('ID', tareaId)
+            .update({
+                Estado_de_la_Tarea: nuevoEstadoId
             });
     };
     
@@ -191,6 +200,12 @@ const dbservice = () => {
             .where('c.Usuario_Participante', usuarioId);
     };
 
+    const getColaboradorYProyectoPorTarea = (tareaId) => {
+        return knex('Colaborador as c')
+            .select('c.ID as ID_Colaborador', 'c.Proyecto_Perteneciente as ID_Proyecto')
+            .innerJoin('Tarea as t', 'c.Tarea_Asiganda', 't.ID')
+            .where('t.ID', tareaId);
+    };
 
     return {
         getBuscarUsuarioPorId,
@@ -199,6 +214,7 @@ const dbservice = () => {
         getUsuario,
         getProyectosAsignados,
         getTareasAsignadas,
+        getColaboradorYProyectoPorTarea,
         crearUsuario,
         crearProyectos,
         crearTarea,
@@ -207,6 +223,7 @@ const dbservice = () => {
         crearHistorialDeMovimiento,
         crearTipoDeCuenta,
         crearEstadoDeLaTarea,
+        actualizarEstadoTarea
 
     };
 

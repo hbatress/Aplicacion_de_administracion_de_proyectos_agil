@@ -250,3 +250,34 @@ select {
   width: 100%;
   margin: 0 auto; 
 }
+/* estilo de los botones*/
+.estado-buttons {
+  display: flex;
+}
+
+.estado-btn {
+  background-color: #ccc;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.estado-btn.pendiente {
+  background-color: #ff0000; /* Color para Pendiente */
+}
+
+.estado-btn.progreso {
+  background-color: #ff9900; /* Color para En Progreso */
+}
+
+.estado-btn.completada {
+  background-color: #00cc00; /* Color para Completada */
+}
+
+/* Estilos para los iconos */
+.icono {
+  padding-right: 10px;
+  font-size: 20px;
+}
