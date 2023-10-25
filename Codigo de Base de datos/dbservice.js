@@ -153,10 +153,18 @@ const dbservice = () => {
 
     /* Sirve para actualizar los datos por medio del ID */
     const actualizarUsuario = (usuarioId, userData) => {
-        return knex(Usuario)
+        return knex('Usuario') // Nombre de la tabla
             .where('ID', usuarioId)
-            .update(userData);
+            .update({
+                Nombre: userData.Nombre,
+                Correo_Electronico: userData.Correo_Electronico,
+                Rol: userData.Rol,
+                contrasenia: userData.contrasenia,
+                Tipo_de_Cuenta: userData.Tipo_de_Cuenta
+                // Excluimos 'Fecha_de_Registro' y 'ID' de la actualización
+            });
     };
+    
 
     /* Sirve para buscar y unir tablas*/
     const getBuscarUsuarioPorId = (usuarioId) => {

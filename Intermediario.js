@@ -27,6 +27,7 @@ export function LeerUser() {
 
 }
 
+
 /* Busca un usuario por ID */
 export function buscarUsuario(usuarioId) {
   return new Promise((resolve, reject) => {
@@ -50,7 +51,6 @@ export function buscarUsuario(usuarioId) {
           Correo_Electronico: data.Correo_Electronico,
           Rol: data.Rol,
           Fecha_de_Registro: data.Fecha_de_Registro,
-          Contrasenia:data.Contrasenia,
           Nombre_del_Tipo_de_Cuenta: data.Nombre_del_Tipo_de_Cuenta,
         };
 
@@ -101,28 +101,30 @@ export function buscarTareasAsignadas(usuarioId) {
 
 
 
-  /* Funcino para actualizar un dato del usuario*/
-  export function actualizarUsuario(usuarioId, datosActualizados) {
-    fetch(`http://localhost:3000/UPdatauser/${usuarioId}`, {
-      method: 'PUT', // Utiliza el método PUT para actualizar el usuario
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(datosActualizados),
+export function actualizarUsuario(usuarioId, datosActualizados) {
+  // Excluye 'Fecha_de_Registro' y 'ID' de los datos a actualizar
+  const { Fecha_de_Registro, ID, ...userData } = datosActualizados;
+
+  fetch(`http://localhost:3000/UPdatauser/${usuarioId}`, {
+    method: 'PUT', // Utiliza el método PUT para actualizar el usuario
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        console.log('Usuario actualizado con éxito');
+      }
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.error(data.error);
-        } else {
-          console.log('Usuario actualizado con éxito');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-  
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
 /* Fcuncion para saber el tipo de cuenta del usuario*/
   export function definicionTipoCuenta(usuarioId) {
     fetch(`http://localhost:3000/CuentaTI/${usuarioId}`)

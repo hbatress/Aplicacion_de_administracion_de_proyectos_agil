@@ -418,59 +418,59 @@ function actualizarConfiguracion() {
         <div class="titulo">
             <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
         </div>
-        <div class="encabezados">
-            <div class="item">
-                <i class="fa fa-user"></i>
-                <span class="Enca">Nombre: </span>
-                <input type="text" id="nombre" placeholder="Ingrese su nombre" />
-            </div>
-            <div class="item">
-                <i class="fa fa-envelope"></i>
-                <span class="Enca">Correo Electrónico: </span>
-                <input type="email" id="correo" placeholder="Ingrese su correo electrónico" />
-            </div>
-            <div class="item">
-                <i class="fa fa-briefcase"></i>
-                <span class="Enca">Rol: </span>
-                <div class="input-container">
-                <i class="fas fa-user-tag"></i>
-                <select name="rol" id="rol" required>
-                <option value="Administrador">Administrador</option>
-                <option value="Colaborador">Miembro</option>
+        <form id="configuracion-form">
+            <div class="encabezados">
+                <div class="item">
+                    <i class="fa fa-user"></i>
+                    <span class="Enca">Nombre: </span>
+                    <input type="text" id="nombre" placeholder="Ingrese su nombre" name="nombre" />
                 </div>
-    </select>
-</div>
-
-            </div>
-            <div class="item">
-                <i class="fa fa-lock"></i>
-                <span class="Enca">Contraseña: </span>
-                <input type="password" id="contrasena" placeholder="Ingrese su contraseña" />
-            </div>
-            <div class="item">
-                <i class="fa fa-check-circle"></i>
-                <span class="Enca">Tipo de Cuenta: </span>
-                <div class="input-container">
-                <i class="fas fa-user-tag"></i>
-                <select name="tipoCuenta" id="tipoCuenta" required>
-                <option value="0">Selecciona un tipo de cuenta</option>
-                <option value="1">Cuenta Básica</option>
-                <option value="2">Cuenta Premium</option>
+                <div class="item">
+                    <i class="fa fa-envelope"></i>
+                    <span class="Enca">Correo Electrónico: </span>
+                    <input type="email" id="correo" placeholder="Ingrese su correo electrónico" name="correo" />
+                </div>
+                <div class="item">
+                    <i class="fa fa-briefcase"></i>
+                    <span class="Enca">Rol: </span>
+                    <div class="input-container">
+                    <i class="fas fa-user-tag"></i>
+                    <select name="rol" id="rol" required>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Colaborador">Miembro</option>
+                    </div>
+                    </select>
+                </div>
+                <div class="item">
+                    <i class="fa fa-lock"></i>
+                    <span class="Enca">Contraseña: </span>
+                    <input type="password" id="contrasena" placeholder="Ingrese su contraseña" name="contrasena" />
+                </div>
+                <div class="item">
+                    <i class="fa fa-check-circle"></i>
+                    <span class="Enca">Tipo de Cuenta: </span>
+                    <div class="input-container">
+                    <i class="fas fa-user-tag"></i>
+                    <select name="tipoCuenta" id="tipoCuenta" required>
+                    <option value="0">Selecciona un tipo de cuenta</option>
+                    <option value="1">Cuenta Básica</option>
+                    <option value="2">Cuenta Premium</option>
+                    </select>
+                </div>
                 </select>
-</div>
-
+                </div>
             </div>
-        </div>
-        <div class="botones">
-            <button id="boton-guardar" class="boton"><i class="fa fa-floppy-o"></i> Guardar</button>
-            <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>        
-        </div>
+            <div class="botones">
+                <button id="boton-guardar" class="boton" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
+                <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+        </form>
     </div>
 </div>
-
     `;
     return html;
 }
+
 
 function Tareas(tarea) {
     let html = '<div class="Tablero">';
@@ -483,7 +483,7 @@ function Tareas(tarea) {
                     <br>
                     <p>${tarea.Tarea_Descripcion}</p>
                     <br>
-                    <p>Fecha de Creación: ${tarea.Fecha_de_Creacion}</p>
+                   <!-- <p>Fecha de Creación:${tarea.Fecha_de_Creacion}</p>-->
                     <br>
                     <p>Proyecto Perteneciente: ${tarea.Nombre_del_Proyecto}</p>
                 </div>

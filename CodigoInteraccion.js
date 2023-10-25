@@ -1,5 +1,5 @@
 //nos servira para leer la informacino de la base de datos
-import { buscarUsuario, buscarProyectosAsignados, buscarTareasAsignadas } from "./Intermediario.js";
+import { buscarUsuario, buscarProyectosAsignados, buscarTareasAsignadas, actualizarUsuario } from "./Intermediario.js";
 import {
     encabezado_admin,
     encabezado_user,
@@ -10,6 +10,7 @@ import {
     adminProyectos,
     Proyectos,
 } from "./Vistas.js";
+
 //CONTROLADORES
 
 function Ajustes() {
@@ -29,9 +30,63 @@ function Ajustes() {
         });
 
 }
+function esCorreoElectronicoValido(correoElectronico) {
+    // Expresión regular para validar una dirección de correo electrónico
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailRegex.test(correoElectronico);
+}
+
 function actualizarAjustes() {
     document.getElementById("Tablero").innerHTML = actualizarConfiguracion();
+
+    // Agrega un evento de escucha al formulario
+    const formulario = document.getElementById("configuracion-form");
+    formulario.addEventListener("submit", function (event) {
+        event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
+
+        // Obtiene los datos del formulario
+        const nomNombrebre = formulario.elements.nombre.value;
+        const Correo_Electronico = formulario.elements.correo.value;
+        const Rol = formulario.elements.rol.value;
+        const contrasenia = formulario.elements.contrasena.value;
+        const Tipo_de_Cuenta = formulario.elements.tipoCuenta.value;
+
+        // Verifica si el correo electrónico es válido
+        if (!esCorreoElectronicoValido(correo)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Correo no válido',
+                text: 'Por favor, ingresa un correo electrónico válido.',
+            });
+            return; // Detiene la ejecución si el correo no es válido
+        }
+
+        // Crea un objeto con los datos
+        const userData = {
+            nomNombrebre,
+            Correo_Electronico,
+            Rol,
+            contrasenia,
+            Tipo_de_Cuenta,
+        };
+
+        // Obtén el usuarioId de alguna manera
+        const usuarioId = 5; // Reemplaza obtenerUsuarioId con la lógica real
+
+        // Llama a la función para enviar los datos al servidor
+        actualizarUsuario(usuarioId, userData);
+
+        // Muestra un mensaje de éxito y llama a la función inicarContr al cerrar el mensaje
+        Swal.fire({
+            icon: 'success',
+            title: 'Actualización exitosa',
+            text: 'Los datos se han actualizado correctamente.',
+            onAfterClose: inicarContr, // Redirige a la función inicarContr
+        });
+    });
 }
+
+
 function inicarContr() {
     const usuarioId = 4; // Cambia este ID por el que necesitas
 

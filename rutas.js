@@ -214,11 +214,14 @@ module.exports = function (app, dbservice) {
     app.put('/UPdatauser/:id', (req, res) => {
         const usuarioId = req.params.id;
         const updateUser = req.body;
-
+    
+        // Excluye 'Fecha_de_Registro' y 'ID' de los datos a actualizar
+        const { Fecha_de_Registro, ID, ...userData } = updateUser;
+    
         console.log('Usuario ID:', usuarioId);
-        console.log('Datos actualizados:', updateUser);
-
-        dbservice.actualizarUsuario(usuarioId, updateUser)
+        console.log('Datos actualizados:', userData);
+    
+        dbservice.actualizarUsuario(usuarioId, userData)
             .then(() => {
                 res.json({ message: 'Usuario actualizado con éxito' });
             })
@@ -226,6 +229,7 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al actualizar el usuario' });
             });
     });
+    
 
 
 }
