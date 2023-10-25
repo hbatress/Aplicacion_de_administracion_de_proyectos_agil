@@ -1,5 +1,11 @@
 //nos servira para leer la informacino de la base de datos
-import { buscarUsuario, buscarProyectosAsignados, buscarTareasAsignadas, actualizarUsuario, actualizarEstadoTarea} from "./Intermediario.js";
+import { buscarUsuario,
+    buscarProyectosAsignados, 
+    buscarTareasAsignadas, 
+    actualizarUsuario, 
+    actualizarEstadoTarea,
+    AgregarHistorialMovimiento 
+} from "./Intermediario.js";
 import {
     encabezado_admin,
     encabezado_user,
@@ -108,7 +114,7 @@ function inicarContr() {
 
 }
 
-function VerTarea(usuarioId,datoUsuario) {
+function VerTarea(usuarioId,Estado) {
 
     console.log('ID Enviado:', usuarioId);
 
@@ -124,7 +130,7 @@ function VerTarea(usuarioId,datoUsuario) {
 
             if (data && Array.isArray(data)) {
 
-                document.getElementById("Tablero").innerHTML = Tareas(data,datoUsuario);
+                document.getElementById("Tablero").innerHTML = Tareas(data,Estado);
 
             } else {
                 console.log("Los datos no son un array.");
@@ -188,8 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
     inicarContr();
 });
 // Declarar las variables globales para el estado y el usuario
-let estadoActual = "Pendiente"; // Puedes establecer un estado predeterminado
-let usuarioActual = 4; // Puedes establecer un usuario predeterminado
+//let estadoActual = "Pendiente"; // Puedes establecer un estado predeterminado
+//let usuarioActual = 4; // Puedes establecer un usuario predeterminado
 
 document.addEventListener("click", (ev) => {
     if (ev.target.matches("#perfil")) {
@@ -210,24 +216,36 @@ document.addEventListener("click", (ev) => {
         const tareaID = ev.target.getAttribute('data-tarea-id');
         console.log(`Clic en botón con estado `, estado, ` para tarea con ID `, tareaID);
         actualizarEstadoTarea(tareaID, estado);
+
+        // Define un objeto con los datos del historial de movimiento que deseas enviar
+    const nuevoHistorial = {
+    Fecha_y_Hora_del_Movimiento:obtenerFechaActual(),
+    Proyecto_Perteneciente: 1,
+    Usuario_que_Realizo_el_Movimiento: usuarioActual,
+    Estado_de_la_Tarea:estado ,
+    Tarea: tareaID
+     };
+  
+  // Llama a la función para enviar los datos al servidor
+  AgregarHistorialMovimiento(nuevoHistorial);
         VerTarea(usuarioActual,estadoActual);
     } else if (ev.target.matches("#mostrarRealizadas")) {
-        estadoActual = "Realizado";
-        usuarioActual = 4;
+        const estadoActual = "Realizado";
+        const  usuarioActual = 4;
         const datoUsuario = estadoActual;
-        VerTarea(usuarioActual, datoUsuario);
+        VerTarea(usuarioActual, estadoActual);
+
     } else if (ev.target.matches("#mostrarEnProceso")) {
-        estadoActual = "En Proceso";
-        usuarioActual = 4;
+        const   estadoActual = "En Proceso";
+        const   usuarioActual = 4;
         const datoUsuario = estadoActual;
-        VerTarea(usuarioActual, datoUsuario);
+        VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarPendientes")) {
-        estadoActual = "Pendiente";
-        usuarioActual = 4;
+        const   estadoActual = "Pendiente";
+        const    usuarioActual = 4;
         const datoUsuario = estadoActual;
-        VerTarea(usuarioActual, datoUsuario);
+        VerTarea(usuarioActual, estadoActual);
     }else if (ev.target.matches("#Regreso")) {
         botones_interaccion();
     }
 });
-

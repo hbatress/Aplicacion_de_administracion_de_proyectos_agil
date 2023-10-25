@@ -193,3 +193,32 @@ export function actualizarEstadoTarea(tareaId, nuevoEstadoId) {
       console.error(error);
     });
 }
+
+// Función para agregar un historial de movimiento
+export function AgregarHistorialMovimiento(newMovementHistory) {
+  return fetch('http://tu-servidor/historialesmovimiento', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          Fecha_y_Hora_del_Movimiento: newMovementHistory.Fecha_y_Hora_del_Movimiento,
+          Proyecto_Perteneciente: newMovementHistory.Proyecto_Perteneciente,
+          Usuario_que_Realizo_el_Movimiento: newMovementHistory.Usuario_que_Realizo_el_Movimiento,
+          Estado_de_la_Tarea: newMovementHistory.Estado_de_la_Tarea,
+          Tarea: newMovementHistory.Tarea
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Error al agregar historial de movimiento');
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log('Respuesta del servidor:', data);
+  })
+  .catch(error => {
+      console.error(error);
+  });
+}

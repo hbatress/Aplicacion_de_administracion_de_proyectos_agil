@@ -101,19 +101,20 @@ const dbservice = () => {
 
     const crearHistorialDeMovimiento = (
         Fecha_y_Hora_del_Movimiento,
+        Proyecto_Perteneciente,
         Usuario_que_Realizo_el_Movimiento,
-        Tipo_de_Movimiento,
         Estado_de_la_Tarea,
         Tarea
     ) => {
-        return knex(HistorialDeMovimiento).insert({
+        return knex('Historial_de_Movimiento').insert({
             Fecha_y_Hora_del_Movimiento: Fecha_y_Hora_del_Movimiento,
+            Proyecto_Perteneciente: Proyecto_Perteneciente,
             Usuario_que_Realizo_el_Movimiento: Usuario_que_Realizo_el_Movimiento,
-            Tipo_de_Movimiento: Tipo_de_Movimiento,
             Estado_de_la_Tarea: Estado_de_la_Tarea,
             Tarea: Tarea
         });
     };
+    
 
     const crearTipoDeCuenta = (
         Nombre_del_Tipo_de_Cuenta,
@@ -193,13 +194,22 @@ const dbservice = () => {
     /* Buscar las tareas asignadas a un usuario */
     const getTareasAsignadas = (usuarioId) => {
         return knex('Tarea as t')
-            .select('t.ID as Tarea_ID', 't.Nombre_de_la_Tarea', 't.Descripcion as Tarea_Descripcion', 't.Fecha_de_Creacion as Tarea_Fecha_de_Creacion', 'p.Nombre_del_Proyecto', 'e.Nombre_del_Estado as Estado_de_la_Tarea')
+            .select(
+                't.ID as Tarea_ID',
+                't.Nombre_de_la_Tarea',
+                't.Descripcion as Tarea_Descripcion',
+                't.Fecha_de_Creacion as Tarea_Fecha_de_Creacion',
+                'p.ID as Proyecto_ID', 
+                'p.Nombre_del_Proyecto',
+                'c.ID as Colaborador_ID', 
+                'e.Nombre_del_Estado as Estado_de_la_Tarea'
+            )
             .innerJoin('Proyectos as p', 't.Proyecto_Perteneciente', 'p.ID')
             .innerJoin('Estado_de_la_Tarea as e', 't.Estado_de_la_Tarea', 'e.ID')
             .innerJoin('Colaborador as c', 't.ID', 'c.Tarea_Asiganda')
             .where('c.Usuario_Participante', usuarioId);
     };
-
+    
     const getColaboradorYProyectoPorTarea = (tareaId) => {
         return knex('Colaborador as c')
             .select('c.ID as ID_Colaborador', 'c.Proyecto_Perteneciente as ID_Proyecto')

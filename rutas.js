@@ -44,22 +44,23 @@ module.exports = function (app, dbservice) {
             });
     });
 
-    /*Sive para ver las tareas de un usuario espesifico */
-    app.get('/tareas/:id', (req, res) => {
-        const usuarioId = req.params.id;
+ /* Sirve para ver las tareas de un usuario específico */
+app.get('/tareas/:id', (req, res) => {
+    const usuarioId = req.params.id;
 
-        dbservice.getTareasAsignadas(usuarioId)
-            .then((tareas) => {
-                if (tareas && tareas.length > 0) {
-                    res.json(tareas);
-                } else {
-                    res.status(404).json({ error: 'No se encontraron tareas asignadas a este usuario' });
-                }
-            })
-            .catch((error) => {
-                res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
-            });
-    });
+    dbservice.getTareasAsignadas(usuarioId)
+        .then((tareas) => {
+            if (tareas && tareas.length > 0) {
+                res.json(tareas);
+            } else {
+                res.status(404).json({ error: 'No se encontraron tareas asignadas a este usuario' });
+            }
+        })
+        .catch((error) => {
+            res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
+        });
+});
+
 
     /* Ruta para ver las tareas de un usuario específico con información adicional */
     app.get('/infohistoria/:id', (req, res) => {
@@ -169,8 +170,8 @@ module.exports = function (app, dbservice) {
         dbservice
             .crearHistorialDeMovimiento(
                 newMovementHistory.Fecha_y_Hora_del_Movimiento,
+                newMovementHistory.Proyecto_Perteneciente, 
                 newMovementHistory.Usuario_que_Realizo_el_Movimiento,
-                newMovementHistory.Tipo_de_Movimiento,
                 newMovementHistory.Estado_de_la_Tarea,
                 newMovementHistory.Tarea
             )
@@ -181,6 +182,7 @@ module.exports = function (app, dbservice) {
                 res.status(500).send(e);
             });
     });
+    
 
     app.post('/tiposdecuenta', (req, res) => {
         const newAccountType = req.body;
