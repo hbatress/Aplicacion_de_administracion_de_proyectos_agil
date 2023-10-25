@@ -479,6 +479,7 @@ function actualizarConfiguracion() {
 function Tareas(tareas, estado) {
     let html = '<div class="Tablero">';
     
+    console.log(`datos recibidos de tareas:`, tareas);
     // Crear una lista de promesas para las consultas de información adicional
     const infoPromises = tareas.map(tarea => obtenerInfoHistoria(tarea.Tarea_ID));
     
@@ -490,7 +491,10 @@ function Tareas(tareas, estado) {
             if (tareasEnEstado.length > 0) {
                 tareasEnEstado.forEach((tarea, index) => {
                     const tareaIDToString = tarea.Tarea_ID.toString();
-    
+                    const IDProyecto=tarea.Proyecto_ID.toString();
+                    console.log(`ID del Proyecto en la tarea:`, IDProyecto);
+                    const IDColaborador=tarea.Colaborador_ID.toString();
+                    console.log(`ID del Proyecto: en la tarea`, IDColaborador);
                     html += `
                         <div class="tarea">
                             <div class="tarea-info">
@@ -498,17 +502,15 @@ function Tareas(tareas, estado) {
                                 <br>
                                 <p>${tarea.Tarea_Descripcion}</p>
                                 <br>
-                                <p>Proyecto Perteneciente: ${tarea.Nombre_del_Proyecto}</p>
-                                <p>Información Adicional: ${tarea.Tarea_ID}</p> <!-- Muestra la información adicional -->
                             </div>
                             <br>
-                            <p>Estado actual: ${tarea.Estado_de_la_Tarea}</p>
-                            <p>Cambiar el estado de la tarea ${tarea.Tarea_ID.toString()}</p>
+                            <p>Estado actual: ${tarea.Estado_de_la_Tarea}</p>                         
                             <div class="estado-select">
                                 <div class="estado-buttons">
-                                    <button id="pendiente-btn" class="estado-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}">Pendiente</button>
-                                    <button id="progreso-btn" class="estado-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}">En Progreso</button>
-                                    <button id="completada-btn" class="estado-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}">Completada</button>
+                                <button id="pendiente-btn" class="estado-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Pendiente</button>
+                                <button id="progreso-btn" class="estado-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">En Progreso</button>
+                                <button id="completada-btn" class="estado-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Completada</button>
+                                
                                 </div>
                             </div>
                         </div>`;

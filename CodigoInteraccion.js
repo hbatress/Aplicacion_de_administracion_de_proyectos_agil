@@ -6,6 +6,7 @@ import { buscarUsuario,
     actualizarEstadoTarea,
     AgregarHistorialMovimiento 
 } from "./Intermediario.js";
+
 import {
     encabezado_admin,
     encabezado_user,
@@ -178,7 +179,7 @@ function mostrarEncabezado(tipoUsuario) {
     if (tipoUsuario === "admin") {
         encabezadoHTML = encabezado_admin();
         IncioSeccion();
-    } else if (tipoUsuario === "user") {
+    } else if (tipoUsuario === "4") {
         encabezadoHTML = encabezado_user();
     } else {
         encabezadoHTML = "Tipo de usuario no válido";
@@ -189,13 +190,11 @@ function mostrarEncabezado(tipoUsuario) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    var tipoUsuario = "user";
-    mostrarEncabezado(tipoUsuario);
+    window.usuarioActual = "4"; 
+    window.estadoActual = "Pendiente"; 
+    mostrarEncabezado(usuarioActual);
     inicarContr();
 });
-// Declarar las variables globales para el estado y el usuario
-//let estadoActual = "Pendiente"; // Puedes establecer un estado predeterminado
-//let usuarioActual = 4; // Puedes establecer un usuario predeterminado
 
 document.addEventListener("click", (ev) => {
     if (ev.target.matches("#perfil")) {
@@ -214,38 +213,49 @@ document.addEventListener("click", (ev) => {
         const estado = ev.target.getAttribute('data-estado');
         const tareaElement = ev.target.closest('.tarea');
         const tareaID = ev.target.getAttribute('data-tarea-id');
-        console.log(`Clic en botón con estado `, estado, ` para tarea con ID `, tareaID);
+        const proyectoID = ev.target.getAttribute('data-proyecto-id');
+        const colaboradorID = ev.target.getAttribute('data-colaborador-id');
+        
+        
+        console.log(`Clic en botón con estado`, estado, `para tarea con ID`, tareaID);
+        console.log(`ID del Proyecto para recibir:`, proyectoID);
+        console.log(`ID del Colaborador para recibir:`, colaboradorID);
         actualizarEstadoTarea(tareaID, estado);
-
+    
         // Define un objeto con los datos del historial de movimiento que deseas enviar
-    const nuevoHistorial = {
-    Fecha_y_Hora_del_Movimiento:obtenerFechaActual(),
-    Proyecto_Perteneciente: 1,
-    Usuario_que_Realizo_el_Movimiento: usuarioActual,
-    Estado_de_la_Tarea:estado ,
-    Tarea: tareaID
-     };
-  
-  // Llama a la función para enviar los datos al servidor
-  AgregarHistorialMovimiento(nuevoHistorial);
-        VerTarea(usuarioActual,estadoActual);
-    } else if (ev.target.matches("#mostrarRealizadas")) {
-        const estadoActual = "Realizado";
-        const  usuarioActual = 4;
-        const datoUsuario = estadoActual;
+       const nuevoHistorial = {
+        Fecha_y_Hora_del_Movimiento: obtenerFechaHoraActual(),
+        Proyecto_Perteneciente: proyectoID,
+        Usuario_que_Realizo_el_Movimiento: colaboradorID,
+        Estado_de_la_Tarea: estado,
+        Tarea: tareaID
+      };
+    
+        // Llama a la función para enviar los datos al servidor
+    AgregarHistorialMovimiento(nuevoHistorial);
         VerTarea(usuarioActual, estadoActual);
-
+    }else if (ev.target.matches("#mostrarRealizadas")) {
+        estadoActual = "Realizado"; // Actualiza la variable global de estado
+        VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarEnProceso")) {
-        const   estadoActual = "En Proceso";
-        const   usuarioActual = 4;
-        const datoUsuario = estadoActual;
+        estadoActual = "En Proceso"; // Actualiza la variable global de estado
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarPendientes")) {
-        const   estadoActual = "Pendiente";
-        const    usuarioActual = 4;
-        const datoUsuario = estadoActual;
+        estadoActual = "Pendiente"; // Actualiza la variable global de estado
         VerTarea(usuarioActual, estadoActual);
-    }else if (ev.target.matches("#Regreso")) {
+    } else if (ev.target.matches("#Regreso")) {
         botones_interaccion();
     }
 });
+
+function obtenerFechaHoraActual() {
+    const fechaActual = new Date();
+    const year = fechaActual.getFullYear();
+    const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Sumar 1 al mes (los meses en JavaScript son 0-based)
+    const day = fechaActual.getDate().toString().padStart(2, '0');
+    const hours = fechaActual.getHours().toString().padStart(2, '0');
+    const minutes = fechaActual.getMinutes().toString().padStart(2, '0');
+    const seconds = fechaActual.getSeconds().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}

@@ -196,7 +196,7 @@ export function actualizarEstadoTarea(tareaId, nuevoEstadoId) {
 
 // Función para agregar un historial de movimiento
 export function AgregarHistorialMovimiento(newMovementHistory) {
-  return fetch('http://tu-servidor/historialesmovimiento', {
+  return fetch('http://localhost:3000/historialesmovimiento', {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
