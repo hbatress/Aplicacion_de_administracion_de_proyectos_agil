@@ -231,9 +231,28 @@ export function AgregarProyecto(data) {
     .then((response) => response.json())
     .then((data) => {
       console.log('Respuesta del servidor:', data);
+      return data;
     })
     .catch((error) => {
       console.error(error);
     });
 }
 
+/*Funcion para agregar tareas */
+export function AgregarTarea(data) {
+  return fetch('http://localhost:3000/tareas', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Respuesta del servidor:', data);
+      return data;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}

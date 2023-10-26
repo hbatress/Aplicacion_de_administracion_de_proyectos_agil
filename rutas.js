@@ -1,3 +1,5 @@
+const { body, validationResult } = require('express-validator');
+
 module.exports = function (app, dbservice) {
     app.get('/', (req, res) => {
 
@@ -96,6 +98,11 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al leer el usuario' });
             });
     });
+
+    //esto nos permitira buscar el proyecto que tiene asignado por el nombre
+
+
+
     //estos son los post para agregar los datos
     app.post('/AddUser', (req, res) => {
         const newUser = req.body;
@@ -116,24 +123,34 @@ module.exports = function (app, dbservice) {
             });
     });
 
-    app.post('/tareas', (req, res) => {
+    app.post('/tareas', [
+        // Validación de inyección de código malicioso en el nombre y la descripción de la tarea
+        body('Nombre_de_la_Tarea').matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚ\s]*$/).withMessage('Caracteres no permitidos en el nombre de la tarea'),
+        body('Descripcion').matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚ\s]*$/).withMessage('Caracteres no permitidos en la descripción de la tarea'),
+    
+    ], (req, res) => {
+        // Comprobación de errores de validación
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+    
         const newTask = req.body;
-        dbservice
-            .crearTarea(
-                newTask.Nombre_de_la_Tarea,
-                newTask.Descripcion,
-                newTask.Fecha_de_Creacion,
-                newTask.Proyecto_Perteneciente,
-                newTask.Estado_de_la_Tarea
-            )
-            .then(() => {
-                res.json({ message: "Tarea agregada con éxito" });
-            })
-            .catch(e => {
-                res.status(500).send(e);
-            });
+        dbservice.crearTarea(
+            newTask.Nombre_de_la_Tarea,
+            newTask.Descripcion,
+            newTask.Fecha_de_Creacion,
+            newTask.Proyecto_Perteneciente,
+            newTask.Estado_de_la_Tarea
+        )
+        .then(() => {
+            res.json({ message: "Tarea agregada con éxito" });
+        })
+        .catch(e => {
+            res.status(500).send(e);
+        });
     });
-
+    
     app.post('/colaboradores', (req, res) => {
         const newCollaborator = req.body;
         dbservice
@@ -251,7 +268,18 @@ module.exports = function (app, dbservice) {
 
 
     /* Creacion de la ruta para la creacion de proyectos */
-    app.post('/proyectos', (req, res) => {
+    app.post('/proyectos', [
+        // Validación de inyección de código malicioso en el título y la descripción
+        body('Nombre_del_Proyecto').matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚ\s]*$/).withMessage('Caracteres no permitidos en el título'),
+        body('Descripcion').matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚ\s]*$/).withMessage('Caracteres no permitidos en la descripción'),
+
+    ], (req, res) => {
+        // Comprobación de errores de validación
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
         const newProject = req.body;
         dbservice.crearProyectos(
             newProject.Nombre_del_Proyecto,
@@ -266,6 +294,5 @@ module.exports = function (app, dbservice) {
                 res.status(500).send(e);
             });
     });
-
 
 }

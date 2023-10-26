@@ -331,58 +331,36 @@ input::placeholder {
 }
 
 
-/*Estilo para que muestre el proyecto que tiene asignado el usuario*/
+/* Estilo para que muestre el proyecto que tiene asignado el usuario */
 .proyectos-seccion {
   border-radius: 5px;
   padding: 20px;
   margin: 10px;
   transition: transform 0.2s;
-  display: flex;
-  flex-direction: column;
-  height: 75vh; 
-}
-.proyectos-cabecera {
-  flex: 0 0 auto; /* No se estira en altura */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .proyectos-titulo {
   font-size: 24px;
   font-weight: bold;
   margin: 10px 0;
+  display: inline; /* Muestra la cantidad de proyectos en línea con el título */
 }
 
 .proyectos-cantidad {
   color: #007bff;
 }
 
-.proyectos-boton-container {
-  margin-top: 10px;
-}
-
-.proyectos-boton {
-  background-color: #007bff;
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.proyectos-boton:hover {
-  background-color: #0056b3;
-}
-
 .proyectos-lista {
-  flex: 1; 
-  margin-top: 10px;
-  overflow: auto; 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre grupos de proyectos */
+}
+
+.proyectos-grupo {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Cada grupo se expandirá para ocupar el espacio disponible */
+  max-width: calc(33.33% - 20px); /* 33.33% del ancho - espacio entre grupos */
 }
 
 .proyecto {
@@ -405,6 +383,7 @@ input::placeholder {
   border: 1px solid #ddd;
   margin: 10px 0;
 }
+
 
 /*estilo del bienvenido*/
 .bienvenida-seccion {

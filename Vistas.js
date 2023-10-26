@@ -519,31 +519,79 @@ function adminProyectos() {
     return html;
 }
 
-function Proyectos(data) {
-    var proyectosHtml = data.map((proyecto, index) => `
-        <div class="proyecto">
-            <h3 class="proyecto-titulo">Proyecto No ${index + 1}: ${proyecto.Nombre_del_Proyecto}</h3>
-            <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
-            <hr class="proyecto-linea"> <!-- Línea divisoria -->
-        </div>`
-    ).join('');
+function Proyectos(data, Realizar) {
+  const userRole = localStorage.getItem("userRole");
 
-    var html = `
-        <div class="proyectos-seccion">
-            <div class="proyectos-cabecera">
-                <h2 class="proyectos-titulo">Proyectos Asignados: <span class="proyectos-cantidad">${data.length}</span></h2>
-                <div class="proyectos-boton-container">
-                    <button class="boton boton-destacado proyectos-boton" id="Regreso">
-                        <i class="fa fa-arrow-left"></i> Regresar
-                    </button>
-                </div>
-            </div>
-            <div class="proyectos-lista">${proyectosHtml}</div>
-        </div>
-    `;
+  var proyectosHtml = data.map((proyecto, index) => `
+      <div class="proyecto">
+          <h3 class="proyecto-titulo">Proyecto No ${index + 1}: ${proyecto.Nombre_del_Proyecto}</h3>
+          <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
+          <hr class="proyecto-linea"> <!-- Línea divisoria -->
+          ${userRole === 'Administrador' ? `
+              <div class="botones-container">
+                  ${Realizar === 'CrearTarea' ? `
+                      <button class="boton crear-tarea" data-proyecto-id="${proyecto.ID}">
+                          <i class="fa fa-plus"></i> Crear Tarea
+                      </button>
+                  ` : ''}
+                  ${Realizar === 'ActualizarProyecto' ? `
+                      <button class="boton actualizar-proyecto" data-proyecto-id="${proyecto.ID}">
+                          <i class="fa fa-pencil"></i> Actualizar Proyecto
+                      </button>
+                  ` : ''}
+              </div>
+          ` : ''}
+      </div>`
+  ).join('');
 
-    return html;
+  var proyectosAgrupados = [];
+  for (var i = 0; i < data.length; i += 3) {
+      proyectosAgrupados.push(data.slice(i, i + 3));
+  }
+
+  var proyectosGruposHtml = proyectosAgrupados.map(grupo => `
+      <div class="proyectos-grupo">
+          ${grupo.map(proyecto => `
+              <div class="proyecto">
+                  <h3 class="proyecto-titulo">Proyecto de: ${proyecto.Nombre_del_Proyecto}</h3>
+                  <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
+                  ${userRole === 'Administrador' ? `
+                      <div class="botones-container">
+                          ${Realizar === 'CrearTarea' ? `
+                              <button class="boton crear-tarea" id="AgregarTarea_proyec" data-proyecto-id="${proyecto.ID}">
+                                  <i class="fa fa-plus"></i> Crear Tarea
+                              </button>
+                          ` : ''}
+                          ${Realizar === 'ActualizarProyecto' ? `
+                              <button id="proyectoIncividual" class="boton actualizar-proyecto" data-proyecto-id="${proyecto.ID}">
+                                  <i class="fa fa-pencil"></i> Actualizar Proyecto
+                              </button>
+                          ` : ''}
+                      </div>
+                  ` : ''}
+                  <hr class="proyecto-linea"> <!-- Línea divisoria -->
+              </div>`
+          ).join('')}
+      </div>`
+  ).join('');
+
+  var html = `
+      <div class="proyectos-seccion">
+          <div class="proyectos-cabecera">
+              <h2 class="proyectos-titulo">Proyectos Asignados: <span class="proyectos-cantidad">${data.length}</span></h2>
+              <div class="proyectos-boton-container">
+                  <button class="boton" id="Regreso">
+                      <i class="fa fa-arrow-left"></i> Regresar
+                  </button>
+              </div>
+          </div>
+          <div class="proyectos-lista">${proyectosGruposHtml}</div>
+      </div>
+  `;
+
+  return html;
 }
+
 
 
 
@@ -684,7 +732,7 @@ function crearProyectoForm() {
               </div>
             </div>
             <div class="botones">
-              <button id="boton-crear-proyecto" class="boton" type="submit"><i class="fa fa-check"></i> Crear Proyecto</button>
+              <button id="boton-crear-proyecto" class="boton" type="button"><i class="fa fa-check"></i> Crear Proyecto</button>
               <button id="boton-cancelar-proyecto" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
             </div>
           </form>
@@ -802,28 +850,7 @@ function ActualizarProyect() {
               <div class="item">
                 <i class="fa fa-align-left"></i>
                 <span class="Enca">Descripción:</span>
-                <textarea class="input" id="descripcion-tarea" placeholder="Ingrese una descripción de la tarea" name="descripcion-tarea"></textarea>
-              </div>
-              <div class="item">
-                <i class="fa fa-calendar"></i>
-                <span class="Enca">Fecha de Creación:</span>
-                <input class="input" type="date" id="fecha-creacion-tarea" name="fecha-creacion-tarea" />
-              </div>
-              <div class="item">
-                <i class="fa fa-briefcase"></i>
-                <span class="Enca">Proyecto Perteneciente:</span>
-                <select class="input" id="proyecto-perteneciente" name="proyecto-perteneciente">
-                  <option value="proyecto-1">Proyecto 1</option>
-                  <option value="proyecto-2">Proyecto 2</option>
-                </select>
-              </div>
-              <div class="item">
-                <i class="fa fa-check-circle"></i>
-                <span class="Enca">Estado de la Tarea:</span>
-                <select class="input" id="estado-tarea" name="estado-tarea">
-                  <option value="estado-1">Estado 1</option>
-                  <option value="estado-2">Estado 2</option>
-                </select>
+                <input class="input" type="text"  id="descripcion-tarea" placeholder="Ingrese una descripción de la tarea" name="descripcion-tarea"></input>
               </div>
             </div>
             <div class="botones">
@@ -854,33 +881,30 @@ function ActualizarProyect() {
               <div class="item">
                 <i class="fa fa-align-left"></i>
                 <span class="Enca">Nueva Descripción:</span>
-                <textarea class="input" id="descripcion-tarea" placeholder="Ingrese una nueva descripción de la tarea" name="descripcion-tarea"></textarea>
+                <input class="input"  type="text" id="descripcion-tarea" placeholder="Ingrese una nueva descripción de la tarea" name="descripcion-tarea"></input>
               </div>
-              <div class="item">
-                <i class="fa fa-calendar"></i>
-                <span class="Enca">Nueva Fecha de Creación:</span>
-                <input class="input" type="date" id="fecha-creacion-tarea" name="fecha-creacion-tarea" />
-              </div>
-              <div class="item">
+              <div class="input-container">
                 <i class="fa fa-briefcase"></i>
                 <span class="Enca">Nuevo Proyecto Perteneciente:</span>
                 <select class="input" id="proyecto-perteneciente" name="proyecto-perteneciente">
                   <option value="proyecto-1">Proyecto 1</option>
                   <option value="proyecto-2">Proyecto 2</option>
+                  <option value="proyecto-2">Proyecto 2</option>
                 </select>
               </div>
-              <div class="item">
+              <div class="input-container">
                 <i class="fa fa-check-circle"></i>
                 <span class="Enca">Nuevo Estado de la Tarea:</span>
                 <select class="input" id="estado-tarea" name="estado-tarea">
-                  <option value="estado-1">Estado 1</option>
-                  <option value="estado-2">Estado 2</option>
+                <option value="1">Pendiente</option>
+                <option value="2">En Proceso</option>
+                <option value="3">Finalizado</option>
                 </select>
               </div>
             </div>
             <div class="botones">
               <button id="boton-actualizar-tarea" class="boton" type="submit"><i class="fa fa-check"></i> Actualizar Tarea</button>
-              <button id="boton-cancelar-actualizacion" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
+              <button id="boton-cancelar-tarea" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
             </div>
           </form>
         </div>

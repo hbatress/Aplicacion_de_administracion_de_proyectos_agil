@@ -155,7 +155,6 @@ const dbservice = () => {
                 // Excluimos 'Fecha_de_Registro' y 'ID' de la actualización
             });
     };
-
     /* sive para actualiza el estado */
     const actualizarEstadoTarea = (tareaId, nuevoEstadoId) => {
         return knex('Tarea')
@@ -165,7 +164,6 @@ const dbservice = () => {
             });
     };
     
-
     /* Sirve para buscar y unir tablas*/
     const getBuscarUsuarioPorId = (usuarioId) => {
         return knex('Usuario')
@@ -180,7 +178,6 @@ const dbservice = () => {
             .select('p.ID', 'p.Nombre_del_Proyecto', 'p.Descripcion', 'p.Fecha_de_Creacion')
             .where('p.Usuario_Propietario', usuarioId);
     };
-
     /* Buscar las tareas asignadas a un usuario */
     const getTareasAsignadas = (usuarioId) => {
         return knex('Tarea as t')
