@@ -204,6 +204,17 @@ const dbservice = () => {
             .where('t.ID', tareaId);
     };
 
+    const actualizarNombreYDescripcionProyecto = (proyectoId, nuevoNombre, nuevaDescripcion) => {
+        return knex('Proyectos')
+          .where('ID', proyectoId)
+          .update({
+            Nombre_del_Proyecto: nuevoNombre,
+            Descripcion: nuevaDescripcion
+          });
+      };
+      
+
+
     return {
         getBuscarUsuarioPorId,
         actualizarUsuario,
@@ -219,10 +230,16 @@ const dbservice = () => {
         crearNotificacion,
         crearHistorialDeMovimiento,
         crearEstadoDeLaTarea,
-        actualizarEstadoTarea
+        actualizarEstadoTarea,
+        actualizarNombreYDescripcionProyecto
 
     };
 
+
+
+
+
+    
 };
 
 

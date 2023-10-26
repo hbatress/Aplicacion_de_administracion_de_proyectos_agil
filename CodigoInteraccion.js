@@ -7,7 +7,8 @@ import {
     actualizarEstadoTarea,
     AgregarHistorialMovimiento,
     AgregarProyecto,
-    AgregarTarea
+    AgregarTarea,
+    actualizarProyecto
 } from "./Intermediario.js";
 
 
@@ -155,8 +156,8 @@ function VerTarea(usuarioId, Estado) {
 }
 
 function VerProyectos(userID, hacer) {
-    const usuarioId = userID; 
-    const Realizar=hacer;
+    const usuarioId = userID;
+    const Realizar = hacer;
     buscarProyectosAsignados(usuarioId)
         .then((data) => {
             console.log("Datos del servidor:", data);
@@ -168,7 +169,7 @@ function VerProyectos(userID, hacer) {
             console.log("Datos como texto:", dataText);
 
             if (data && Array.isArray(data)) {
-                document.getElementById("Tablero").innerHTML = Proyectos(data,Realizar);
+                document.getElementById("Tablero").innerHTML = Proyectos(data, Realizar);
             } else {
                 console.log("Los datos no son un array.");
             }
@@ -181,7 +182,6 @@ function VerProyectos(userID, hacer) {
 function botones_interaccion() {
     document.getElementById("Tablero").innerHTML = Opciones();
 }
-
 function mostrarEncabezado(tipoUsuario) {
     var encabezadoHTML = "";
 
@@ -279,8 +279,9 @@ function GuardarProyecto(userID) {
             });
         });
 }
-function GuardarTarea(userID, proyectoID){
-    const hacer="CrearTarea";
+
+function GuardarTarea(userID, proyectoID) {
+    const hacer = "CrearTarea";
     var formulario = document.getElementById("tarea-form");
 
     // Obtiene los valores de los campos del formulario
@@ -296,11 +297,12 @@ function GuardarTarea(userID, proyectoID){
         });
         return; // Detén el proceso si los campos están vacíos
     }
+    console.log("Ver id par estar correctoen la tarea",proyectoID)
     var nuevaTarea = {
         Nombre_de_la_Tarea: nombreTarea,
         Descripcion: descripcionTarea,
         Fecha_de_Creacion: obtenerFechaHoraActual(), // Asegúrate de tener esta función definida
-        Proyecto_Perteneciente: proyectoID, 
+        Proyecto_Perteneciente: proyectoID,
         Estado_de_la_Tarea: 1, // Reemplaza con el estado adecuado
     };
 
@@ -308,25 +310,36 @@ function GuardarTarea(userID, proyectoID){
 
     // Llama a la función AgregarTarea (debes definirla) para enviar los datos al servidor
     AgregarTarea(nuevaTarea)
-    .then((response) => {
-        if (response.message === "Tarea agregada con éxito") {
-            // Si el servidor responde con un mensaje de éxito
-            Swal.fire({
-                icon: 'success',
-                title: 'Tarea creada',
-                text: 'La tarea se creó exitosamente.',
-                showConfirmButton: true,
-                timer: false,
-            });
+        .then((response) => {
+            if (response.message === "Tarea agregada con éxito") {
+                // Si el servidor responde con un mensaje de éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Tarea creada',
+                    text: 'La tarea se creó exitosamente.',
+                    showConfirmButton: true,
+                    timer: false,
+                });
 
-            // Limpia los campos de entrada del formulario
-            formulario.querySelector("#nombre-tarea").value = "";
-            formulario.querySelector("#descripcion-tarea").value = "";
+                // Limpia los campos de entrada del formulario
+                formulario.querySelector("#nombre-tarea").value = "";
+                formulario.querySelector("#descripcion-tarea").value = "";
 
-            // Llama a VerProyectos(userID)
-            VerProyectos(userID,hacer);
-        } else {
-            // Si el servidor responde con un mensaje de error
+                // Llama a VerProyectos(userID)
+                VerProyectos(userID, hacer);
+            } else {
+                // Si el servidor responde con un mensaje de error
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al crear la tarea.',
+                    showConfirmButton: true,
+                    timer: false,
+                });
+            }
+        })
+        .catch((error) => {
+            console.error(error);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -334,19 +347,56 @@ function GuardarTarea(userID, proyectoID){
                 showConfirmButton: true,
                 timer: false,
             });
-        }
-    })
-    .catch((error) => {
-        console.error(error);
+        });
+}
+
+function Proyecactualizar(proyectoID) {
+    // Obtén los valores del formulario
+    const Nombre_del_Proyecto = document.getElementById('nombre_proyecto').value;
+    const descripcion = document.getElementById('descripcion').value;
+
+    // Verifica que los campos no estén vacíos
+    if (Nombre_del_Proyecto.trim() === '' || descripcion.trim() === '') {
+        mostrarMensajeAdvertencia('Campos vacíos', 'Por favor, completa todos los campos.');
+        return;
+    }
+
+    // Llama a la función para enviar los valores a la base de datos
+    actualizarProyecto(proyectoID, Nombre_del_Proyecto, descripcion)
+        .then(() => {
+            mostrarMensajeExito(`Proyecto "${Nombre_del_Proyecto}" actualizado con éxito.`);
+            //proyectadmin(userID);
+        })
+        .catch((error) => {
+            mostrarMensajeError('Error al actualizar el proyecto', error.message);
+        });
+
+    function mostrarMensajeAdvertencia(titulo, texto) {
+        Swal.fire({
+            icon: 'warning',
+            title: titulo,
+            text: texto,
+        });
+    }
+
+    function mostrarMensajeExito(mensaje) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Proyecto Actualizado',
+            text: mensaje,
+        });
+    }
+
+    function mostrarMensajeError(titulo, error) {
         Swal.fire({
             icon: 'error',
-            title: 'Error',
-            text: 'Hubo un error al crear la tarea.',
-            showConfirmButton: true,
-            timer: false,
+            title: titulo,
+            text: error,
         });
-    });
+    }
 }
+
+
 
 //CONFIGURACIONES DE USUARIO ADMINISTRADO 
 
@@ -386,7 +436,7 @@ function VerTareas() {
 
 
 let estadoActual = "Pendiente";
-let proyectoID; 
+let proyectoID;
 let Estadoregreso;
 //EVENTOS
 document.addEventListener("DOMContentLoaded", () => {
@@ -419,8 +469,8 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#boton-actualizar")) {
         actualizarAjustes(userID);
     } else if (ev.target.matches("#proyectos-asignados")) {
-        const hacer="ver"
-        VerProyectos(userID,hacer,hacer);
+        const hacer = "ver"
+        VerProyectos(userID, hacer, hacer);
     } else if (ev.target.matches("#mis-tareas")) {
         botones_interaccion();
     } else if (ev.target && ev.target.classList.contains("estado-btn")) {
@@ -464,9 +514,9 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#Regreso")) {
 
         if (userRole === "Administrador") {
-            if(Estadoregreso==="Tarea"){
-                OptionTarea();  
-            }else{
+            if (Estadoregreso === "Tarea") {
+                OptionTarea();
+            } else {
                 proyectadmin(userID);
             }
 
@@ -492,27 +542,29 @@ document.addEventListener("click", (ev) => {
         CrearProyecto();
     }
     else if (ev.target.matches("#ver-proyecto")) {
-        Estadoregreso="No"
-        const hacer="Ver"
-        VerProyectos(userID,hacer);
+        Estadoregreso = "No"
+        const hacer = "Ver"
+        VerProyectos(userID, hacer);
     }
     else if (ev.target.matches("#editar-proyecto")) {
-        Estadoregreso="No"
-        const hacer="ActualizarProyecto";
-      // EditarProyect();
-        VerProyectos(userID,hacer);
+        Estadoregreso = "No"
+        const hacer = "ActualizarProyecto";
+        console.log("Aqui va el ID del Proyecto en el menu de opciones", proyectoID);
+        VerProyectos(userID, hacer);
     }
     if (ev.target.matches("#proyectoIncividual")) {
-       // const hacer="ActualizarProyect";
-       EditarProyect();
-        //erProyectos(userID,hacer);
+        proyectoID = ev.target.getAttribute("data-proyecto-id");
+        ev.preventDefault();
+        console.log("Aqui va el ID en cada Proyecto", proyectoID);
+        EditarProyect();
+
     }
     else if (ev.target.matches("#Mensaje")) {
         OptrionMEnsaje();
     } else if (ev.target.matches("#crear-tarea")) {
-        Estadoregreso="Tarea";
-        const hacer="CrearTarea"
-        VerProyectos(userID,hacer);
+        Estadoregreso = "Tarea";
+        const hacer = "CrearTarea"
+        VerProyectos(userID, hacer);
     } else if (ev.target.matches("#ver-tarea")) {
         VerTareas();
     } else if (ev.target.matches("#editar-tarea")) {
@@ -521,21 +573,26 @@ document.addEventListener("click", (ev) => {
         ev.preventDefault();
         GuardarProyecto(userID);
     }
-    else if (ev.target.matches("#AgregarTarea_proyec")) {
-        proyectoID = ev.target.getAttribute("data-proyec-id");
+    if (ev.target.matches("#AgregarTarea_proyec")) {
+        proyectoID = ev.target.getAttribute("data-proyecto-id");
         ev.preventDefault();
         createtarea();
-    }else if (ev.target.matches("#boton-cancelar-proyecto")) {
+    } else if (ev.target.matches("#boton-cancelar-proyecto")) {
         proyectadmin(userID);
     } else if (ev.target.matches("#boton-crear-tarea")) {
         ev.preventDefault();
-        GuardarTarea(userID,proyectoID);
+        GuardarTarea(userID, proyectoID);
     } else if (ev.target.matches("#boton-cancelar-tarea")) {
         OptionTarea();
-    } 
+    }
     else if (ev.target.matches("#boton-cancelar-actualizacion")) {
         proyectadmin(userID);
-    } 
+    }
+    else if (ev.target.matches("#boton-actualizar-proyecto")) {
+        console.log("Aqui va el ID en cada del Proyecto para actualizar", proyectoID);
+        Proyecactualizar(proyectoID);
+
+    }
 
 
 });

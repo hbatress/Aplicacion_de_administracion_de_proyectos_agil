@@ -169,7 +169,6 @@ export function obtenerInfoHistoria(usuarioId) {
 
 /*Actualiza el estado de la tarea*/
 export function actualizarEstadoTarea(tareaId, nuevoEstadoId) {
-  console.log(`Actualizando estado de la tarea con ID ${tareaId} a "${nuevoEstadoId}"`);
   fetch(`http://localhost:3000/updateTareaEstado/${tareaId}`, {
     method: 'PUT', // Utiliza el método PUT para actualizar el estado de la tarea
     headers: {
@@ -255,4 +254,34 @@ export function AgregarTarea(data) {
     .catch((error) => {
       console.error(error);
     });
+
+
+
 }
+export function actualizarProyecto(proyectoID, nuevoNombre, nuevaDescripcion) {
+  console.log(nuevoNombre, nuevaDescripcion);
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/updateproject/${proyectoID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Nombre_del_Proyecto: nuevoNombre, // Establece el nombre correctamente
+        Descripcion: nuevaDescripcion, // Establece la descripción correctamente
+      })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data); // Puedes personalizar lo que quieres resolver aquí
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+

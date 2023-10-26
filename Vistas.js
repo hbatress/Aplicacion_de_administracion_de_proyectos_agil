@@ -764,7 +764,7 @@ function ActualizarProyect() {
               </div>
             </div>
             <div class="botones">
-              <button id="boton-actualizar-proyecto" class="boton" type="submit"><i class="fa fa-check"></i> Actualizar Proyecto</button>
+              <button id="boton-actualizar-proyecto" class="boton" type="button"><i class="fa fa-check"></i> Actualizar Proyecto</button>
               <button id="boton-cancelar-actualizacion" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
             </div>
           </form>

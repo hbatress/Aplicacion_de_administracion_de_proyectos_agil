@@ -127,14 +127,14 @@ module.exports = function (app, dbservice) {
         // Validación de inyección de código malicioso en el nombre y la descripción de la tarea
         body('Nombre_de_la_Tarea').matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚ\s]*$/).withMessage('Caracteres no permitidos en el nombre de la tarea'),
         body('Descripcion').matches(/^[a-zA-Z0-9áéíóúÁÉÍÓÚ\s]*$/).withMessage('Caracteres no permitidos en la descripción de la tarea'),
-    
+
     ], (req, res) => {
         // Comprobación de errores de validación
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-    
+
         const newTask = req.body;
         dbservice.crearTarea(
             newTask.Nombre_de_la_Tarea,
@@ -143,14 +143,14 @@ module.exports = function (app, dbservice) {
             newTask.Proyecto_Perteneciente,
             newTask.Estado_de_la_Tarea
         )
-        .then(() => {
-            res.json({ message: "Tarea agregada con éxito" });
-        })
-        .catch(e => {
-            res.status(500).send(e);
-        });
+            .then(() => {
+                res.json({ message: "Tarea agregada con éxito" });
+            })
+            .catch(e => {
+                res.status(500).send(e);
+            });
     });
-    
+
     app.post('/colaboradores', (req, res) => {
         const newCollaborator = req.body;
         dbservice
@@ -294,5 +294,25 @@ module.exports = function (app, dbservice) {
                 res.status(500).send(e);
             });
     });
+
+    /*Codigo para actualizar los datos del proyecto */
+    app.put('/updateproject/:id', (req, res) => {
+        const proyectoId = req.params.id;
+        const { Nombre_del_Proyecto, Descripcion } = req.body; // Obtener Nombre_del_Proyecto y Descripcion desde el cuerpo de la solicitud
+
+        console.log('Proyecto ID:', proyectoId);
+        console.log('Nombre del Proyecto:', Nombre_del_Proyecto);
+        console.log('Descripción:', Descripcion);
+
+        // Asegúrate de que se pasen los campos Nombre_del_Proyecto y Descripcion a la función de actualización en el servicio.
+        dbservice.actualizarNombreYDescripcionProyecto(proyectoId, Nombre_del_Proyecto, Descripcion)
+            .then(() => {
+                res.json({ message: 'Proyecto actualizado con éxito' });
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al actualizar el proyecto' });
+            });
+    });
+
 
 }
