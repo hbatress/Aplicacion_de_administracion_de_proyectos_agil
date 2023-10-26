@@ -55,13 +55,13 @@ nav ul li {
 /* ajuestes del taablero para mostrar datos*/
 .Tablero {
   display: flex;
+  flex-wrap: wrap; /* Permite que las tareas se envuelvan automáticamente */
   height: 92vh;
-  flex: 100%;
   background-image: url(../Imagenes/fondo8.jpg);
-
-  background-size: cover; 
-  align-items: center;
+  background-size: cover;
+  align-items: center; 
   justify-content: center;
+  position: relative;
 }
 /* Mensaje de Bienvenida */
 .mensaje-bienvenida {
@@ -156,6 +156,12 @@ h1 {
   border-radius: 5px;
   transition: background-color 0.3s;
 }
+.boton-container {
+  height: 5%; /* Ocupa el 5% de la altura */
+  display: flex; /* Para que el contenido se ajuste verticalmente */
+  align-items: center; /* Centra el contenido verticalmente */
+  width: 100%; /* Ocupa el 100% del ancho */
+}
 
 .boton:hover {
   background-color: #45a049;
@@ -217,7 +223,6 @@ input::placeholder {
   color: #a5a5a5;
 }
 
-/*Estilo para la tarea */
 .tarea {
   background-color: #fff;
   border: 1px solid #ccc;
@@ -225,10 +230,17 @@ input::placeholder {
   margin: 10px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: inline-block; /* Cambia a inline-block para que el ancho se ajuste al contenido */
+  box-sizing: border-box; /* Incluye el padding y el borde en el ancho */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+  width: auto; /* El ancho se ajustará automáticamente al contenido */
+  max-height: 100%; /* Se ajusta a la altura de la ventana */
+}
+
+.estado-buttons{
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: center;
+  gap: 10px;
 }
 
 .tarea h3 {
@@ -238,22 +250,14 @@ input::placeholder {
 }
 
 .tarea p {
+
   margin: 0;
   font-size: 14px;
   color: #777;
+  margin: 0;  
 }
 
-select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-  margin: 0 auto; 
-}
-/* estilo de los botones*/
-.estado-buttons {
-  display: flex;
-}
+
 
 .estado-btn {
   background-color: #ccc;
@@ -262,6 +266,7 @@ select {
   padding: 8px 16px;
   margin: 4px;
   cursor: pointer;
+  border-radius: 10px;
 }
 
 .estado-btn.pendiente {

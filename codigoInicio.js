@@ -141,44 +141,55 @@ function iniciar() {
   } else {
 
     LeerUser()
-      .then((data) => {
-        let correoEncontrado = false;
-        let contraseniaCorrecta = false;
+  .then((data) => {
+    let correoEncontrado = false;
+    let contraseniaCorrecta = false;
+    let userID = null;
+    let userRole = null;
 
-        data.forEach((usuario) => {
-          if (usuario.Correo_Electronico === Correo_Electronico) {
-            correoEncontrado = true;
+    data.forEach((usuario) => {
+      if (usuario.Correo_Electronico === Correo_Electronico) {
+        correoEncontrado = true;
 
-            if (usuario.contrasenia === contrasenia) {
-              contraseniaCorrecta = true;
-            }
-          }
-        });
-
-        if (correoEncontrado) {
-          if (contraseniaCorrecta) {
-            // Redirigir a otra página si los datos coinciden
-            window.location.href = '/Pagina/Pagina.html'; // Reemplaza con la URL de la página a la que deseas redirigir
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Contraseña incorrecta',
-              text: 'Inténtalo de nuevo.',
-            });
-          }
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Correo no encontrado',
-            text: 'El correo no existe en la base de datos. Regístrate o verifica tus datos.',
-          });
+        if (usuario.contrasenia === contrasenia) {
+          contraseniaCorrecta = true;
+          userID = usuario.ID;
+          userRole = usuario.Rol;
         }
-      })
-      .catch((error) => {
-        console.error('Error en la solicitud:', error);
+      }
+    });
+
+    if (correoEncontrado) {
+      if (contraseniaCorrecta) {
+        // Almacena userID y userRole en el almacenamiento local
+        localStorage.setItem('userID', userID);
+        localStorage.setItem('userRole', userRole);
+
+        // Redirige a la página de destino
+        window.location.href = '/Pagina/Pagina.html';
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Contraseña incorrecta',
+          text: 'Inténtalo de nuevo.',
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Correo no encontrado',
+        text: 'El correo no existe en la base de datos. Regístrate o verifica tus datos.',
       });
+    }
+  })
+  .catch((error) => {
+    console.error('Error en la solicitud:', error);
+  });
+
   }
 }
+
+
 
 function MostrarP() {
   document.getElementById("main").innerHTML = Mostrarprecios();

@@ -1,5 +1,5 @@
 export { encabezado, pie, indexView, newView, iniciarcontr, Mostrarprecios, funcionesMostrar, solucionesMO, Condiciones };
-import {obtenerInfoHistoria,actualizarEstadoTarea} from './Intermediario.js'
+import { obtenerInfoHistoria, actualizarEstadoTarea } from './Intermediario.js'
 // VISTA
 function encabezado() {
     var html = `
@@ -301,10 +301,11 @@ function Condiciones() {
 
 
 // Vistas del pagina de interaccion
-export { encabezado_admin, encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos,Opciones }
+export { encabezado_admin, encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos, Opciones }
 function encabezado_admin() {
     var html = `
     <header class="beautiful-header">
+    <button id="salir" class="boton"> Cerrar Seccion</button>
     <div class="logo" id="logo">ScrumWave</div>
     <nav>
         <ul>
@@ -320,7 +321,6 @@ function encabezado_admin() {
 </header>
 
     `;
-
     return html;
 }
 
@@ -466,7 +466,7 @@ function actualizarConfiguracion() {
             </div>
             <div class="botones">
                 <button id="boton-guardar" class="boton" type="submit"><i class="fa fa-floppy-o"></i> Guardar</button>
-                <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>
+                <button id="boton-cancelar" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
             </div>
         </form>
     </div>
@@ -475,42 +475,45 @@ function actualizarConfiguracion() {
     return html;
 }
 
-
 function Tareas(tareas, estado) {
-    let html = '<div class="Tablero">';
+    let html = `<div class="Tablero">
+    <div class="boton-container">
+            <button class="boton" id="Regreso">Regresar</button>
+
+        </div>
     
+    `;
+
     console.log(`datos recibidos de tareas:`, tareas);
     // Crear una lista de promesas para las consultas de información adicional
     const infoPromises = tareas.map(tarea => obtenerInfoHistoria(tarea.Tarea_ID));
-    
+
     // Esperar a que se completen todas las promesas
     Promise.all(infoPromises)
         .then(infoAdicionalArray => {
             let tareasEnEstado = tareas.filter(tarea => tarea.Estado_de_la_Tarea === estado);
-    
+
             if (tareasEnEstado.length > 0) {
                 tareasEnEstado.forEach((tarea, index) => {
                     const tareaIDToString = tarea.Tarea_ID.toString();
-                    const IDProyecto=tarea.Proyecto_ID.toString();
+                    const IDProyecto = tarea.Proyecto_ID.toString();
                     console.log(`ID del Proyecto en la tarea:`, IDProyecto);
-                    const IDColaborador=tarea.Colaborador_ID.toString();
+                    const IDColaborador = tarea.Colaborador_ID.toString();
+                    const EstadoButton = tarea.Estado_de_la_Tarea.toString();
                     console.log(`ID del Proyecto: en la tarea`, IDColaborador);
                     html += `
                         <div class="tarea">
                             <div class="tarea-info">
                                 <h3>${tarea.Nombre_de_la_Tarea}</h3>
-                                <br>
                                 <p>${tarea.Tarea_Descripcion}</p>
-                                <br>
                             </div>
                             <br>
-                            <p>Estado actual: ${tarea.Estado_de_la_Tarea}</p>                         
+                            <p>Estado actual: ${tarea.Estado_de_la_Tarea}</p>
                             <div class="estado-select">
                                 <div class="estado-buttons">
                                 <button id="pendiente-btn" class="estado-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Pendiente</button>
                                 <button id="progreso-btn" class="estado-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">En Progreso</button>
-                                <button id="completada-btn" class="estado-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Completada</button>
-                                
+                                <button id="completada-btn" class="estado-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Completada</button>           
                                 </div>
                             </div>
                         </div>`;
@@ -522,8 +525,8 @@ function Tareas(tareas, estado) {
                 <p class="titulo-bienvenida" >No tiene tarea ${estado}</p>
                 </div></div>`;
             }
-    
-            html += '<button class="boton" ID="Regreso">Regresar </button> </div>';
+
+            html += ` </div>`;
             // Luego de completar todas las tareas y su información adicional, puedes actualizar el DOM
             document.getElementById("Tablero").innerHTML = html;
         })
@@ -531,9 +534,6 @@ function Tareas(tareas, estado) {
             console.error("Error en la solicitud de información adicional:", error);
         });
 }
-
-
-
 
 function adminProyectos() {
     var html = `
@@ -604,6 +604,27 @@ function Opciones() {
     `;
     return html;
 }
+
+
+ export function SinAsignacion() {
+    var html = `
+    <div class="Tablero">
+    <div class="aviso">
+    <p>No hay tareas pendientes en este momento.</p>
+    </div>
+
+<button class="boton-decorado">
+    <i class="icono" ID="Regreso">Icono</i> Texto del botón
+    </button>
+
+</div>
+
+
+    `;
+    return html;
+}
+
+/*A CONTINUACINO SE PROCEDERA A CREACION DE LAS VISTAS DE LOS ADMINSITRADORES */
 function SinAsignacion() {
     var html = `
     <div class="Tablero">

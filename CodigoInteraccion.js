@@ -5,7 +5,7 @@ import {
     buscarTareasAsignadas,
     actualizarUsuario,
     actualizarEstadoTarea,
-    AgregarHistorialMovimiento
+    AgregarHistorialMovimiento,
 } from "./Intermediario.js";
 
 import {
@@ -17,15 +17,15 @@ import {
     Tareas,
     adminProyectos,
     Proyectos,
-    Opciones
+    Opciones,
 } from "./Vistas.js";
 
 //CONTROLADORES
 
-function Ajustes() {
-    const usuarioId = 4; // Cambia este ID por el que necesitas
+function Ajustes(userID) {
+    const usuarioId = userID;
 
-    console.log('ID Enviado:', usuarioId);
+    console.log("ID Enviado:", usuarioId);
 
     buscarUsuario(usuarioId)
         .then((data) => {
@@ -37,7 +37,6 @@ function Ajustes() {
         .catch((error) => {
             console.error("Error en la solicitud:", error);
         });
-
 }
 function esCorreoElectronicoValido(correoElectronico) {
     // Expresión regular para validar una dirección de correo electrónico
@@ -45,7 +44,7 @@ function esCorreoElectronicoValido(correoElectronico) {
     return emailRegex.test(correoElectronico);
 }
 
-function actualizarAjustes() {
+function actualizarAjustes(userID) {
     document.getElementById("Tablero").innerHTML = actualizarConfiguracion();
 
     // Agrega un evento de escucha al formulario
@@ -53,6 +52,12 @@ function actualizarAjustes() {
     formulario.addEventListener("submit", function (event) {
         event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
 
+        // Verifica si el evento proviene del botón de cancelar
+        if (event.submitter && event.submitter.name === "cancelar") {
+            // Restablece el formulario
+            formulario.reset();
+            return;
+        }
         // Obtiene los datos del formulario
         const nomNombrebre = formulario.elements.nombre.value;
         const Correo_Electronico = formulario.elements.correo.value;
@@ -63,13 +68,12 @@ function actualizarAjustes() {
         // Verifica si el correo electrónico es válido
         if (!esCorreoElectronicoValido(correo)) {
             Swal.fire({
-                icon: 'error',
-                title: 'Correo no válido',
-                text: 'Por favor, ingresa un correo electrónico válido.',
+                icon: "error",
+                title: "Correo no válido",
+                text: "Por favor, ingresa un correo electrónico válido.",
             });
-            return; // Detiene la ejecución si el correo no es válido
+            return;
         }
-
         // Crea un objeto con los datos
         const userData = {
             nomNombrebre,
@@ -80,45 +84,41 @@ function actualizarAjustes() {
         };
 
         // Obtén el usuarioId de alguna manera
-        const usuarioId = 5; // Reemplaza obtenerUsuarioId con la lógica real
+        const usuarioId = userID;
 
         // Llama a la función para enviar los datos al servidor
         actualizarUsuario(usuarioId, userData);
 
         // Muestra un mensaje de éxito y llama a la función inicarContr al cerrar el mensaje
         Swal.fire({
-            icon: 'success',
-            title: 'Actualización exitosa',
-            text: 'Los datos se han actualizado correctamente.',
+            icon: "success",
+            title: "Actualización exitosa",
+            text: "Los datos se han actualizado correctamente.",
             onAfterClose: inicarContr, // Redirige a la función inicarContr
         });
     });
 }
 
-function inicarContr() {
-    const usuarioId = 4; // Cambia este ID por el que necesitas
+function inicarContr(userID) {
+    const usuarioId = userID; // Cambia este ID por el que necesitas
 
-    console.log('ID Enviado:', usuarioId);
+    console.log("ID Enviado:", usuarioId);
 
     buscarUsuario(usuarioId)
         .then((data) => {
             console.log("Datos del servidor:", data);
             const nombre = data.Nombre_Usuario; // Obtener el nombre del usuario
-            console.log('Nombre del usuario:', nombre);
+            console.log("Nombre del usuario:", nombre);
 
             document.getElementById("Tablero").innerHTML = Menu(nombre); // Enviar el nombre a la función Menu
         })
         .catch((error) => {
             console.error("Error en la solicitud:", error);
         });
-
-
-
 }
 
 function VerTarea(usuarioId, Estado) {
-
-    console.log('ID Enviado:', usuarioId);
+    console.log("ID Enviado:", usuarioId);
 
     buscarTareasAsignadas(usuarioId)
         .then((data) => {
@@ -131,9 +131,7 @@ function VerTarea(usuarioId, Estado) {
             console.log("Datos como texto:", dataText);
 
             if (data && Array.isArray(data)) {
-
                 document.getElementById("Tablero").innerHTML = Tareas(data, Estado);
-
             } else {
                 console.log("Los datos no son un array.");
             }
@@ -143,10 +141,9 @@ function VerTarea(usuarioId, Estado) {
         });
 }
 
-
 function VerProyectos() {
     const usuarioId = 4; // Cambia este ID por el que necesitas
-    console.log('ID Enviado:', usuarioId);
+    console.log("ID Enviado:", usuarioId);
 
     buscarProyectosAsignados(usuarioId)
         .then((data) => {
@@ -171,16 +168,14 @@ function VerProyectos() {
 
 function botones_interaccion() {
     document.getElementById("Tablero").innerHTML = Opciones();
-
 }
 
 function mostrarEncabezado(tipoUsuario) {
     var encabezadoHTML = "";
 
-    if (tipoUsuario === "admin") {
+    if (tipoUsuario === "Administrador") {
         encabezadoHTML = encabezado_admin();
-        IncioSeccion();
-    } else if (tipoUsuario === "4") {
+    } else if (tipoUsuario === "Colaborador") {
         encabezadoHTML = encabezado_user();
     } else {
         encabezadoHTML = "Tipo de usuario no válido";
@@ -189,36 +184,51 @@ function mostrarEncabezado(tipoUsuario) {
     document.getElementById("Superior").innerHTML = encabezadoHTML;
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
-    window.usuarioActual = "4";
-    window.estadoActual = "Pendiente";
-    mostrarEncabezado(usuarioActual);
-    inicarContr();
+    // Obtiene el userID y el userRole del almacenamiento local
+    const userID = localStorage.getItem("userID");
+    const userRole = localStorage.getItem("userRole");
+
+    // Verifica que userID y userRole no sean nulos
+    if (userID !== null && userRole !== null) {
+        window.usuarioActual = userID;
+        window.rolActual = userRole;
+        mostrarEncabezado(userRole);
+        inicarContr(userID);
+    } else {
+        console.error(
+            "No se encontraron datos de usuario en el almacenamiento local."
+        );
+    }
 });
 
 document.addEventListener("click", (ev) => {
+    const userID = window.usuarioActual;
     if (ev.target.matches("#perfil")) {
-        Ajustes();
+        Ajustes(userID);
     } else if (ev.target.matches("#boton-cancelar")) {
-        inicarContr();
+        inicarContr(userID);
     } else if (ev.target.matches("#inicio")) {
-        inicarContr();
+        inicarContr(userID);
     } else if (ev.target.matches("#boton-actualizar")) {
-        actualizarAjustes();
+        actualizarAjustes(userID);
     } else if (ev.target.matches("#proyectos-asignados")) {
-        VerProyectos();
+        VerProyectos(userID);
     } else if (ev.target.matches("#mis-tareas")) {
         botones_interaccion();
-    } else if (ev.target && ev.target.classList.contains('estado-btn')) {
-        const estado = ev.target.getAttribute('data-estado');
-        const tareaElement = ev.target.closest('.tarea');
-        const tareaID = ev.target.getAttribute('data-tarea-id');
-        const proyectoID = ev.target.getAttribute('data-proyecto-id');
-        const colaboradorID = ev.target.getAttribute('data-colaborador-id');
+    } else if (ev.target && ev.target.classList.contains("estado-btn")) {
+        const estado = ev.target.getAttribute("data-estado");
+        const tareaElement = ev.target.closest(".tarea");
+        const tareaID = ev.target.getAttribute("data-tarea-id");
+        const proyectoID = ev.target.getAttribute("data-proyecto-id");
+        const colaboradorID = ev.target.getAttribute("data-colaborador-id");
 
-
-        console.log(`Clic en botón con estado`, estado, `para tarea con ID`, tareaID);
+        console.log(
+            `Clic en botón con estado`,
+            estado,
+            `para tarea con ID`,
+            tareaID
+        );
         console.log(`ID del Proyecto para recibir:`, proyectoID);
         console.log(`ID del Colaborador para recibir:`, colaboradorID);
         actualizarEstadoTarea(tareaID, estado);
@@ -229,7 +239,7 @@ document.addEventListener("click", (ev) => {
             Proyecto_Perteneciente: proyectoID,
             Usuario_que_Realizo_el_Movimiento: colaboradorID,
             Estado_de_la_Tarea: estado,
-            Tarea: tareaID
+            Tarea: tareaID,
         };
 
         // Llama a la función para enviar los datos al servidor
@@ -246,17 +256,29 @@ document.addEventListener("click", (ev) => {
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#Regreso")) {
         botones_interaccion();
+    } else if (ev.target.matches("#salir")) {
+        window.location.href = "/Pagina/index.html";
     }
 });
 
 function obtenerFechaHoraActual() {
     const fechaActual = new Date();
     const year = fechaActual.getFullYear();
-    const month = (fechaActual.getMonth() + 1).toString().padStart(2, '0'); // Sumar 1 al mes (los meses en JavaScript son 0-based)
-    const day = fechaActual.getDate().toString().padStart(2, '0');
-    const hours = fechaActual.getHours().toString().padStart(2, '0');
-    const minutes = fechaActual.getMinutes().toString().padStart(2, '0');
-    const seconds = fechaActual.getSeconds().toString().padStart(2, '0');
+    const month = (fechaActual.getMonth() + 1).toString().padStart(2, "0"); // Sumar 1 al mes (los meses en JavaScript son 0-based)
+    const day = fechaActual.getDate().toString().padStart(2, "0");
+    const hours = fechaActual.getHours().toString().padStart(2, "0");
+    const minutes = fechaActual.getMinutes().toString().padStart(2, "0");
+    const seconds = fechaActual.getSeconds().toString().padStart(2, "0");
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+/*Funcion  para obenter el Id */
+function getParameterByName(name) {
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(window.location.search);
+    if (!results) return null;
+    if (!results[2]) return "";
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }

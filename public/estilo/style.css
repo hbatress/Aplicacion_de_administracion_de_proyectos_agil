@@ -212,11 +212,6 @@ footer {
   background-position: center;
 }
 
-h1, p {
-  text-align: justify;
-  color: #000000; 
-}
-
 .grid {
   display: grid;
   gap: 5px;
