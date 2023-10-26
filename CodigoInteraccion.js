@@ -8,6 +8,7 @@ import {
     AgregarHistorialMovimiento,
 } from "./Intermediario.js";
 
+
 import {
     encabezado_admin,
     encabezado_user,
@@ -18,10 +19,12 @@ import {
     adminProyectos,
     Proyectos,
     Opciones,
+    Opctioproyect
 } from "./Vistas.js";
 
 //CONTROLADORES
 
+//CONTRALADORES PARA EL USUARIO COLABORADOR
 function Ajustes(userID) {
     const usuarioId = userID;
 
@@ -184,6 +187,16 @@ function mostrarEncabezado(tipoUsuario) {
     document.getElementById("Superior").innerHTML = encabezadoHTML;
 }
 
+//CONFIGURACIONES DE USUARIO ADMINISTRADO 
+
+function proyectadmin(userID) {
+    const ID=userID;
+    document.getElementById("Tablero").innerHTML = Opctioproyect(ID);
+}
+
+
+let estadoActual="Pendiente";
+//EVENTOS
 document.addEventListener("DOMContentLoaded", () => {
     // Obtiene el userID y el userRole del almacenamiento local
     const userID = localStorage.getItem("userID");
@@ -246,18 +259,27 @@ document.addEventListener("click", (ev) => {
         AgregarHistorialMovimiento(nuevoHistorial);
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarRealizadas")) {
-        estadoActual = "Realizado"; // Actualiza la variable global de estado
+        estadoActual = "Realizado"; 
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarEnProceso")) {
-        estadoActual = "En Proceso"; // Actualiza la variable global de estado
+        estadoActual = "En Proceso"; 
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#mostrarPendientes")) {
-        estadoActual = "Pendiente"; // Actualiza la variable global de estado
+        estadoActual = "Pendiente"; 
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#Regreso")) {
         botones_interaccion();
     } else if (ev.target.matches("#salir")) {
         window.location.href = "/Pagina/index.html";
+    }else if (ev.target.matches("#proyectos")) {
+        proyectadmin(userID);
+    }else if (ev.target.matches("#tareas")) {
+        
+    }else if (ev.target.matches("#equipos")) {
+        
+    } else if (ev.target.matches("#registro")) {
+
+    }else if (ev.target.matches("#Mensaje")) {
     }
 });
 
@@ -282,3 +304,6 @@ function getParameterByName(name) {
     if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+
+

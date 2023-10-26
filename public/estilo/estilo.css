@@ -14,69 +14,79 @@ html {
  
 /*estilo del contenido del encabezado*/
 .beautiful-header {
-  background-color: #333; /* Cambia el color de fondo a tu elección */
-  color: white; /* Cambia el color del texto a tu elección */
+  background-color: #007bff;
+  color: white;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 20px;
-  height: 8vh; /* El 35% de la altura de la ventana (viewport height) */
-  
 }
 
-.beautiful-header .logo {
+.logo {
   font-size: 24px;
+  font-weight: bold;
 }
 
-.beautiful-header ul {
+nav ul {
   list-style: none;
-  padding: 0;
   display: flex;
+  gap: 20px;
 }
 
-.beautiful-header li {
-  margin: 0 15px;
+nav li {
+  font-size: 18px;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
-.beautiful-header a {
-  text-decoration: none;
+nav li:hover {
+  color: #0056b3;
+}
+
+.boton-profesional {
+  background-color: #f5f5f5;
+  color: #007bff;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.boton-profesional:hover {
+  background-color: #007bff;
   color: white;
 }
+
+
+
+/*Punteros para que aparesca el Mouse*/
 nav ul li {
   cursor: pointer;
 }
 
 
-.search-bar {
+/*estilo para el formulario*/
+.ajustes_user {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 400px; /* Ajusta el ancho del contenedor a tu preferencia */
+  height: 80vh; /* El 80% de la altura */
 }
-/* ajuestes del taablero para mostrar datos*/
+
+
+/* ajuestes del tablero para mostrar datos*/
 .Tablero {
   display: flex;
-  flex-wrap: wrap; /* Permite que las tareas se envuelvan automáticamente */
+  flex-wrap: wrap; 
   height: 92vh;
-  background-image: url(../Imagenes/fondo8.jpg);
   background-size: cover;
   align-items: center; 
-  justify-content: center;
   position: relative;
-}
-/* Mensaje de Bienvenida */
-.mensaje-bienvenida {
-color: white;
-  background-color: rgba(0, 0, 0, 0.573);
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-text-align: center;
-}
-
-
-.titulo-bienvenida {
-  font-size: 36px;
-  margin: 0;
+  justify-content: center;
 }
 
 .descripcion-bienvenida,.numero-especial {
@@ -156,19 +166,12 @@ h1 {
   border-radius: 5px;
   transition: background-color 0.3s;
 }
-.boton-container {
-  height: 5%; /* Ocupa el 5% de la altura */
-  display: flex; /* Para que el contenido se ajuste verticalmente */
-  align-items: center; /* Centra el contenido verticalmente */
-  width: 100%; /* Ocupa el 100% del ancho */
-}
 
 .boton:hover {
   background-color: #45a049;
 }
 
 /* Formato para el formulario*/
-/* Estilo para los campos de entrada (input) */
 input[type="text"],
 input[type="email"],
 input[type="password"] {
@@ -184,7 +187,7 @@ input[type="password"] {
 
 /* Estilo para los placeholders en los campos de entrada */
 input::placeholder {
-    color: #ccc; /* Color del texto del placeholder */
+    color: #ccc; 
     font-size: 14px;
 }
 /* formato para los de seleccion*/
@@ -223,66 +226,281 @@ input::placeholder {
   color: #a5a5a5;
 }
 
-.tarea {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: inline-block; /* Cambia a inline-block para que el ancho se ajuste al contenido */
-  box-sizing: border-box; /* Incluye el padding y el borde en el ancho */
-  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-  width: auto; /* El ancho se ajustará automáticamente al contenido */
-  max-height: 100%; /* Se ajusta a la altura de la ventana */
+
+
+/* Estilos para la descripción */
+.descripcion-bienvenida {
+  font-size: 18px;
+  margin: 10px 0;
+  font-weight: 300;
 }
 
-.estado-buttons{
+/* Estilos para el saludo personalizado */
+.numero-especial {
+  font-size: 20px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/*Estilo para  la advertencia de las tareas que no tiene*/
+
+.aviso-sin-tareas {
+  background: #f2f2f2;
+  color: #333;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh; 
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+}
+.aviso-importante {
+  font-size: 18px;
+  font-weight: bold; 
+  color: #FF0000;
+  margin: 10px 0; 
+}
+
+
+
+/* Estilos estilo del titulo de cada tarea */
+.tareas-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  height: 20vh; 
+  padding: 20px;
 }
 
-.tarea h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.tarea p {
-
-  margin: 0;
-  font-size: 14px;
-  color: #777;
-  margin: 0;  
-}
-
-
-
-.estado-btn {
-  background-color: #ccc;
+/* Estilos para el botón */
+.boton.boton-destacado {
+  background: #e74c3c;
+  color: white;
+  font-size: 24px;
+  padding: 15px 30px;
   border: none;
-  color: #fff;
-  padding: 8px 16px;
-  margin: 4px;
-  cursor: pointer;
   border-radius: 10px;
+  transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.estado-btn.pendiente {
-  background-color: #ff0000; /* Color para Pendiente */
+.boton.boton-destacado i {
+  font-size: 24px;
+  margin-right: 10px;
 }
 
-.estado-btn.progreso {
-  background-color: #ff9900; /* Color para En Progreso */
+.boton.boton-destacado:hover {
+  transform: scale(1.1);
 }
 
-.estado-btn.completada {
-  background-color: #00cc00; /* Color para Completada */
+/*Estilo para los botones de opciones de pendiente, por realizar, en proceso*/
+#botones-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  margin-top: 20px;
 }
 
-/* Estilos para los iconos */
+.accion-tareas {
+  background: #0270ff; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.accion-tareas:hover {
+  transform: scale(1.05);
+  background: #45a049; 
+}
+
 .icono {
-  padding-right: 10px;
-  font-size: 20px;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+
+/*Estilo para que muestre el proyecto que tiene asignado el usuario*/
+.proyectos-seccion {
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 75vh; 
+}
+.proyectos-cabecera {
+  flex: 0 0 auto; /* No se estira en altura */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.proyectos-titulo {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.proyectos-cantidad {
+  color: #007bff;
+}
+
+.proyectos-boton-container {
+  margin-top: 10px;
+}
+
+.proyectos-boton {
+  background-color: #007bff;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.proyectos-boton:hover {
+  background-color: #0056b3;
+}
+
+.proyectos-lista {
+  flex: 1; 
+  margin-top: 10px;
+  overflow: auto; 
+}
+
+.proyecto {
+  margin-bottom: 20px;
+}
+
+.proyecto-titulo {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.proyecto-descripcion {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #555;
+}
+
+.proyecto-linea {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+}
+
+/*estilo del bienvenido*/
+.bienvenida-seccion {
+  background-color: #00000036;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.bienvenida-titulo {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.bienvenida-descripcion {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.bienvenida-nombre {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+/*Estilos de las tareas que se muestra para el usuario*/
+.tarea-tarjeta {
+  background-color: #f9f9f9; /* Fondo agradable */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tarea-info {
+  flex: 1;
+  color: #555  
+}
+
+.tarea-nombre {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.tarea-descripcion {
+  font-size: 16px;
+  margin: 10px 0;
+  color: #555;
+}
+
+.tarea-estado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.estado-botones {
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.estado-botones-btn {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin: 5px 0;
+}
+
+.estado-botones-btn i {
+  margin-right: 5px;
+}
+
+.estado-botones-btn:hover {
+  background-color: #0056b3;
 }

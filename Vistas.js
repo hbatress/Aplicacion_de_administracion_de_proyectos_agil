@@ -284,50 +284,13 @@ function Condiciones() {
 }
 
 
-
-//function funciones() {
-//  var html = `
-
-//  `;
-//  return html;
-//}
-
-//function funciones() {
-//  var html = `
-
-//  `;
-//  return html;
-//}
-
-
-// Vistas del pagina de interaccion
-export { encabezado_admin, encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos, Opciones }
-function encabezado_admin() {
-    var html = `
-    <header class="beautiful-header">
-    <button id="salir" class="boton"> Cerrar Seccion</button>
-    <div class="logo" id="logo">ScrumWave</div>
-    <nav>
-        <ul>
-            <li id="inicio">Inicio</li>
-            <li id="proyectos">Proyectos</li>
-            <li id="tareas">Tareas</li>
-            <li id="equipos">Equipos</li>
-            <li id="registro">Registro</li>
-            <li id="Grafico">Notificaciones</li>
-            <li id="perfil">Perfil</li>
-        </ul>
-    </nav>
-</header>
-
-    `;
-    return html;
-}
+//VISTA DEL USUARIO COLABORADOR
+export { encabezado_user, Menu, Configuracion, actualizarConfiguracion, Tareas, adminProyectos, Proyectos, Opciones }
 
 function encabezado_user() {
     var html = `
     <header class="beautiful-header">
-    <button id="salir" class="boton"> Cerrar Seccion</button>
+    <button id="salir" class="boton-profesional">Cerrar Sesión</button>
     <div class="logo">ScrumWave</div>
 
     <nav>
@@ -338,8 +301,8 @@ function encabezado_user() {
             <li id="perfil">Perfil</li>
         </ul>
     </nav>
-
 </header>
+
 
     `;
 
@@ -354,20 +317,18 @@ function Menu(nombreUsuario) {
 
     console.log("Nombre de usuario que se envía:", nombre);
     var html = `
-    <div class="Tablero">
-    <div class="mensaje-bienvenida">
-        <h1 class="titulo-bienvenida">Bienvenido a ScrumWave</h1>
-        <p class="descripcion-bienvenida">Tu plataforma de Gestión  de Proyecto Ágil.</p>
-        <span class="numero-especial" id="Nombre">Hola <b>${nombre}<b> es un gusto verte de nuevo</span>
+    <div class="bienvenida-seccion">
+    <h1 class="bienvenida-titulo">Bienvenido a ScrumWave</h1>
+    <span class="bienvenida-nombre" id="Nombre">Hola <b>${nombre}<b></span>
     </div>
-</div>
+
     `;
     return html;
 }
 
 function Configuracion(usuarioData) {
     var html = `
-    <div class="Tablero">
+    <div class="ajustes_user">
         <div class="Contenido-ajuste">
             <div class="titulo">
                 <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
@@ -409,7 +370,7 @@ function Configuracion(usuarioData) {
                 <button id="boton-cancelar" class="boton"><i class="fa fa-times"></i> Cancelar</button>        
             </div>
         </div>
-    </div>
+        </div>
     `;
 
     return html;
@@ -417,7 +378,7 @@ function Configuracion(usuarioData) {
 
 function actualizarConfiguracion() {
     var html = `
-    <div class="Tablero">
+    <div class="ajustes_user">
     <div class="Contenido-ajuste">
         <div class="titulo">
             <h1><i class="fa fa-cogs icono"></i> Ajustes de ScrumWave</h1>
@@ -470,18 +431,19 @@ function actualizarConfiguracion() {
             </div>
         </form>
     </div>
-</div>
+    </div>
     `;
     return html;
 }
 
 function Tareas(tareas, estado) {
-    let html = `<div class="Tablero">
-    <div class="boton-container">
-            <button class="boton" id="Regreso">Regresar</button>
-
-        </div>
-    
+    let html = `
+    <div class="tareas-container">
+    <h1 class="titulo-bienvenida">Las tareas que estan en estado ${estado}</h1>
+    <button class="boton boton-destacado" id="Regreso">
+        <i class="fa fa-arrow-left"></i> Regresar
+    </button>
+</div> 
     `;
 
     console.log(`datos recibidos de tareas:`, tareas);
@@ -497,36 +459,37 @@ function Tareas(tareas, estado) {
                 tareasEnEstado.forEach((tarea, index) => {
                     const tareaIDToString = tarea.Tarea_ID.toString();
                     const IDProyecto = tarea.Proyecto_ID.toString();
-                    console.log(`ID del Proyecto en la tarea:`, IDProyecto);
                     const IDColaborador = tarea.Colaborador_ID.toString();
-                    const EstadoButton = tarea.Estado_de_la_Tarea.toString();
-                    console.log(`ID del Proyecto: en la tarea`, IDColaborador);
                     html += `
-                        <div class="tarea">
-                            <div class="tarea-info">
-                                <h3>${tarea.Nombre_de_la_Tarea}</h3>
-                                <p>${tarea.Tarea_Descripcion}</p>
-                            </div>
-                            <br>
-                            <p>Estado actual: ${tarea.Estado_de_la_Tarea}</p>
-                            <div class="estado-select">
-                                <div class="estado-buttons">
-                                <button id="pendiente-btn" class="estado-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Pendiente</button>
-                                <button id="progreso-btn" class="estado-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">En Progreso</button>
-                                <button id="completada-btn" class="estado-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">Completada</button>           
-                                </div>
-                            </div>
-                        </div>`;
+                    <div class="tarea-tarjeta">
+                    <div class="tarea-info">
+                        <h3 class="tarea-nombre">${tarea.Nombre_de_la_Tarea}</h3>
+                        <p class="tarea-descripcion">${tarea.Tarea_Descripcion}</p>
+                    </div>
+                    <div class="tarea-estado">
+                        <div class="estado-botones">
+                            <button id="pendiente-btn" class="estado-botones-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
+                                <i class="fa fa-clock-o"></i> Pendiente
+                            </button>
+                            <button id="progreso-btn" class="estado-botones-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
+                                <i class="fa fa-cog"></i> En Progreso
+                            </button>
+                            <button id="completada-btn" class="estado-botones-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
+                                <i class="fa fa-check"></i> Completada
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;                
                 });
             } else {
-                html += `   
-                <div class="mensaje-bienvenida">
-                <div class="aviso">
-                <p class="titulo-bienvenida" >No tiene tarea ${estado}</p>
-                </div></div>`;
+                html += `
+                <div class="aviso-sin-tareas">
+                <p class="aviso-importante">No cuenta con tareas <span class="aviso-importante ">${estado}</span></p>
+                </div>
+                `;
             }
 
-            html += ` </div>`;
             // Luego de completar todas las tareas y su información adicional, puedes actualizar el DOM
             document.getElementById("Tablero").innerHTML = html;
         })
@@ -557,74 +520,104 @@ function adminProyectos() {
 }
 
 function Proyectos(data) {
-    var html = `<div class="Tablero">`;
+    var proyectosHtml = data.map((proyecto, index) => `
+        <div class="proyecto">
+            <h3 class="proyecto-titulo">Proyecto No ${index + 1}: ${proyecto.Nombre_del_Proyecto}</h3>
+            <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
+            <hr class="proyecto-linea"> <!-- Línea divisoria -->
+        </div>`
+    ).join('');
 
-    data.forEach((proyecto, index) => {
-        console.log("ID: " + proyecto.ID);
-        console.log("Nombre del Proyecto: " + proyecto.Nombre_del_Proyecto);
-        console.log("Descripción: " + proyecto.Descripcion);
-        console.log("Fecha de Creación: " + proyecto.Fecha_de_Creacion);
-        console.log("Usuario Propietario: " + proyecto.Usuario_Propietario);
-
-        html += `
-        <div class="tarea">
-            <!--<h3>Proyecto ${proyecto.ID}</h3>-->
-            <h3>${proyecto.Nombre_del_Proyecto}</h3>
-            <p>${proyecto.Descripcion}</p>
-           <!-- <p>Fecha de Creación: ${proyecto.Fecha_de_Creacion}</p>-->
-           <!-- <p>Usuario Propietario: Usuario ${proyecto.Usuario_Propietario}</p>-->
+    var html = `
+        <div class="proyectos-seccion">
+            <div class="proyectos-cabecera">
+                <h2 class="proyectos-titulo">Proyectos Asignados: <span class="proyectos-cantidad">${data.length}</span></h2>
+                <div class="proyectos-boton-container">
+                    <button class="boton boton-destacado proyectos-boton" id="Regreso">
+                        <i class="fa fa-arrow-left"></i> Regresar
+                    </button>
+                </div>
+            </div>
+            <div class="proyectos-lista">${proyectosHtml}</div>
         </div>
     `;
-    });
 
-    html += `</div>`;
     return html;
 }
+
+
+
 
 function Opciones() {
     var html = `
-    <div class="Tablero">
     <div id="botones-container">
-        <button id="mostrarPendientes" class="boton"">
-            <span class="icono">&#128340;</span>
-            Mostrar Tareas Pendientes
-        </button>
-        <button id="mostrarEnProceso" class="boton"">
-            <span class="icono">&#9201;</span>
-            Mostrar Tareas en Proceso
-        </button>
-        <button id="mostrarRealizadas" class="boton"">
-            <span class="icono">&#10003;</span>
-            Mostrar Tareas Realizadas
-        </button>
-    </div>
-</div>
-
-
-    `;
-    return html;
-}
-
-
- export function SinAsignacion() {
-    var html = `
-    <div class="Tablero">
-    <div class="aviso">
-    <p>No hay tareas pendientes en este momento.</p>
-    </div>
-
-<button class="boton-decorado">
-    <i class="icono" ID="Regreso">Icono</i> Texto del botón
+    <button id="mostrarPendientes" class="accion-tareas accion-pendientes">
+        <span class="icono">🕔</span>
+        Mostrar Tareas Pendientes
     </button>
-
+    <button id="mostrarEnProceso" class="accion-tareas accion-en-proceso">
+        <span class="icono">⏱</span>
+        Mostrar Tareas en Proceso
+    </button>
+    <button id="mostrarRealizadas" class="accion-tareas accion-realizadas">
+        <span class="icono">✓</span>
+        Mostrar Tareas Realizadas
+    </button>
 </div>
-
 
     `;
     return html;
 }
+
+
 
 /*A CONTINUACINO SE PROCEDERA A CREACION DE LAS VISTAS DE LOS ADMINSITRADORES */
+export {
+    Opctioproyect,
+    encabezado_admin
+}
+function encabezado_admin() {
+    var html = `
+    <header class="beautiful-header">
+    <button id="salir" class="boton"> Cerrar Seccion</button>
+    <div class="logo" id="logo">ScrumWave</div>
+    <nav>
+        <ul>
+            <li id="inicio">Inicio</li>
+            <li id="proyectos">Proyectos</li>
+            <li id="tareas">Tareas</li>
+            <li id="equipos">Equipos</li>
+            <li id="registro">Registro</li>
+            <li id="Mensaje">Mensaje</li>
+            <li id="perfil">Perfil</li>
+        </ul>
+    </nav>
+</header>
+
+    `;
+    return html;
+}
+
+
+
+function Opctioproyect() {
+    var html = `
+    <div id="botones-proyecto">
+    <button id="crear-proyecto" class="boton">
+        <i class="fa fa-plus"></i> Crear Proyecto
+    </button>
+    <button id="ver-proyecto" class="boton">
+        <i class="fa fa-eye"></i> Ver Proyecto
+    </button>
+    <button id="editar-proyecto" class="boton">
+        <i class="fa fa-pencil"></i> Editar Proyecto
+    </button>
+</div>
+    `;
+    return html;
+}
+
+/*
 function SinAsignacion() {
     var html = `
     <div class="Tablero">
@@ -642,3 +635,4 @@ function SinAsignacion() {
     `;
     return html;
 }
+*/
