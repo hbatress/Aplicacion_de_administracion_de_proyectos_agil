@@ -480,7 +480,7 @@ function Tareas(tareas, estado) {
                         </div>
                     </div>
                 </div>
-                `;                
+                `;
                 });
             } else {
                 html += `
@@ -574,12 +574,21 @@ function Opciones() {
 /*A CONTINUACINO SE PROCEDERA A CREACION DE LAS VISTAS DE LOS ADMINSITRADORES */
 export {
     Opctioproyect,
-    encabezado_admin
+    encabezado_admin,
+    crearProyectoForm,
+    ActualizarProyect,
+    OpcionesTarea,
+    OpcionesEquipoProyecto,
+    mostrarHistorialDeMovimiento,
+    OpcionesNotificaciones,
+    crearTareaForm,
+    actualizarTareaForm,
+    verTareas
 }
 function encabezado_admin() {
     var html = `
     <header class="beautiful-header">
-    <button id="salir" class="boton"> Cerrar Seccion</button>
+    <button id="salir" class="boton-profesional">Cerrar Sesión</button>
     <div class="logo" id="logo">ScrumWave</div>
     <nav>
         <ul>
@@ -602,6 +611,7 @@ function encabezado_admin() {
 
 function Opctioproyect() {
     var html = `
+    <div class="ajustes_user">
     <div id="botones-proyecto">
     <button id="crear-proyecto" class="boton">
         <i class="fa fa-plus"></i> Crear Proyecto
@@ -616,6 +626,299 @@ function Opctioproyect() {
     `;
     return html;
 }
+
+function OpcionesTarea() {
+    var html = `
+      <div class="ajustes_user">
+        <div id="botones-tarea">
+          <button id="crear-tarea" class="boton">
+            <i class="fa fa-plus"></i> Crear Tarea
+          </button>
+          <button id="ver-tarea" class="boton">
+            <i class="fa fa-eye"></i> Ver Tarea
+          </button>
+          <button id="editar-tarea" class="boton">
+            <i class="fa fa-pencil"></i> Editar Tarea
+          </button>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  
+
+  function OpcionesNotificaciones() {
+    var html = `
+      <div class="ajustes_user">
+        <div id="botones-notificaciones">
+          <button id="enviar-notificacion" class="boton">
+            <i class="fa fa-paper-plane"></i> Enviar Notificación
+          </button>
+          <button id="recibir-notificaciones" class="boton">
+            <i class="fa fa-bell"></i> Recibir Notificaciones
+          </button>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  
+function crearProyectoForm() {
+    var html = `
+      <div class="ajustes_user">
+        <div class="Contenido-ajuste">
+          <div class="titulo">
+            <h1><i class="fa fa-plus-circle icono"></i> Crear Nuevo Proyecto</h1>
+          </div>
+          <form id="proyecto-form">
+            <div class="encabezados">
+              <div class="item">
+                <i class="fa fa-file"></i>
+                <span class="Enca">Nombre del Proyecto:</span>
+                <input class="input" type="text" id="nombre_proyecto" placeholder="Ingrese el nombre del proyecto" name="nombre_proyecto" />
+              </div>
+              <div class="item">
+                <i class="fa fa-align-left"></i>
+                <span class="Enca">Descripción:</span>
+                <input class="input" type="text" id="descripcion" placeholder="Ingrese una descripción del proyecto" name="descripcion"></input>
+              </div>
+            </div>
+            <div class="botones">
+              <button id="boton-crear-proyecto" class="boton" type="submit"><i class="fa fa-check"></i> Crear Proyecto</button>
+              <button id="boton-cancelar-proyecto" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+    return html;
+}
+
+
+function ActualizarProyect() {
+    var html = `
+      <div class="ajustes_user">
+        <div class="Contenido-ajuste">
+          <div class="titulo">
+            <h1><i class="fa fa-pencil icono"></i> Actualizar Proyecto</h1>
+          </div>
+          <form id="proyecto-form">
+            <div class="encabezados">
+              <div class="item">
+                <i class="fa fa-file"></i>
+                <span class="Enca">Nuevo Nombre del Proyecto:</span>
+                <input class="input" type="text" id="nombre_proyecto" placeholder="Ingrese el nuevo nombre del proyecto" name="nombre_proyecto" />
+              </div>
+              <div class="item">
+                <i class="fa fa-align-left"></i>
+                <span class="Enca">Nueva Descripción:</span>
+                <input class="input" type="text" id="descripcion" placeholder="Ingrese una nueva descripción del proyecto" name="descripcion" />
+              </div>
+            </div>
+            <div class="botones">
+              <button id="boton-actualizar-proyecto" class="boton" type="submit"><i class="fa fa-check"></i> Actualizar Proyecto</button>
+              <button id="boton-cancelar-actualizacion" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  
+  function OpcionesEquipoProyecto() {
+    var html = `
+      <div class="ajustes_user">
+        <div id="botones-equipo-proyecto">
+          <button id="agregar-miembro" class="boton">
+            <i class="fa fa-user-plus"></i> Agregar Miembro
+          </button>
+          <button id="ver-miembros" class="boton">
+            <i class="fa fa-users"></i> Ver Miembros
+          </button>
+          <button id="editar-proyecto" class="boton">
+            <i class="fa fa-pencil"></i> Editar Proyecto
+          </button>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  
+  function mostrarHistorialDeMovimiento(historial) {
+    var html = `
+      <div class="historial-movimiento">
+        <h2>Historial de Movimiento</h2>
+        <table class="tabla-historial">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha y Hora del Movimiento</th>
+              <th>Proyecto Perteneciente</th>
+              <th>Usuario que Realizó el Movimiento</th>
+              <th>Estado de la Tarea</th>
+              <th>Tarea</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+  
+    historial.forEach(function(registro) {
+      html += `
+        <tr>
+          <td>${registro.ID}</td>
+          <td>${registro.Fecha_y_Hora_del_Movimiento}</td>
+          <td>${registro.Proyecto_Perteneciente}</td>
+          <td>${registro.Usuario_que_Realizo_el_Movimiento}</td>
+          <td>${registro.Estado_de_la_Tarea}</td>
+          <td>${registro.Tarea}</td>
+        </tr>
+      `;
+    });
+  
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
+  
+    return html;
+  }
+  
+  function crearTareaForm() {
+    var html = `
+      <div class="ajustes_user">
+        <div class="Contenido-ajuste">
+          <div class="titulo">
+            <h1><i class="fa fa-plus-circle icono"></i> Crear Nueva Tarea</h1>
+          </div>
+          <form id="tarea-form">
+            <div class="encabezados">
+              <div class="item">
+                <i class="fa fa-tasks"></i>
+                <span class="Enca">Nombre de la Tarea:</span>
+                <input class="input" type="text" id="nombre-tarea" placeholder="Ingrese el nombre de la tarea" name="nombre-tarea" />
+              </div>
+              <div class="item">
+                <i class="fa fa-align-left"></i>
+                <span class="Enca">Descripción:</span>
+                <textarea class="input" id="descripcion-tarea" placeholder="Ingrese una descripción de la tarea" name="descripcion-tarea"></textarea>
+              </div>
+              <div class="item">
+                <i class="fa fa-calendar"></i>
+                <span class="Enca">Fecha de Creación:</span>
+                <input class="input" type="date" id="fecha-creacion-tarea" name="fecha-creacion-tarea" />
+              </div>
+              <div class="item">
+                <i class="fa fa-briefcase"></i>
+                <span class="Enca">Proyecto Perteneciente:</span>
+                <select class="input" id="proyecto-perteneciente" name="proyecto-perteneciente">
+                  <option value="proyecto-1">Proyecto 1</option>
+                  <option value="proyecto-2">Proyecto 2</option>
+                </select>
+              </div>
+              <div class="item">
+                <i class="fa fa-check-circle"></i>
+                <span class="Enca">Estado de la Tarea:</span>
+                <select class="input" id="estado-tarea" name="estado-tarea">
+                  <option value="estado-1">Estado 1</option>
+                  <option value="estado-2">Estado 2</option>
+                </select>
+              </div>
+            </div>
+            <div class="botones">
+              <button id="boton-crear-tarea" class="boton" type="submit"><i class="fa fa-check"></i> Crear Tarea</button>
+              <button id="boton-cancelar-tarea" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  
+  function actualizarTareaForm() {
+    var html = `
+      <div class="ajustes_user">
+        <div class="Contenido-ajuste">
+          <div class="titulo">
+            <h1><i class="fa fa-pencil icono"></i> Actualizar Tarea</h1>
+          </div>
+          <form id="tarea-form">
+            <div class="encabezados">
+              <div class="item">
+                <i class="fa fa-tasks"></i>
+                <span class="Enca">Nuevo Nombre de la Tarea:</span>
+                <input class="input" type="text" id="nombre-tarea" placeholder="Ingrese el nuevo nombre de la tarea" name="nombre-tarea" />
+              </div>
+              <div class="item">
+                <i class="fa fa-align-left"></i>
+                <span class="Enca">Nueva Descripción:</span>
+                <textarea class="input" id="descripcion-tarea" placeholder="Ingrese una nueva descripción de la tarea" name="descripcion-tarea"></textarea>
+              </div>
+              <div class="item">
+                <i class="fa fa-calendar"></i>
+                <span class="Enca">Nueva Fecha de Creación:</span>
+                <input class="input" type="date" id="fecha-creacion-tarea" name="fecha-creacion-tarea" />
+              </div>
+              <div class="item">
+                <i class="fa fa-briefcase"></i>
+                <span class="Enca">Nuevo Proyecto Perteneciente:</span>
+                <select class="input" id="proyecto-perteneciente" name="proyecto-perteneciente">
+                  <option value="proyecto-1">Proyecto 1</option>
+                  <option value="proyecto-2">Proyecto 2</option>
+                </select>
+              </div>
+              <div class="item">
+                <i class="fa fa-check-circle"></i>
+                <span class="Enca">Nuevo Estado de la Tarea:</span>
+                <select class="input" id="estado-tarea" name="estado-tarea">
+                  <option value="estado-1">Estado 1</option>
+                  <option value="estado-2">Estado 2</option>
+                </select>
+              </div>
+            </div>
+            <div class="botones">
+              <button id="boton-actualizar-tarea" class="boton" type="submit"><i class="fa fa-check"></i> Actualizar Tarea</button>
+              <button id="boton-cancelar-actualizacion" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    `;
+    return html;
+  }
+  
+  function verTareas(tareas) {
+    var html = `
+      <div class="lista-tareas">
+        <h2>Lista de Tareas</h2>
+        <ul>
+    `;
+  
+    tareas.forEach(function(tarea) {
+      html += `
+        <li>
+          <h3>${tarea.Nombre_de_la_Tarea}</h3>
+          <p><b>Descripción:</b> ${tarea.Descripcion}</p>
+          <p><b>Fecha de Creación:</b> ${tarea.Fecha_de_Creacion}</p>
+          <p><b>Proyecto Perteneciente:</b> ${tarea.Proyecto_Perteneciente}</p>
+          <p><b>Estado de la Tarea:</b> ${tarea.Estado_de_la_Tarea}</p>
+        </li>
+      `;
+    });
+  
+    html += `
+        </ul>
+      </div>
+    `;
+  
+    return html;
+  }
+  
+
+
+
 
 /*
 function SinAsignacion() {

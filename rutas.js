@@ -44,22 +44,22 @@ module.exports = function (app, dbservice) {
             });
     });
 
- /* Sirve para ver las tareas de un usuario específico */
-app.get('/tareas/:id', (req, res) => {
-    const usuarioId = req.params.id;
+    /* Sirve para ver las tareas de un usuario específico */
+    app.get('/tareas/:id', (req, res) => {
+        const usuarioId = req.params.id;
 
-    dbservice.getTareasAsignadas(usuarioId)
-        .then((tareas) => {
-            if (tareas && tareas.length > 0) {
-                res.json(tareas);
-            } else {
-                res.status(404).json({ error: 'No se encontraron tareas asignadas a este usuario' });
-            }
-        })
-        .catch((error) => {
-            res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
-        });
-});
+        dbservice.getTareasAsignadas(usuarioId)
+            .then((tareas) => {
+                if (tareas && tareas.length > 0) {
+                    res.json(tareas);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas asignadas a este usuario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
+            });
+    });
 
 
     /* Ruta para ver las tareas de un usuario específico con información adicional */
@@ -133,6 +133,7 @@ app.get('/tareas/:id', (req, res) => {
                 res.status(500).send(e);
             });
     });
+
     app.post('/colaboradores', (req, res) => {
         const newCollaborator = req.body;
         dbservice
@@ -170,7 +171,7 @@ app.get('/tareas/:id', (req, res) => {
         dbservice
             .crearHistorialDeMovimiento(
                 newMovementHistory.Fecha_y_Hora_del_Movimiento,
-                newMovementHistory.Proyecto_Perteneciente, 
+                newMovementHistory.Proyecto_Perteneciente,
                 newMovementHistory.Usuario_que_Realizo_el_Movimiento,
                 newMovementHistory.Estado_de_la_Tarea,
                 newMovementHistory.Tarea
@@ -182,7 +183,7 @@ app.get('/tareas/:id', (req, res) => {
                 res.status(500).send(e);
             });
     });
-    
+
 
     app.post('/tiposdecuenta', (req, res) => {
         const newAccountType = req.body;
@@ -214,21 +215,6 @@ app.get('/tareas/:id', (req, res) => {
             });
     });
 
-    app.post('/tiposdecuenta', (req, res) => {
-        const newAccountType = req.body;
-        dbservice
-            .crearTipoDeCuenta(
-                newAccountType.Nombre_del_Tipo_de_Cuenta,
-                newAccountType.Descripcion_del_Tipo_de_Cuenta
-            )
-            .then(() => {
-                res.json({ message: "Tipo de cuenta agregado con éxito" });
-            })
-            .catch(e => {
-                res.status(500).send(e);
-            });
-    });
-
     /* put para actualizar*/
     app.put('/UPdatauser/:id', (req, res) => {
         const usuarioId = req.params.id;
@@ -249,19 +235,37 @@ app.get('/tareas/:id', (req, res) => {
             });
     });
 
-/* Ruta PUT para actualizar el estado de una tarea */
-app.put('/updateTareaEstado/:id', (req, res) => {
-    const tareaId = req.params.id;
-    const nuevoEstadoId = req.body.Estado_de_la_Tarea; // Suponiendo que el nuevo estado se proporciona en el cuerpo de la solicitud
+    /* Ruta PUT para actualizar el estado de una tarea */
+    app.put('/updateTareaEstado/:id', (req, res) => {
+        const tareaId = req.params.id;
+        const nuevoEstadoId = req.body.Estado_de_la_Tarea; // Suponiendo que el nuevo estado se proporciona en el cuerpo de la solicitud
 
-    dbservice.actualizarEstadoTarea(tareaId, nuevoEstadoId)
-        .then(() => {
-            res.json({ message: 'Estado de la tarea actualizado con éxito' });
-        })
-        .catch((error) => {
-            res.status(500).json({ error: 'Error al actualizar el estado de la tarea' });
-        });
-});
+        dbservice.actualizarEstadoTarea(tareaId, nuevoEstadoId)
+            .then(() => {
+                res.json({ message: 'Estado de la tarea actualizado con éxito' });
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al actualizar el estado de la tarea' });
+            });
+    });
+
+
+    /* Creacion de la ruta para la creacion de proyectos */
+    app.post('/proyectos', (req, res) => {
+        const newProject = req.body;
+        dbservice.crearProyectos(
+            newProject.Nombre_del_Proyecto,
+            newProject.Descripcion,
+            newProject.Fecha_de_Creacion,
+            newProject.Usuario_Propietario
+        )
+            .then(() => {
+                res.json({ message: "Proyecto agregado con éxito" });
+            })
+            .catch(e => {
+                res.status(500).send(e);
+            });
+    });
 
 
 }

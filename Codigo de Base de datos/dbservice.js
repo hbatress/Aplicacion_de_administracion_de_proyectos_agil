@@ -115,16 +115,6 @@ const dbservice = () => {
         });
     };
     
-
-    const crearTipoDeCuenta = (
-        Nombre_del_Tipo_de_Cuenta,
-        Descripcion_del_Tipo_de_Cuenta
-    ) => {
-        return knex(TipoDeCuenta).insert({
-            Nombre_del_Tipo_de_Cuenta: Nombre_del_Tipo_de_Cuenta,
-            Descripcion_del_Tipo_de_Cuenta: Descripcion_del_Tipo_de_Cuenta,
-        });
-    };
     const crearEstadoDeLaTarea = (
         Nombre_del_Estado,
         Descripcion_del_Estado
@@ -231,7 +221,6 @@ const dbservice = () => {
         crearColaborador,
         crearNotificacion,
         crearHistorialDeMovimiento,
-        crearTipoDeCuenta,
         crearEstadoDeLaTarea,
         actualizarEstadoTarea
 

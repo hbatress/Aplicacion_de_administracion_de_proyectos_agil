@@ -62,7 +62,6 @@ export function buscarUsuario(usuarioId) {
   });
 }
 
-
 /*Busca los proyectos asignado por ID */
 export function buscarProyectosAsignados(usuarioId) {
   return new Promise((resolve, reject) => {
@@ -97,9 +96,6 @@ export function buscarTareasAsignadas(usuarioId) {
       });
   });
 }
-
-
-
 
 export function actualizarUsuario(usuarioId, datosActualizados) {
   // Excluye 'Fecha_de_Registro' y 'ID' de los datos a actualizar
@@ -222,3 +218,22 @@ export function AgregarHistorialMovimiento(newMovementHistory) {
       console.error(error);
   });
 }
+
+/* funcion para crear nuevos proyectos */
+export function AgregarProyecto(data) {
+  return fetch('http://localhost:3000/proyectos', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Respuesta del servidor:', data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+

@@ -6,6 +6,7 @@ import {
     actualizarUsuario,
     actualizarEstadoTarea,
     AgregarHistorialMovimiento,
+    AgregarProyecto
 } from "./Intermediario.js";
 
 
@@ -16,10 +17,18 @@ import {
     Configuracion,
     actualizarConfiguracion,
     Tareas,
-    adminProyectos,
     Proyectos,
     Opciones,
-    Opctioproyect
+    Opctioproyect,
+    crearProyectoForm,
+    ActualizarProyect,
+    OpcionesTarea,
+    OpcionesEquipoProyecto,
+    mostrarHistorialDeMovimiento,
+    OpcionesNotificaciones,
+    crearTareaForm,
+    actualizarTareaForm,
+    verTareas
 } from "./Vistas.js";
 
 //CONTROLADORES
@@ -144,8 +153,8 @@ function VerTarea(usuarioId, Estado) {
         });
 }
 
-function VerProyectos() {
-    const usuarioId = 4; // Cambia este ID por el que necesitas
+function VerProyectos(userID) {
+    const usuarioId = userID; // Cambia este ID por el que necesitas
     console.log("ID Enviado:", usuarioId);
 
     buscarProyectosAsignados(usuarioId)
@@ -193,7 +202,35 @@ function proyectadmin(userID) {
     const ID=userID;
     document.getElementById("Tablero").innerHTML = Opctioproyect(ID);
 }
+function CrearProyecto() {
+    document.getElementById("Tablero").innerHTML = crearProyectoForm();
+}
+function EditarProyect() {
+    document.getElementById("Tablero").innerHTML = ActualizarProyect();
+}
 
+function OptionTarea() {
+    document.getElementById("Tablero").innerHTML = OpcionesTarea();
+}
+function OptinoEquipo() {
+    document.getElementById("Tablero").innerHTML = OpcionesEquipoProyecto();
+}
+function MostarRegistro() {
+    document.getElementById("Tablero").innerHTML = mostrarHistorialDeMovimiento();
+}
+
+function OptrionMEnsaje() {
+    document.getElementById("Tablero").innerHTML = OpcionesNotificaciones();
+}
+function UotadeTarea() {
+    document.getElementById("Tablero").innerHTML = actualizarTareaForm();
+}
+function createtarea() {
+    document.getElementById("Tablero").innerHTML = crearTareaForm();
+}
+function VerTareas() {
+    document.getElementById("Tablero").innerHTML = verTareas();
+}
 
 let estadoActual="Pendiente";
 //EVENTOS
@@ -217,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("click", (ev) => {
     const userID = window.usuarioActual;
+    const userRole = window.rolActual;   
     if (ev.target.matches("#perfil")) {
         Ajustes(userID);
     } else if (ev.target.matches("#boton-cancelar")) {
@@ -268,19 +306,45 @@ document.addEventListener("click", (ev) => {
         estadoActual = "Pendiente"; 
         VerTarea(usuarioActual, estadoActual);
     } else if (ev.target.matches("#Regreso")) {
-        botones_interaccion();
+
+        if (userRole === "Administrador") {
+            proyectadmin(userID);
+        } else if (userRole === "Colaborador") {
+            botones_interaccion();
+        } else {
+            encabezadoHTML = "Tipo de usuario no válido";
+        }
     } else if (ev.target.matches("#salir")) {
+        localStorage.removeItem("userID");
+        localStorage.removeItem("userRole");
         window.location.href = "/Pagina/index.html";
     }else if (ev.target.matches("#proyectos")) {
         proyectadmin(userID);
     }else if (ev.target.matches("#tareas")) {
+        OptionTarea();
         
     }else if (ev.target.matches("#equipos")) {
-        
+        OptinoEquipo()
     } else if (ev.target.matches("#registro")) {
-
-    }else if (ev.target.matches("#Mensaje")) {
+        MostarRegistro();
+    }else if (ev.target.matches("#crear-proyecto")) {
+        CrearProyecto();
     }
+    else if (ev.target.matches("#ver-proyecto")) {
+        VerProyectos(userID);
+    }
+    else if (ev.target.matches("#editar-proyecto")) {
+        EditarProyect();
+    }
+    else if (ev.target.matches("#Mensaje")) {
+        OptrionMEnsaje();
+    }else if (ev.target.matches("#crear-tarea")) {
+        createtarea();
+      } else if (ev.target.matches("#ver-tarea")) {
+        VerTareas();
+      } else if (ev.target.matches("#editar-tarea")) {
+        UotadeTarea();
+      }
 });
 
 function obtenerFechaHoraActual() {
