@@ -220,64 +220,44 @@ function GuardarProyecto(userID) {
         Fecha_de_Creacion: obtenerFechaHoraActual(),
         Usuario_Propietario: userID
     };
-
-    console.log('Datos que se envían al servidor:', nuevoProyecto);
-
     // Llama a la función AgregarProyecto para enviar los datos al servidor
     AgregarProyecto(nuevoProyecto)
         .then((response) => {
             if (response.message === "Proyecto agregado con éxito") {
                 // Si el servidor responde con un mensaje de éxito
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Proyecto creado',
-                    text: 'El proyecto se creó exitosamente.',
-                    showConfirmButton: true,
-                    timer: false,
-                });
-
+                mostrarMensajeExito('Proyecto creado', 'El proyecto se creó exitosamente.');
                 // Limpia los campos de entrada del formulario
                 formulario.querySelector("#nombre_proyecto").value = "";
                 formulario.querySelector("#descripcion").value = "";
-
-                // Pregunta al usuario si desea crear una tarea
-                Swal.fire({
-                    icon: 'question',
-                    title: '¿Deseas crear una tarea para este proyecto?',
-                    showConfirmButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: 'Sí', // Texto del botón para crear una tarea
-                    cancelButtonText: 'No', // Texto del botón para no crear una tarea
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // El usuario ha elegido crear una tarea, puedes realizar la acción correspondiente aquí
-                        // Puedes abrir un formulario para crear una tarea, por ejemplo.
-                        // También puedes redirigir al usuario a la página de creación de tareas, etc.
-                    } else if (result.isDismissed) {
-                        // El usuario ha elegido no crear una tarea, puedes realizar la acción correspondiente aquí.
-                    }
-                });
             } else {
                 // Si el servidor responde con un mensaje de error
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Hubo un error al crear el proyecto.',
-                    showConfirmButton: true,
-                    timer: false,
-                });
+                mostrarMensajeError('Error', 'Hubo un error al crear el proyecto.');
             }
         })
         .catch((error) => {
             console.error(error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un error al crear el proyecto.',
-                showConfirmButton: true,
-                timer: false,
-            });
+            mostrarMensajeError('Error', 'Hubo un error al crear el proyecto.');
         });
+
+    function mostrarMensajeExito(titulo, mensaje) {
+        Swal.fire({
+            icon: 'success',
+            title: titulo,
+            text: mensaje,
+            showConfirmButton: true,
+            timer: false,
+        });
+    }
+
+    function mostrarMensajeError(titulo, mensaje) {
+        Swal.fire({
+            icon: 'error',
+            title: titulo,
+            text: mensaje,
+            showConfirmButton: true,
+            timer: false,
+        });
+    }
 }
 
 function GuardarTarea(userID, proyectoID) {
@@ -297,7 +277,7 @@ function GuardarTarea(userID, proyectoID) {
         });
         return; // Detén el proceso si los campos están vacíos
     }
-    console.log("Ver id par estar correctoen la tarea",proyectoID)
+    console.log("Ver id par estar correctoen la tarea", proyectoID)
     var nuevaTarea = {
         Nombre_de_la_Tarea: nombreTarea,
         Descripcion: descripcionTarea,
@@ -549,7 +529,6 @@ document.addEventListener("click", (ev) => {
     else if (ev.target.matches("#editar-proyecto")) {
         Estadoregreso = "No"
         const hacer = "ActualizarProyecto";
-        console.log("Aqui va el ID del Proyecto en el menu de opciones", proyectoID);
         VerProyectos(userID, hacer);
     }
     if (ev.target.matches("#proyectoIncividual")) {
@@ -572,12 +551,15 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#boton-crear-proyecto")) {
         ev.preventDefault();
         GuardarProyecto(userID);
+        ev.preventDefault();
+        inicarContr(userID);
     }
     if (ev.target.matches("#AgregarTarea_proyec")) {
         proyectoID = ev.target.getAttribute("data-proyecto-id");
         ev.preventDefault();
         createtarea();
     } else if (ev.target.matches("#boton-cancelar-proyecto")) {
+        ev.preventDefault();
         proyectadmin(userID);
     } else if (ev.target.matches("#boton-crear-tarea")) {
         ev.preventDefault();
@@ -586,11 +568,17 @@ document.addEventListener("click", (ev) => {
         OptionTarea();
     }
     else if (ev.target.matches("#boton-cancelar-actualizacion")) {
-        proyectadmin(userID);
+        ev.preventDefault();
+        Estadoregreso = "No"
+        const hacer = "ActualizarProyecto";
+        VerProyectos(userID, hacer);
     }
     else if (ev.target.matches("#boton-actualizar-proyecto")) {
         console.log("Aqui va el ID en cada del Proyecto para actualizar", proyectoID);
         Proyecactualizar(proyectoID);
+        ev.preventDefault();
+        const hacer = "ActualizarProyecto";
+        VerProyectos(userID, hacer);
 
     }
 
