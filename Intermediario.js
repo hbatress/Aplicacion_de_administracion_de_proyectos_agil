@@ -358,6 +358,25 @@ export function buscarTareasSinColaborador(usuarioId) {
   });
 }
 
+/*Buscar estadod e la tarea */
+export function buscarEstadosPromedio(usuarioId) {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/EstadosPromedio/${usuarioId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
 export function buscarTareasConColaborador(usuarioId) {
   return new Promise((resolve, reject) => {
     fetch(`http://localhost:3000/tareas-con-colaborador/${usuarioId}`)

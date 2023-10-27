@@ -13,10 +13,10 @@ import {
     obtenerInfoTareas,
     obtenerInfoTareasdeMienbro,
     buscarTareasSinColaborador,
-    buscarTareasConColaborador,
     Buscarproyectosincola,
     LeerUser,
-    agregarColaborador
+    agregarColaborador,
+    buscarEstadosPromedio
 } from "./Intermediario.js";
 
 
@@ -513,14 +513,14 @@ function bucarcolaborador() {
                     console.log(IDencontra);
                     // Crear un objeto nuevoColaborador con valores
                     var nuevoColaborador = {
-                        Usuario_Participante:IDencontra,
+                        Usuario_Participante: IDencontra,
                         Proyecto_Perteneciente: proyectoID,
                         Tarea_Asignada: idtarea
                     };
 
                     agregarColaborador(nuevoColaborador);
 
-                    
+
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -555,7 +555,26 @@ function OptinoEquipo() {
     document.getElementById("Tablero").innerHTML = OpcionesEquipoProyecto();
 }
 function MostarRegistro() {
-    document.getElementById("Tablero").innerHTML = mostrarHistorialDeMovimiento();
+    const userID = localStorage.getItem("userID");
+    buscarEstadosPromedio(userID)
+        .then((estadosPromedio) => {
+            var datosFormateados = estadosPromedio.map(item => {
+                return {
+                    Nombre_del_Proyecto: item.Nombre_del_Proyecto,
+                    ChartData: {
+                        labels: ["Porcentaje_Terminado", "Porcentaje_EnProceso", "Porcentaje_Pendiente"],
+                        datasets: [{
+                            data: [item.Porcentaje_Terminado, item.Porcentaje_EnProceso, item.Porcentaje_Pendiente],
+                            backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)', 'rgba(255, 206, 86, 0.6']
+                        }]
+                    }
+                };
+            });
+            mostrarHistorialDeMovimiento(datosFormateados);
+        })
+        .catch((error) => {
+            console.error('Error al buscar proyectos y estados promedio:', error);
+        });
 }
 
 function OptrionMEnsaje() {
@@ -696,10 +715,7 @@ document.addEventListener("click", (ev) => {
         console.log("Aqui va el ID en cada Proyecto", proyectoID);
         EditarProyect();
 
-    }
-    else if (ev.target.matches("#Mensaje")) {
-        OptrionMEnsaje();
-    } else if (ev.target.matches("#crear-tarea")) {
+    }else if (ev.target.matches("#crear-tarea")) {
         Estadoregreso = "Tarea";
         const hacer = "CrearTarea"
         VerProyectos(userID, hacer);

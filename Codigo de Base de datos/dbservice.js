@@ -335,7 +335,22 @@ const dbservice = () => {
             .groupBy("p.ID", "p.Nombre_del_Proyecto", "t.ID", "t.Nombre_de_la_Tarea", "t.Descripcion");
     };
 
-
+    const EstadosPromedio = (usuarioPropietarioId) => {
+        return knex("Proyectos as p")
+            .select(
+                "p.ID as Proyecto_ID",
+                "p.Nombre_del_Proyecto as Nombre_del_Proyecto",
+                knex.raw("AVG(et.Nombre_del_Estado = 'terminado') * 100 as Porcentaje_Terminado"),
+                knex.raw("AVG(et.Nombre_del_Estado = 'enproceso') * 100 as Porcentaje_EnProceso"),
+                knex.raw("AVG(et.Nombre_del_Estado = 'pendiente') * 100 as Porcentaje_Pendiente")
+            )
+            .leftJoin("Tarea as t", "p.ID", "t.Proyecto_Perteneciente")
+            .leftJoin("Estado_de_la_Tarea as et", "t.Estado_de_la_Tarea", "et.ID")
+            .where("p.Usuario_Propietario", usuarioPropietarioId)
+            .groupBy("p.ID", "p.Nombre_del_Proyecto")
+            .having(knex.raw("COUNT(et.Nombre_del_Estado) > 0"));
+    };
+    
     return {
         getBuscarUsuarioPorId,
         actualizarUsuario,
@@ -358,7 +373,8 @@ const dbservice = () => {
         Taressincolaborador,
         taresconcolaborador,
         eliminarProyectoPorId,
-        Proyectosincolaborador
+        Proyectosincolaborador,
+        EstadosPromedio
 
     };
 };

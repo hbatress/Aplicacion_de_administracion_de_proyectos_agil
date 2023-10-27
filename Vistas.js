@@ -93,7 +93,7 @@ function newView() {
             <i class="fas fa-user-tag"></i>
             <select name="rol" id="rol" required>
                 <option value="Administrador">Administrador</option>
-                <option value="Colaborador">Miembro</option>
+                <option value="Colaborador">Colaborador</option>
             </select>
         </div>
         <div class="input-container">
@@ -648,8 +648,7 @@ function encabezado_admin() {
             <li id="proyectos">Proyectos</li>
             <li id="tareas">Tareas</li>
             <li id="equipos">Equipos</li>
-            <li id="registro">Registro</li>
-            <li id="Mensaje">Mensaje</li>
+            <li id="registro">Grafica de Procesos</li>
             <li id="perfil">Perfil</li>
         </ul>
     </nav>
@@ -780,45 +779,45 @@ function ActualizarProyect() {
   }
   
 
-  function mostrarHistorialDeMovimiento(historial) {
-    var html = `
-      <div class="historial-movimiento">
-        <h2>Historial de Movimiento</h2>
-        <table class="tabla-historial">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Fecha y Hora del Movimiento</th>
-              <th>Proyecto Perteneciente</th>
-              <th>Usuario que Realizó el Movimiento</th>
-              <th>Estado de la Tarea</th>
-              <th>Tarea</th>
-            </tr>
-          </thead>
-          <tbody>
-    `;
-  
-    historial.forEach(function(registro) {
+  // Función para mostrar los gráficos con Chart.js
+function mostrarHistorialDeMovimiento(data) {
+  var html = '';
+
+  data.forEach(data => {
+      var projectName = data.Nombre_del_Proyecto;
+      var projectChart = data.ChartData;
+
       html += `
-        <tr>
-          <td>${registro.ID}</td>
-          <td>${registro.Fecha_y_Hora_del_Movimiento}</td>
-          <td>${registro.Proyecto_Perteneciente}</td>
-          <td>${registro.Usuario_que_Realizo_el_Movimiento}</td>
-          <td>${registro.Estado_de_la_Tarea}</td>
-          <td>${registro.Tarea}</td>
-        </tr>
+          <div class="project-container">
+              <h2>${projectName}</h2>
+              <canvas class="project-chart" width="400" height="200"></canvas>
+          </div>
       `;
-    });
-  
-    html += `
-          </tbody>
-        </table>
-      </div>
-    `;
-  
-    return html;
+  });
+
+  // Agregar el HTML al elemento deseado en tu página
+  var tablero = document.getElementById('Tablero');
+  if (tablero) {
+      tablero.innerHTML = html;
   }
+
+  // Dibujar los gráficos en los elementos canvas correspondientes
+  var containers = document.querySelectorAll('.project-container');
+  containers.forEach((container, index) => {
+      var canvas = container.querySelector('.project-chart');
+      if (canvas) {
+          new Chart(canvas, {
+              type: 'bar',
+              data: data[index].ChartData,
+              options: {
+                  // Opciones del gráfico
+              }
+          });
+      }
+  });
+}
+
+
   
   function crearTareaForm() {
     var html = `

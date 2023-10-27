@@ -82,8 +82,24 @@ module.exports = function (app, dbservice) {
                 res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
             });
     });
-
-
+/*Ruta para treaer el estado de la tarea */
+    app.get('/EstadosPromedio/:id', (req, res) => {
+        const usuarioId = req.params.id;
+        console.log('Valor de usuarioId:', usuarioId);
+    
+        dbservice.EstadosPromedio(usuarioId)
+            .then((proyectos) => {
+                if (proyectos.length > 0) {
+                    res.json(proyectos);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron proyectos y estados promedio para este usuario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al obtener proyectos y estados promedio' });
+            });
+    });
+    
     app.get('/CuentaTI/:id', (req, res) => {
         const usuarioId = req.params.id;
         console.log('Valor de usuarioId:', usuarioId);
