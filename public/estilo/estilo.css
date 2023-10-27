@@ -365,7 +365,13 @@ input::placeholder {
 
 .proyecto {
   margin-bottom: 20px;
+  border: 2px solid #007BFF; /* Borde azul */
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f0f0f0; /* Fondo gris claro */
+  color: #333; /* Texto negro */
 }
+
 
 .proyecto-titulo {
   font-size: 18px;
@@ -484,7 +490,7 @@ input::placeholder {
 
 
 /*Estilo de que muestra las tareas*/
-/* Estilos para la sección de tareas divididas */
+
 .tareas-divididas-seccion {
   display: flex;
   flex-direction: column;
@@ -498,11 +504,11 @@ input::placeholder {
   padding: 10px;
   margin: 10px 0;
   background-color: #f9f9f9;
-  max-height: 300px; /* Limita la altura máxima de cada grupo */
-  overflow-y: auto; /* Agrega desplazamiento vertical si es necesario */
+  max-height: 300px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column; /* Alinea verticalmente el contenido */
-  justify-content: space-between; /* Centrar contenido verticalmente */
+  justify-content: space-between;
   text-align: center;
 }
 
@@ -567,3 +573,97 @@ body::-webkit-scrollbar-thumb:hover {
 body::-webkit-scrollbar-track {
   background: transparent; /* Fondo transparente de la pista de la barra de desplazamiento */
 }
+
+/*Esrilo para los miembors*/
+.row {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente */
+  margin: 20px;
+
+}
+
+/* Estilo para la información del proyecto */
+.informacion-proyecto {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 0px 0px 10px 10px
+}
+
+.informacion-proyecto h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.informacion-proyecto-item {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+/* Estilo para colaboradores y tareas */
+.colaboradores-y-tareas {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 0px 0px 10px 10px
+}
+
+.colaboradores-y-tareas h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.colaboradores-y-tareas-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.colaboradores-y-tareas-item {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/* Estilos para resaltar la información importante */
+.colaboradores-y-tareas-item strong {
+  font-weight: bold;
+  margin-right: 10px;
+  color: #007BFF;
+}
+
+
+
+.tareas-contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Distribuye las tareas uniformemente */
+  text-align: center; /* Centra horizontalmente el contenido */
+  margin: 5px;
+}
+
+.tarea {
+  width: 30%; /* Define el ancho de cada tarea (ajusta según tus preferencias) */
+  margin-bottom: 20px; /* Espaciado entre tareas */
+  padding: 10px; /* Espaciado interno de cada tarea */
+}
+
+
+.proyecto-titulo {
+  /* Estilos para el título del proyecto */
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.tarea-titulo {
+  /* Estilos para el título de la tarea */
+  font-size: 16px;
+}
+
+.agregar-colaborador-button {
+  /* Estilos para el botón "Agregar Colaborador" */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+

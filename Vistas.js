@@ -469,13 +469,13 @@ function Tareas(tareas, estado) {
                     </div>
                     <div class="tarea-estado">
                         <div class="estado-botones">
-                            <button id="pendiente-btn" class="estado-botones-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
+                            <button id="estado-btn" class="estado-botones-btn pendiente" data-estado="1" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
                                 <i class="fa fa-clock-o"></i> Pendiente
                             </button>
-                            <button id="progreso-btn" class="estado-botones-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
+                            <button id="estado-btn" class="estado-botones-btn progreso" data-estado="2" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
                                 <i class="fa fa-cog"></i> En Progreso
                             </button>
-                            <button id="completada-btn" class="estado-botones-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
+                            <button id="estado-btn" class="estado-botones-btn completada" data-estado="3" data-tarea-id="${tareaIDToString}" data-proyecto-id="${IDProyecto}" data-colaborador-id="${IDColaborador}">
                                 <i class="fa fa-check"></i> Completada
                             </button>
                         </div>
@@ -525,9 +525,8 @@ function Proyectos(data, Realizar) {
 
   var proyectosHtml = data.map((proyecto, index) => `
       <div class="proyecto">
-          <h3 class="proyecto-titulo">Proyecto No ${index + 1}: ${proyecto.Nombre_del_Proyecto}</h3>
+          <h3 class="proyecto-titulo"> ${proyecto.Nombre_del_Proyecto}</h3>
           <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
-          <hr class="proyecto-linea"> <!-- Línea divisoria -->
           ${userRole === 'Administrador' ? `
               <div class="botones-container">
                   ${Realizar === 'CrearTarea' ? `
@@ -554,17 +553,17 @@ function Proyectos(data, Realizar) {
       <div class="proyectos-grupo">
           ${grupo.map(proyecto => `
               <div class="proyecto">
-                  <h3 class="proyecto-titulo">Proyecto de: ${proyecto.Nombre_del_Proyecto}</h3>
+                  <h3 class="proyecto-titulo">  ${proyecto.Nombre_del_Proyecto}</h3>
                   <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
                   ${userRole === 'Administrador' ? `
                   <div class="botones-container">
                       ${Realizar === 'CrearTarea' ? `
-                          <button class="boton crear-tarea" data-proyecto-id="${proyecto.ID}">
+                          <button class="boton crear-tarea"id="AgregarTarea_proyec" data-proyecto-id="${proyecto.ID}">
                               <i class="fa fa-plus"></i> Crear Tarea
                           </button>
                       ` : ''}
                       ${Realizar === 'ActualizarProyecto' ? `
-                          <button class="boton actualizar-proyecto" data-proyecto-id="${proyecto.ID}">
+                          <button id="proyectoIncividual" class="boton actualizar-proyecto" data-proyecto-id="${proyecto.ID}">
                               <i class="fa fa-pencil"></i> Actualizar Proyecto
                           </button>
                           <button class="boton eliminar-proyecto" data-proyecto-id="${proyecto.ID}" onclick="eliminarProyecto(${proyecto.ID})">
@@ -574,7 +573,6 @@ function Proyectos(data, Realizar) {
                   </div>
               ` : ''}
               
-                  <hr class="proyecto-linea"> <!-- Línea divisoria -->
               </div>`
           ).join('')}
       </div>`
@@ -628,14 +626,16 @@ export {
     crearProyectoForm,
     ActualizarProyect,
     OpcionesTarea,
-    OpcionesEquipoProyecto,
     mostrarHistorialDeMovimiento,
     OpcionesNotificaciones,
     crearTareaForm,
     actualizarTareaForm,
     verTareas,
-    MostrarTareasDivididas
-    
+    MostrarTareasDivididas,
+    MostrarColaboradoresYTareas,
+    verTareasSinColaborador,
+    verTareasConColaborador,
+    crearUsuarioForm
 }
 function encabezado_admin() {
     var html = `
@@ -678,22 +678,26 @@ function Opctioproyect() {
     `;
     return html;
 }
-
 function OpcionesTarea() {
-    var html = `
-      <div class="ajustes_user">
-        <div id="botones-tarea">
-          <button id="crear-tarea" class="boton">
-            <i class="fa fa-plus"></i> Crear Tarea
-          </button>
-          <button id="editar-tarea" class="boton">
-          <i class="fa fa-eye"></i> Ver Tarea
-          </button>
-        </div>
+  var html = `
+    <div class="ajustes_user">
+      <div id="botones-tarea">
+        <button id="crear-tarea" class="boton">
+          <i class="fa fa-plus"></i> Crear Tarea
+        </button>
+        <button id="tareas-con-colaborador" class="boton">
+          <i class="fa fa-users"></i> Tareas con Colaborador
+        </button>
+        <button id="tareas-sin-colaborador" class="boton">
+          <i class="fa fa-user-times"></i> Tareas sin Colaborador
+        </button>
       </div>
-    `;
-    return html;
-  }
+    </div>
+  `;
+  return html;
+}
+
+
   
 
   function OpcionesNotificaciones() {
@@ -775,25 +779,7 @@ function ActualizarProyect() {
     return html;
   }
   
-  function OpcionesEquipoProyecto() {
-    var html = `
-      <div class="ajustes_user">
-        <div id="botones-equipo-proyecto">
-          <button id="agregar-miembro" class="boton">
-            <i class="fa fa-user-plus"></i> Agregar Miembro
-          </button>
-          <button id="ver-miembros" class="boton">
-            <i class="fa fa-users"></i> Ver Miembros
-          </button>
-          <button id="editar-proyecto" class="boton">
-            <i class="fa fa-pencil"></i> Editar Proyecto
-          </button>
-        </div>
-      </div>
-    `;
-    return html;
-  }
-  
+
   function mostrarHistorialDeMovimiento(historial) {
     var html = `
       <div class="historial-movimiento">
@@ -932,29 +918,6 @@ function ActualizarProyect() {
   }
   
 
-
-
-
-/*
-function SinAsignacion() {
-    var html = `
-    <div class="Tablero">
-    <div class="aviso">
-    <p>No hay tareas pendientes en este momento.</p>
-    </div>
-
-<button class="boton-decorado">
-    <i class="icono" ID="Regreso">Icono</i> Texto del botón
-    </button>
-
-</div>
-
-
-    `;
-    return html;
-}
-*/
-
 function MostrarTareasDivididas(tareas) {
   // Organiza las tareas por estado
   const tareasTerminadas = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'Realizado');
@@ -1005,3 +968,178 @@ function generarTareasHtml(tareas) {
 
   return html;
 }
+
+/*Funcion para mirar los integranes */
+function MostrarColaboradoresYTareas(datos) {
+  var html = `
+  <div class="proyectos-cabecera">
+  <h2 class="proyectos-titulo"><span class="proyectos-cantidad"></span></h2>
+  <div class="proyectos-boton-container">
+      <button class="boton" id="Regreso">
+          <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+  </div>
+</div>
+    <div class="row">
+      <div class="col-6 float-left">
+        <div class="informacion-proyecto">
+          <h2>Información del Proyecto</h2>
+  `;
+
+  datos.forEach((fila, index) => {
+    html += `
+      <p class="informacion-proyecto-item"><strong>ID del Proyecto:</strong> ${fila.ID_del_Proyecto || 'Sin asignación'}</p>
+      <p class="informacion-proyecto-item"><strong>Nombre del Proyecto:</strong> ${fila.Nombre_del_Proyecto || 'Sin asignación'}</p>
+      <p class="informacion-proyecto-item"><strong>Propietario del Proyecto:</strong> ${fila.Nombre_del_Propietario || 'Sin asignación'}</p>
+      ${index < datos.length - 1 ? '<hr>' : ''} <!-- Línea divisoria entre proyectos -->
+    `;
+  });
+
+  html += `
+        </div>
+      </div>
+      <div class="col-6 float-right">
+        <div class="colaboradores-y-tareas">
+          <h2>Colaboradores y Tareas</h2>
+          <ul class="colaboradores-y-tareas-list">
+  `;
+
+  datos.forEach((fila, index) => {
+    html += `
+      <li class="colaboradores-y-tareas-item">
+        <strong>Colaborador:</strong> ${fila.Nombre_del_Colaborador || 'Sin asignación'}
+        <br>
+        <strong>Tarea:</strong> ${fila.Nombre_de_Tarea || 'Sin asignación'}
+      </li>
+      ${index < datos.length - 1 ? '<hr>' : ''} <!-- Línea divisoria entre colaboradores -->
+    `;
+  });
+
+  html += `
+          </ul>
+        </div>
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+/*mirar las tareas con y sin colaborador */
+
+function verTareasSinColaborador(tareas) {
+  var html = `
+  <div class="proyectos-cabecera">
+  <h2 class="proyectos-titulo"><span class="proyectos-cantidad">Tareas Activas</span></h2>
+  <div class="proyectos-boton-container">
+      <button class="boton" id="Regreso">
+          <i class="fa fa-arrow-left"></i> Regresar
+      </button>
+  </div>
+</div>
+    <div class="lista-tareas">
+      <h2></h2>
+      <div class="tareas-contenedor">
+  `;
+
+  tareas.forEach(function(tarea) {
+    // Verifica si alguno de los campos es null
+    if (
+      tarea.Nombre_del_Proyecto !== null &&
+      tarea.Nombre_de_Tarea !== null &&
+      tarea.Nombre_del_Colaborador !== null &&
+      tarea.Nombre_del_Propietario !== null
+    ) {
+      const nombreProyecto = tarea.Nombre_del_Proyecto || "Sin asignación";
+      const nombreTarea = tarea.Nombre_de_Tarea || "Sin asignación";
+      const nombreColaborador = tarea.Nombre_del_Colaborador || "Sin asignación";
+      const nombrePropietario = tarea.Nombre_del_Propietario || "Sin asignación";
+
+      html += `
+        <div class="tarea">
+          <h1>Proyecto de ${nombreProyecto}</h1>
+          <p><b>Tarea:</b> ${nombreTarea}</p>
+          <p><b>Colaborador:</b> ${nombreColaborador}</p>
+          <p><b>Propietario:</b> ${nombrePropietario}</p>
+        </div>
+      `;
+    }
+  });
+
+  html += `
+      </div>
+    </div>
+  `;
+
+  return html;
+}
+
+
+function verTareasConColaborador(tareas) {
+  var html = `
+    <div class="lista-tareas">
+      <h2>Tareas Activas</h2>
+      <ul>
+  `;
+
+  tareas.forEach(function(tarea) {
+    if (tarea.ID_del_Colaborador === null) { // Verificar si ID_del_Colaborador es nulo
+      // Verificar si los campos son nulos y asignar "Sin asignación" en su lugar
+      const nombreProyecto = tarea.Nombre_del_Proyecto || "Sin asignación";
+      const nombreTarea = tarea.Nombre_de_Tarea || "Sin asignación";
+      const nombreColaborador = tarea.Nombre_del_Colaborador || "Sin asignación";
+      const nombrePropietario = tarea.Nombre_del_Propietario || "Sin asignación";
+
+      // Verificar si al menos un campo no es "Sin asignación", en cuyo caso se agrega la tarea
+      if (
+        nombreProyecto !== "Sin asignación" ||
+        nombreTarea !== "Sin asignación" ||
+        nombreColaborador !== "Sin asignación" ||
+        nombrePropietario !== "Sin asignación"
+      ) {
+        html += `
+          <li>
+            <h1>Proyecto de ${nombreProyecto}</h1>
+            <p><b>Tarea:</b> ${nombreTarea}</p>
+            <p><b>Colaborador:</b> ${nombreColaborador}</p>
+            <p><b>Propietario:</b> ${nombrePropietario}</p>
+          </li>
+        `;
+      }
+    }
+  });
+
+  html += `
+      </ul>
+    </div>
+  `;
+
+  return html;
+}
+
+function crearUsuarioForm() {
+  var html = `
+    <div class="ajustes_user">
+      <div class="Contenido-ajuste">
+        <div class="titulo">
+          <h1><i class="fa fa-search icono"></i> Buscar Colaborador por Correo Electrónico</h1>
+        </div>
+        <form id="buscar-colaborador-form">
+          <div class="encabezados">
+            <div class="item">
+              <i class="fa fa-envelope"></i>
+              <span class="Enca">Correo Electrónico del Colaborador:</span>
+              <input class="input" type="text" id="correo-colaborador" placeholder="Ingrese el correo electrónico" name="correo-colaborador" />
+            </div>
+            <div class="botones">
+              <button id="boton-buscar-colaborador" class="boton"><i class="fa fa-search"></i> Buscar Colaborador</button>
+              <button id="tareas-sin-colaborador" class="boton" type="button"><i class="fa fa-times"></i> Cancelar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  return html;
+}
+

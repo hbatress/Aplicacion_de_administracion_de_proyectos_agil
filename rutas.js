@@ -335,6 +335,19 @@ module.exports = function (app, dbservice) {
     });
 
 
+    /*Funcionpara realizar llamado a los proyectos que cuenta el usuario */
+    app.get('/informaciontareas/:usuarioId', (req, res) => {
+        const usuarioId = req.params.usuarioId;
+
+        dbservice.getColaboradoresYTareasPorUsuarioPropietario(usuarioId)
+            .then((data) => {
+                res.json(data);
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar la información de tareas y colaboradores' });
+            });
+    });
+
 
     app.put('/updatetask/:id', (req, res) => {
         const tareaId = req.params.id;
@@ -350,6 +363,38 @@ module.exports = function (app, dbservice) {
             });
     });
 
+    /*Rutas para sin y con colaborador */
+    app.get('/tareas-sin-colaborador/:id', (req, res) => {
+        const usuarioPropietarioId = req.params.id;
+
+        dbservice.Taressincolaborador(usuarioPropietarioId)
+            .then((tareas) => {
+                if (tareas && tareas.length > 0) {
+                    res.json(tareas);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas sin colaborador para este usuario propietario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas sin colaborador' });
+            });
+    });
+
+    app.get('/tareas-con-colaborador/:id', (req, res) => {
+        const usuarioPropietarioId = req.params.id;
+
+        dbservice.taresconcolaborador(usuarioPropietarioId)
+            .then((tareas) => {
+                if (tareas && tareas.length > 0) {
+                    res.json(tareas);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas con colaborador para este usuario propietario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas con colaborador' });
+            });
+    });
 
 
 }

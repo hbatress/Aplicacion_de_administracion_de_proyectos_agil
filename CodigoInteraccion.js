@@ -9,7 +9,13 @@ import {
     AgregarProyecto,
     AgregarTarea,
     actualizarProyecto,
-    actualizarTareaEnServidor
+    actualizarTareaEnServidor,
+    obtenerInfoTareas,
+    obtenerInfoTareasdeMienbro,
+    buscarTareasSinColaborador,
+    buscarTareasConColaborador,
+    LeerUser,
+    agregarColaborador
 } from "./Intermediario.js";
 
 
@@ -26,13 +32,16 @@ import {
     crearProyectoForm,
     ActualizarProyect,
     OpcionesTarea,
-    OpcionesEquipoProyecto,
     mostrarHistorialDeMovimiento,
     OpcionesNotificaciones,
     crearTareaForm,
     actualizarTareaForm,
     verTareas,
-    MostrarTareasDivididas
+    MostrarTareasDivididas,
+    MostrarColaboradoresYTareas,
+    verTareasSinColaborador,
+    verTareasConColaborador,
+    crearUsuarioForm
 } from "./Vistas.js";
 
 //CONTROLADORES
@@ -379,33 +388,151 @@ function Proyecactualizar(proyectoID) {
 }
 
 function EnviarActualizacionTarea(tareaId) {
-        // Obtén los valores de los campos del formulario
-        const nuevoNombre = document.getElementById('nombre-tarea').value;
-        const nuevaDescripcion = document.getElementById('descripcion-tarea').value;
-        const nuevoEstado = document.getElementById('estado-tarea').value;
+    // Obtén los valores de los campos del formulario
+    const nuevoNombre = document.getElementById('nombre-tarea').value;
+    const nuevaDescripcion = document.getElementById('descripcion-tarea').value;
+    const nuevoEstado = document.getElementById('estado-tarea').value;
 
-        // Ahora puedes utilizar estos valores para llamar a la función que actualiza la tarea en el servidor
-        actualizarTareaEnServidor(tareaId, nuevoNombre, nuevaDescripcion, nuevoEstado)
-            .then(() => {
-                // La tarea se ha actualizado con éxito, puedes mostrar un mensaje de éxito o redirigir aquí si es necesario
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Tarea actualizada',
-                    text: 'La tarea se actualizó con éxito.'
-                });
-            })
-            .catch((error) => {
-                // Hubo un error en la solicitud, puedes mostrar un mensaje de error aquí
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error en la solicitud',
-                    text: 'Hubo un error al actualizar la tarea.'
-                });
+    // Ahora puedes utilizar estos valores para llamar a la función que actualiza la tarea en el servidor
+    actualizarTareaEnServidor(tareaId, nuevoNombre, nuevaDescripcion, nuevoEstado)
+        .then(() => {
+            // La tarea se ha actualizado con éxito, puedes mostrar un mensaje de éxito o redirigir aquí si es necesario
+            Swal.fire({
+                icon: 'success',
+                title: 'Tarea actualizada',
+                text: 'La tarea se actualizó con éxito.'
             });
+        })
+        .catch((error) => {
+            // Hubo un error en la solicitud, puedes mostrar un mensaje de error aquí
+            Swal.fire({
+                icon: 'error',
+                title: 'Error en la solicitud',
+                text: 'Hubo un error al actualizar la tarea.'
+            });
+        });
+}
+
+
+
+function mostrarIntegrantes() {
+    const userID = localStorage.getItem("userID");
+    console.log(userID);
+
+    obtenerInfoTareasdeMienbro(userID)
+        .then((data) => {
+
+            const datosFiltrados = filtrarDatosUnicos(data, "Nombre_del_Proyecto");
+
+            document.getElementById("Tablero").innerHTML = MostrarColaboradoresYTareas(datosFiltrados);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+
+    function filtrarDatosUnicos(datos, campoClave) {
+        const datosUnicos = [];
+        const valoresUnicos = new Set();
+
+        datos.forEach((fila) => {
+            const valor = fila[campoClave];
+            if (!valoresUnicos.has(valor)) {
+                valoresUnicos.add(valor);
+                datosUnicos.push(fila);
+            }
+        });
+
+        return datosUnicos;
     }
 
+}
 
+function mostracola() {
+    const userID = window.usuarioActual;
+    buscarTareasConColaborador(userID)
+        .then((data) => {
+            document.getElementById("Tablero").innerHTML = verTareasConColaborador(data);
+            console.log("Datos obtenidos:", data);
+        })
+        .catch((error) => {
+            console.error("Error al obtener y mostrar tareas sin colaborador:", error);
+        });
+}
 
+function mostrarsincola() {
+    const userID = window.usuarioActual;
+    buscarTareasSinColaborador(userID)
+        .then((data) => {
+            document.getElementById("Tablero").innerHTML = verTareasSinColaborador(data);
+            console.log("Datos obtenidos:", data);
+        })
+        .catch((error) => {
+            console.error("Error al obtener y mostrar tareas sin colaborador:", error);
+        });
+}
+
+function crearcolaborardor() {
+    document.getElementById("Tablero").innerHTML = crearUsuarioForm();
+
+}
+function bucarcolaborador() {
+    var correoColaboradorInput = document.getElementById("correo-colaborador");
+    const Correo_Electronico = correoColaboradorInput.value;
+    console.log(Correo_Electronico);
+
+    if (Correo_Electronico.trim() === '') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Campos vacíos',
+            text: 'Por favor, completa el campo de correo electrónico.',
+        });
+    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(Correo_Electronico)) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Correo inválido',
+            text: 'Por favor, ingresa un correo electrónico válido.',
+        });
+    } else {
+
+        LeerUser()
+            .then((data) => {
+                let correoEncontrado = false;
+                let IDencontra = null;
+
+                data.forEach((usuario) => {
+                    if (usuario.Correo_Electronico === Correo_Electronico) {
+                        correoEncontrado = true;
+
+                        IDencontra = usuario.ID;
+                        console.log(IDencontra);
+                    }
+                });
+
+                if (correoEncontrado) {
+                    console.log(IDencontra);
+                    // Crear un objeto nuevoColaborador con valores
+                    var nuevoColaborador = {
+                        Usuario_Participante:IDencontra,
+                        Proyecto_Perteneciente: proyectoID,
+                        Tarea_Asignada: idtarea
+                    };
+
+                    agregarColaborador(nuevoColaborador);
+
+                    
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Correo no encontrado',
+                        text: 'El correo no existe en la base de datos. Regístrate o verifica tus datos.',
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error('Error en la solicitud:', error);
+            });
+    }
+}
 
 
 //CONFIGURACIONES DE USUARIO ADMINISTRADO 
@@ -460,6 +587,8 @@ function ListaoTareas() {
 let estadoActual = "Pendiente";
 let proyectoID;
 let Estadoregreso;
+let idtarea;
+let IDencontra;
 //EVENTOS
 document.addEventListener("DOMContentLoaded", () => {
     // Obtiene el userID y el userRole del almacenamiento local
@@ -495,19 +624,12 @@ document.addEventListener("click", (ev) => {
         VerProyectos(userID, hacer, hacer);
     } else if (ev.target.matches("#mis-tareas")) {
         botones_interaccion();
-    } else if (ev.target && ev.target.classList.contains("estado-btn")) {
+    } else if (ev.target && ev.target.classList.contains("estado-botones-btn")) {
         const estado = ev.target.getAttribute("data-estado");
         const tareaElement = ev.target.closest(".tarea");
         const tareaID = ev.target.getAttribute("data-tarea-id");
         const proyectoID = ev.target.getAttribute("data-proyecto-id");
         const colaboradorID = ev.target.getAttribute("data-colaborador-id");
-
-        console.log(
-            `Clic en botón con estado`,
-            estado,
-            `para tarea con ID`,
-            tareaID
-        );
         actualizarEstadoTarea(tareaID, estado);
 
         // Define un objeto con los datos del historial de movimiento que deseas enviar
@@ -554,8 +676,6 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#tareas")) {
         OptionTarea();
 
-    } else if (ev.target.matches("#equipos")) {
-        OptinoEquipo()
     } else if (ev.target.matches("#registro")) {
         MostarRegistro();
     } else if (ev.target.matches("#crear-proyecto")) {
@@ -570,8 +690,7 @@ document.addEventListener("click", (ev) => {
         Estadoregreso = "No"
         const hacer = "ActualizarProyecto";
         VerProyectos(userID, hacer);
-    }
-    if (ev.target.matches("#proyectoIncividual")) {
+    } else if (ev.target.matches("#proyectoIncividual")) {
         proyectoID = ev.target.getAttribute("data-proyecto-id");
         ev.preventDefault();
         console.log("Aqui va el ID en cada Proyecto", proyectoID);
@@ -584,10 +703,13 @@ document.addEventListener("click", (ev) => {
         Estadoregreso = "Tarea";
         const hacer = "CrearTarea"
         VerProyectos(userID, hacer);
-    }else if (ev.target.matches("#editar-tarea")) {
+    } else if (ev.target.matches("#tareas-con-colaborador")) {
+        mostrarsincola();
+        // ListaoTareas();
+    } else if (ev.target.matches("#tareas-sin-colaborador")) {
 
-        ListaoTareas();
-        //UotadeTarea();
+        mostracola();
+        // ListaoTareas();
     } else if (ev.target.matches("#boton-crear-proyecto")) {
         ev.preventDefault();
         GuardarProyecto(userID);
@@ -595,7 +717,9 @@ document.addEventListener("click", (ev) => {
         inicarContr(userID);
     }
     if (ev.target.matches("#AgregarTarea_proyec")) {
-
+        proyectoID = ev.target.getAttribute("data-proyecto-id");
+        ev.preventDefault();
+        createtarea();
     } else if (ev.target.matches("#boton-cancelar-proyecto")) {
         ev.preventDefault();
         proyectadmin(userID);
@@ -625,6 +749,23 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#boton-actualizar-tarea")) {
         ev.preventDefault();
         EnviarActualizacionTarea(proyectoID);
+        OptionTarea();
+    } else if (ev.target.matches("#equipos")) {
+        ev.preventDefault();
+        mostrarIntegrantes();
+
+    } else if (ev.target.matches("#Agregarcolaborador")) {
+        proyectoID = ev.target.getAttribute("data-tarea-id");
+        idtarea = ev.target.getAttribute("data-proyecto-id");
+        const idp = proyectoID;
+        const idt = idtarea;
+        console.log("ide pro:", idp, "ide tarea:", idt);
+        ev.preventDefault();
+        crearcolaborardor();
+
+    } else if (ev.target.matches("#boton-buscar-colaborador")) {
+        ev.preventDefault();
+        bucarcolaborador();
         OptionTarea();
     }
 

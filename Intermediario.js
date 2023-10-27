@@ -326,4 +326,79 @@ export function actualizarTareaEnServidor(tareaId, nuevoNombre, nuevaDescripcion
       }
       return response.json();
     });
+
+
+    
 }
+export function obtenerInfoTareasdeMienbro(usuarioId) {
+  return fetch(`http://localhost:3000/informaciontareas/${usuarioId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      return response.json();
+    });
+}
+
+/*mostar tares con y sin colaborador */
+export function buscarTareasSinColaborador(usuarioId) {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/tareas-sin-colaborador/${usuarioId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function buscarTareasConColaborador(usuarioId) {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/tareas-con-colaborador/${usuarioId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+export function agregarColaborador(nuevoColaborador) {
+  fetch('http://localhost:3000/colaboradores', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      Usuario_Participante: nuevoColaborador.Usuario_Participante,
+      Proyecto_Perteneciente: nuevoColaborador.Proyecto_Perteneciente,
+      Tarea_Asignada: nuevoColaborador.Tarea_Asignada,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.message) {
+        console.log("Objeto nuevoColaborador:", nuevoColaborador);
+
+        console.log('Colaborador agregado con éxito', nuevoColaborador.Usuario_Participante, nuevoColaborador.Proyecto_Perteneciente, nuevoColaborador.Tarea_Asignada);
+      } else {
+        console.error(data.error);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+

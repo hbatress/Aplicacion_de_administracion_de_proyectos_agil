@@ -19,8 +19,6 @@ const dbservice = () => {
     const TipoDeCuenta = "Tipo_de_Cuenta";
     const EstadoDeLaTarea = "Estado_de_la_Tarea";
 
-
-
     // Funciones de consulta
     const getUsuario = () => {
         return knex(Usuario).select();
@@ -41,7 +39,7 @@ const dbservice = () => {
             Rol: Rol,
             Fecha_de_Registro: Fecha_de_Registro,
             Tipo_de_Cuenta: Tipo_de_Cuenta,
-            Contrasenia: Contrasenia
+            Contrasenia: Contrasenia,
         });
     };
 
@@ -78,12 +76,12 @@ const dbservice = () => {
     const crearColaborador = (
         Usuario_Participante,
         Proyecto_Perteneciente,
-        Tarea_Asignada
+        Tarea_Asiganda
     ) => {
         return knex(Colaborador).insert({
             Usuario_Participante: Usuario_Participante,
             Proyecto_Perteneciente: Proyecto_Perteneciente,
-            Tarea_Asignada: Tarea_Asignada,
+            Tarea_Asiganda: Tarea_Asiganda,
         });
     };
 
@@ -106,124 +104,215 @@ const dbservice = () => {
         Estado_de_la_Tarea,
         Tarea
     ) => {
-        return knex('Historial_de_Movimiento').insert({
+        return knex("Historial_de_Movimiento").insert({
             Fecha_y_Hora_del_Movimiento: Fecha_y_Hora_del_Movimiento,
             Proyecto_Perteneciente: Proyecto_Perteneciente,
             Usuario_que_Realizo_el_Movimiento: Usuario_que_Realizo_el_Movimiento,
             Estado_de_la_Tarea: Estado_de_la_Tarea,
-            Tarea: Tarea
+            Tarea: Tarea,
         });
     };
 
-    const crearEstadoDeLaTarea = (
-        Nombre_del_Estado,
-        Descripcion_del_Estado
-    ) => {
+    const crearEstadoDeLaTarea = (Nombre_del_Estado, Descripcion_del_Estado) => {
         return knex(EstadoDeLaTarea).insert({
             Nombre_del_Estado: Nombre_del_Estado,
             Descripcion_del_Estado: Descripcion_del_Estado,
         });
     };
 
-
     const getUsuarioPorIdConTipoCuenta = (usuarioId) => {
-        return knex('Usuario as U')
-            .select('U.ID as Usuario_ID', 'U.Nombre as Nombre_Usuario', 'U.Correo_Electronico', 'U.Rol', 'U.Fecha_de_Registro', 'TC.Nombre_del_Tipo_de_Cuenta')
-            .leftJoin('Tipo_de_Cuenta as TC', 'U.Tipo_de_Cuenta', 'TC.ID')
-            .where('U.ID', usuarioId)
+        return knex("Usuario as U")
+            .select(
+                "U.ID as Usuario_ID",
+                "U.Nombre as Nombre_Usuario",
+                "U.Correo_Electronico",
+                "U.Rol",
+                "U.Fecha_de_Registro",
+                "TC.Nombre_del_Tipo_de_Cuenta"
+            )
+            .leftJoin("Tipo_de_Cuenta as TC", "U.Tipo_de_Cuenta", "TC.ID")
+            .where("U.ID", usuarioId)
             .first()
             .then((usuario) => {
                 if (usuario) {
                     return usuario;
                 } else {
-                    throw new Error('Usuario no encontrado');
+                    throw new Error("Usuario no encontrado");
                 }
             });
     };
 
-
     /* Sirve para actualizar los datos por medio del ID */
     const actualizarUsuario = (usuarioId, userData) => {
-        return knex('Usuario') // Nombre de la tabla
-            .where('ID', usuarioId)
+        return knex("Usuario") // Nombre de la tabla
+            .where("ID", usuarioId)
             .update({
                 Nombre: userData.Nombre,
                 Correo_Electronico: userData.Correo_Electronico,
                 Rol: userData.Rol,
                 contrasenia: userData.contrasenia,
-                Tipo_de_Cuenta: userData.Tipo_de_Cuenta
+                Tipo_de_Cuenta: userData.Tipo_de_Cuenta,
                 // Excluimos 'Fecha_de_Registro' y 'ID' de la actualización
             });
     };
     /* sive para actualiza el estado */
     const actualizarEstadoTarea = (tareaId, nuevoEstadoId) => {
-        return knex('Tarea')
-            .where('ID', tareaId)
-            .update({
-                Estado_de_la_Tarea: nuevoEstadoId
-            });
+        return knex("Tarea").where("ID", tareaId).update({
+            Estado_de_la_Tarea: nuevoEstadoId,
+        });
     };
 
     /* Sirve para buscar y unir tablas*/
     const getBuscarUsuarioPorId = (usuarioId) => {
-        return knex('Usuario')
-            .select('Usuario.Nombre', 'Tipo_de_Cuenta.Nombre_del_Tipo_de_Cuenta', 'Tipo_de_Cuenta.Descripcion_del_Tipo_de_Cuenta')
-            .leftJoin('Tipo_de_Cuenta', 'Usuario.Tipo_de_Cuenta', 'Tipo_de_Cuenta.ID')
-            .where('Usuario.ID', usuarioId)
+        return knex("Usuario")
+            .select(
+                "Usuario.Nombre",
+                "Tipo_de_Cuenta.Nombre_del_Tipo_de_Cuenta",
+                "Tipo_de_Cuenta.Descripcion_del_Tipo_de_Cuenta"
+            )
+            .leftJoin("Tipo_de_Cuenta", "Usuario.Tipo_de_Cuenta", "Tipo_de_Cuenta.ID")
+            .where("Usuario.ID", usuarioId)
             .first();
     };
     /*Buscar los proyectos que tiene asignados */
     const getProyectosAsignados = (usuarioId) => {
-        return knex('Proyectos as p')
-            .select('p.ID', 'p.Nombre_del_Proyecto', 'p.Descripcion', 'p.Fecha_de_Creacion')
-            .where('p.Usuario_Propietario', usuarioId);
+        return knex("Proyectos as p")
+            .select(
+                "p.ID",
+                "p.Nombre_del_Proyecto",
+                "p.Descripcion",
+                "p.Fecha_de_Creacion"
+            )
+            .where("p.Usuario_Propietario", usuarioId);
     };
     /* Buscar las tareas asignadas a un usuario */
     const getTareasAsignadas = (usuarioId) => {
-        return knex('Tarea as t')
+        return knex("Tarea as t")
             .select(
-                't.ID as Tarea_ID',
-                't.Nombre_de_la_Tarea',
-                't.Descripcion as Tarea_Descripcion',
-                't.Fecha_de_Creacion as Tarea_Fecha_de_Creacion',
-                'p.ID as Proyecto_ID',
-                'p.Nombre_del_Proyecto',
-                'c.ID as Colaborador_ID',
-                'e.Nombre_del_Estado as Estado_de_la_Tarea'
+                "t.ID as Tarea_ID",
+                "t.Nombre_de_la_Tarea",
+                "t.Descripcion as Tarea_Descripcion",
+                "t.Fecha_de_Creacion as Tarea_Fecha_de_Creacion",
+                "p.ID as Proyecto_ID",
+                "p.Nombre_del_Proyecto",
+                "c.ID as Colaborador_ID",
+                "e.Nombre_del_Estado as Estado_de_la_Tarea"
             )
-            .innerJoin('Proyectos as p', 't.Proyecto_Perteneciente', 'p.ID')
-            .innerJoin('Estado_de_la_Tarea as e', 't.Estado_de_la_Tarea', 'e.ID')
-            .innerJoin('Colaborador as c', 't.ID', 'c.Tarea_Asiganda')
-            .where('c.Usuario_Participante', usuarioId);
+            .innerJoin("Proyectos as p", "t.Proyecto_Perteneciente", "p.ID")
+            .innerJoin("Estado_de_la_Tarea as e", "t.Estado_de_la_Tarea", "e.ID")
+            .innerJoin("Colaborador as c", "t.ID", "c.Tarea_Asiganda")
+            .where("c.Usuario_Participante", usuarioId);
     };
 
     const getColaboradorYProyectoPorTarea = (tareaId) => {
-        return knex('Colaborador as c')
-            .select('c.ID as ID_Colaborador', 'c.Proyecto_Perteneciente as ID_Proyecto')
-            .innerJoin('Tarea as t', 'c.Tarea_Asiganda', 't.ID')
-            .where('t.ID', tareaId);
+        return knex("Colaborador as c")
+            .select(
+                "c.ID as ID_Colaborador",
+                "c.Proyecto_Perteneciente as ID_Proyecto"
+            )
+            .innerJoin("Tarea as t", "c.Tarea_Asiganda", "t.ID")
+            .where("t.ID", tareaId);
     };
 
-    const actualizarNombreYDescripcionProyecto = (proyectoId, nuevoNombre, nuevaDescripcion) => {
-        return knex('Proyectos')
-            .where('ID', proyectoId)
-            .update({
-                Nombre_del_Proyecto: nuevoNombre,
-                Descripcion: nuevaDescripcion
-            });
+    const actualizarNombreYDescripcionProyecto = (
+        proyectoId,
+        nuevoNombre,
+        nuevaDescripcion
+    ) => {
+        return knex("Proyectos").where("ID", proyectoId).update({
+            Nombre_del_Proyecto: nuevoNombre,
+            Descripcion: nuevaDescripcion,
+        });
     };
 
-    const actualizarTarea = (tareaId, nuevoNombre, nuevaDescripcion, nuevoEstado) => {
-        return knex('tarea')
-            .where('ID', tareaId)
-            .update({
-                Nombre_de_la_Tarea: nuevoNombre,
-                Descripcion: nuevaDescripcion,
-                Estado_de_la_Tarea: nuevoEstado
-            });
+    const actualizarTarea = (
+        tareaId,
+        nuevoNombre,
+        nuevaDescripcion,
+        nuevoEstado
+    ) => {
+        return knex("tarea").where("ID", tareaId).update({
+            Nombre_de_la_Tarea: nuevoNombre,
+            Descripcion: nuevaDescripcion,
+            Estado_de_la_Tarea: nuevoEstado,
+        });
+    };
+    /* Hace llamado a los miembros*/
+    const getColaboradoresYTareasPorUsuarioPropietario = (
+        usuarioPropietarioId
+    ) => {
+        return knex("Proyectos as p")
+            .select(
+                "p.ID as ID_del_Proyecto",
+                "p.Nombre_del_Proyecto as Nombre_del_Proyecto",
+                "u_propietario.ID as ID_del_Propietario",
+                "u_propietario.Nombre as Nombre_del_Propietario",
+                "c.ID as ID_del_Colaborador",
+                "u_colaborador.Nombre as Nombre_del_Colaborador",
+                "t.ID as ID_de_Tarea",
+                "t.Nombre_de_la_Tarea as Nombre_de_Tarea"
+            )
+            .leftJoin("Colaborador as c", "p.ID", "c.Proyecto_Perteneciente")
+            .leftJoin(
+                "Usuario as u_colaborador",
+                "c.Usuario_Participante",
+                "u_colaborador.ID"
+            )
+            .leftJoin(
+                "Usuario as u_propietario",
+                "p.Usuario_Propietario",
+                "u_propietario.ID"
+            )
+            .leftJoin("Tarea as t", "c.Tarea_Asiganda", "t.ID")
+            .where("u_propietario.ID", usuarioPropietarioId);
     };
 
+    /* Para ver usuario con y son colaborador*/
+    const Taressincolaborador = (usuarioPropietarioId) => {
+        return knex("Proyectos as p")
+            .select(
+                "p.ID as ID_del_Proyecto",
+                "p.Nombre_del_Proyecto as Nombre_del_Proyecto",
+                "u_propietario.ID as ID_del_Propietario",
+                "u_propietario.Nombre as Nombre_del_Propietario",
+                "c.ID as ID_del_Colaborador",
+                "u_colaborador.Nombre as Nombre_del_Colaborador",
+                "t.ID as ID_de_Tarea",
+                "t.Nombre_de_la_Tarea as Nombre_de_Tarea"
+            )
+            .leftJoin("Colaborador as c", "p.ID", "c.Proyecto_Perteneciente")
+            .leftJoin(
+                "Usuario as u_colaborador",
+                "c.Usuario_Participante",
+                "u_colaborador.ID"
+            )
+            .leftJoin(
+                "Usuario as u_propietario",
+                "p.Usuario_Propietario",
+                "u_propietario.ID"
+            )
+            .leftJoin("Tarea as t", "c.Tarea_Asiganda", "t.ID")
+            .where("u_propietario.ID", usuarioPropietarioId);
+    };
 
+    const taresconcolaborador = (usuarioPropietarioId) => {
+        return knex("Tarea as t")
+            .select(
+                "t.ID as Tarea_ID",
+                "t.Nombre_de_la_Tarea as Nombre_de_la_Tarea",
+                "t.Estado_de_la_Tarea as Estado_de_la_Tarea_ID",
+                "e.Nombre_del_Estado as Nombre_del_Estado_de_la_Tarea",
+                "p.ID as Proyecto_ID",
+                "p.Nombre_del_Proyecto as Nombre_del_Proyecto"
+            )
+            .leftJoin("Proyectos as p", "t.Proyecto_Perteneciente", "p.ID")
+            .leftJoin("Estado_de_la_Tarea as e", "t.Estado_de_la_Tarea", "e.ID")
+            .where("p.Usuario_Propietario", usuarioPropietarioId);
+    };
+
+    /*insetar colaboradores */
+    
+    // Función para agregar un registro en la tabla Colaborador
 
     return {
         getBuscarUsuarioPorId,
@@ -242,17 +331,13 @@ const dbservice = () => {
         crearEstadoDeLaTarea,
         actualizarEstadoTarea,
         actualizarNombreYDescripcionProyecto,
-        actualizarTarea
+        actualizarTarea,
+        getColaboradoresYTareasPorUsuarioPropietario,
+        Taressincolaborador,
+        taresconcolaborador
+        
     };
-
-
-
-
-
-
 };
-
-
 
 module.exports = {
     dbservice,
