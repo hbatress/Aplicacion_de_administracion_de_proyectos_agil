@@ -334,4 +334,22 @@ module.exports = function (app, dbservice) {
             });
     });
 
+
+
+    app.put('/updatetask/:id', (req, res) => {
+        const tareaId = req.params.id;
+        const { Nombre_de_la_Tarea, Descripcion, Estado_de_la_Tarea } = req.body;
+
+        // Asegúrate de que se pasen los campos necesarios a la función de actualización en el servicio.
+        dbservice.actualizarTarea(tareaId, Nombre_de_la_Tarea, Descripcion, Estado_de_la_Tarea)
+            .then(() => {
+                res.json({ message: 'Tarea actualizada con éxito' });
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al actualizar la tarea' });
+            });
+    });
+
+
+
 }

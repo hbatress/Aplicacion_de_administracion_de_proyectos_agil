@@ -557,19 +557,23 @@ function Proyectos(data, Realizar) {
                   <h3 class="proyecto-titulo">Proyecto de: ${proyecto.Nombre_del_Proyecto}</h3>
                   <p class="proyecto-descripcion">${proyecto.Descripcion}</p>
                   ${userRole === 'Administrador' ? `
-                      <div class="botones-container">
-                          ${Realizar === 'CrearTarea' ? `
-                              <button class="boton crear-tarea" id="AgregarTarea_proyec" data-proyecto-id="${proyecto.ID}">
-                                  <i class="fa fa-plus"></i> Crear Tarea
-                              </button>
-                          ` : ''}
-                          ${Realizar === 'ActualizarProyecto' ? `
-                              <button id="proyectoIncividual" class="boton actualizar-proyecto" data-proyecto-id="${proyecto.ID}">
-                                  <i class="fa fa-pencil"></i> Actualizar Proyecto
-                              </button>
-                          ` : ''}
-                      </div>
-                  ` : ''}
+                  <div class="botones-container">
+                      ${Realizar === 'CrearTarea' ? `
+                          <button class="boton crear-tarea" data-proyecto-id="${proyecto.ID}">
+                              <i class="fa fa-plus"></i> Crear Tarea
+                          </button>
+                      ` : ''}
+                      ${Realizar === 'ActualizarProyecto' ? `
+                          <button class="boton actualizar-proyecto" data-proyecto-id="${proyecto.ID}">
+                              <i class="fa fa-pencil"></i> Actualizar Proyecto
+                          </button>
+                          <button class="boton eliminar-proyecto" data-proyecto-id="${proyecto.ID}" onclick="eliminarProyecto(${proyecto.ID})">
+                              <i class="fa fa-trash"></i> Eliminar Proyecto
+                          </button>
+                      ` : ''}
+                  </div>
+              ` : ''}
+              
                   <hr class="proyecto-linea"> <!-- Línea divisoria -->
               </div>`
           ).join('')}
@@ -682,11 +686,8 @@ function OpcionesTarea() {
           <button id="crear-tarea" class="boton">
             <i class="fa fa-plus"></i> Crear Tarea
           </button>
-          <button id="ver-tarea" class="boton">
-            <i class="fa fa-eye"></i> Ver Tarea
-          </button>
           <button id="editar-tarea" class="boton">
-            <i class="fa fa-pencil"></i> Editar Tarea
+          <i class="fa fa-eye"></i> Ver Tarea
           </button>
         </div>
       </div>
@@ -866,49 +867,39 @@ function ActualizarProyect() {
   
   function actualizarTareaForm() {
     var html = `
-      <div class="ajustes_user">
-        <div class="Contenido-ajuste">
-          <div class="titulo">
-            <h1><i class="fa fa-pencil icono"></i> Actualizar Tarea</h1>
-          </div>
-          <form id="tarea-form">
-            <div class="encabezados">
-              <div class="item">
-                <i class="fa fa-tasks"></i>
-                <span class="Enca">Nuevo Nombre de la Tarea:</span>
-                <input class="input" type="text" id="nombre-tarea" placeholder="Ingrese el nuevo nombre de la tarea" name="nombre-tarea" />
-              </div>
-              <div class="item">
-                <i class="fa fa-align-left"></i>
-                <span class="Enca">Nueva Descripción:</span>
-                <input class="input"  type="text" id="descripcion-tarea" placeholder="Ingrese una nueva descripción de la tarea" name="descripcion-tarea"></input>
-              </div>
-              <div class="input-container">
-                <i class="fa fa-briefcase"></i>
-                <span class="Enca">Nuevo Proyecto Perteneciente:</span>
-                <select class="input" id="proyecto-perteneciente" name="proyecto-perteneciente">
-                  <option value="proyecto-1">Proyecto 1</option>
-                  <option value="proyecto-2">Proyecto 2</option>
-                  <option value="proyecto-2">Proyecto 2</option>
-                </select>
-              </div>
-              <div class="input-container">
-                <i class="fa fa-check-circle"></i>
-                <span class="Enca">Nuevo Estado de la Tarea:</span>
-                <select class="input" id="estado-tarea" name="estado-tarea">
-                <option value="1">Pendiente</option>
-                <option value="2">En Proceso</option>
-                <option value="3">Finalizado</option>
-                </select>
-              </div>
-            </div>
-            <div class="botones">
-              <button id="boton-actualizar-tarea" class="boton" type="submit"><i class="fa fa-check"></i> Actualizar Tarea</button>
-              <button id="boton-cancelar-tarea" class="boton" name="cancelar"><i class="fa fa-times"></i> Cancelar</button>
-            </div>
-          </form>
+    <div class="ajustes_user">
+    <div class="Contenido-ajuste">
+      <div class="titulo">
+        <h1><i class="fa fa-pencil icono"></i> Actualizar Tarea</h1>
+      </div>
+      <div class="encabezados">
+        <div class="item">
+          <i class="fa fa-tasks"></i>
+          <span class="Enca">Nuevo Nombre de la Tarea:</span>
+          <input class="input" type="text" id="nombre-tarea" placeholder="Ingrese el nuevo nombre de la tarea" />
+        </div>
+        <div class="item">
+          <i class="fa fa-align-left"></i>
+          <span class="Enca">Nueva Descripción:</span>
+          <input class="input" type="text" id="descripcion-tarea" placeholder="Ingrese una nueva descripción de la tarea"></input>
+        </div>
+        <div class="input-container">
+          <i class="fa fa-check-circle"></i>
+          <span class="Enca">Nuevo Estado de la Tarea:</span>
+          <select class="input" id="estado-tarea">
+            <option value="1">Pendiente</option>
+            <option value="2">En Proceso</option>
+            <option value="3">Finalizado</option>
+          </select>
         </div>
       </div>
+      <div class="botones">
+        <button id="boton-actualizar-tarea" class="boton"><i class="fa fa-check"></i> Actualizar Tarea</button>
+        <button id="boton-cancelar-tarea" class="boton"><i class="fa fa-times"></i> Cancelar</button>
+      </div>
+    </div>
+  </div>
+  
     `;
     return html;
   }
@@ -966,38 +957,50 @@ function SinAsignacion() {
 
 function MostrarTareasDivididas(tareas) {
   // Organiza las tareas por estado
-  const tareasTerminadas = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'Terminado');
+  const tareasTerminadas = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'Realizado');
   const tareasEnProceso = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'En Proceso');
   const tareasPendientes = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'Pendiente');
 
   // Función para generar HTML de tareas
-  function generarTareasHtml(tareas) {
-    return tareas.map((tarea) => `
-      <div class="tarea">
-          <h3 class="tarea-titulo">${tarea.Nombre_de_la_Tarea}</h3>
-          <p class="tarea-descripcion">${tarea.Tarea_Descripcion}</p>
-          <button class="boton actualizar-tarea" data-tarea-id="${tarea.Tarea_ID}">
-              Actualizar
-          </button>
+// Función para generar HTML de tareas con botones de actualizar y eliminar
+function generarTareasHtml(tareas) {
+  return tareas.map((tarea) => `
+    <div class="tarea">
+      <h3>${tarea.Nombre_de_la_Tarea}</h3>
+      <p>${tarea.Tarea_Descripcion}</p>
+      <div class="botones-container">
+        <button  id="ActualizarTarea" class="boton actualizar" data-tarea-id="${tarea.Tarea_ID}">
+          <i class="fa fa-pencil"></i> Actualizar
+        </button>
+        <button class="boton eliminar" data-tarea-id="${tarea.Tarea_ID}">
+          <i class="fa fa-trash"></i> Eliminar
+        </button>
       </div>
-    `).join('');
-  }
+    </div>
+  `).join('');
+}
 
   var html = `
-      <div class="tareas-divididas-seccion">
-          <div class="grupo-terminado">
-              <h2>Terminado</h2>
-              ${generarTareasHtml(tareasTerminadas)}
-          </div>
-          <div class="grupo-en-proceso">
-              <h2>En Proceso</h2>
-              ${generarTareasHtml(tareasEnProceso)}
-          </div>
-          <div class="grupo-pendiente">
-              <h2>Pendiente</h2>
-              ${generarTareasHtml(tareasPendientes)}
-          </div>
+    <div class="tareas-divididas-seccion">
+      <div class="grupo-terminado">
+        <h2>Terminado</h2>
+        <div class="tareas-container">
+          ${generarTareasHtml(tareasTerminadas)}
+        </div>
       </div>
+      <div class="grupo-en-proceso">
+        <h2>En Proceso</h2>
+        <div class="tareas-container">
+          ${generarTareasHtml(tareasEnProceso)}
+        </div>
+      </div>
+      <div class="grupo-pendiente">
+        <h2>Pendiente</h2>
+        <div class="tareas-container">
+          ${generarTareasHtml(tareasPendientes)}
+        </div>
+      </div>
+    </div>
   `;
 
   return html;

@@ -481,3 +481,89 @@ input::placeholder {
 .estado-botones-btn:hover {
   background-color: #0056b3;
 }
+
+
+/*Estilo de que muestra las tareas*/
+/* Estilos para la sección de tareas divididas */
+.tareas-divididas-seccion {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para cada grupo de tareas (Terminado, En Proceso, Pendiente) */
+.grupo-terminado,
+.grupo-en-proceso,
+.grupo-pendiente {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  max-height: 300px; /* Limita la altura máxima de cada grupo */
+  overflow-y: auto; /* Agrega desplazamiento vertical si es necesario */
+  display: flex;
+  flex-direction: column; /* Alinea verticalmente el contenido */
+  justify-content: space-between; /* Centrar contenido verticalmente */
+  text-align: center;
+}
+
+/* Estilos para el contenedor de tareas */
+.tareas-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Estilos para cada tarea */
+.tarea {
+  width: calc(33.33% - 10px); /* Ancho de 33.33% con espacio entre tareas */
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilos para el texto de la tarea */
+h3 {
+  text-align: center; /* Centrar el texto horizontalmente */
+}
+
+/* Estilos para la barra de desplazamiento */
+.grupo-terminado::-webkit-scrollbar,
+.grupo-en-proceso::-webkit-scrollbar,
+.grupo-pendiente::-webkit-scrollbar {
+  width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+.grupo-terminado::-webkit-scrollbar-thumb,
+.grupo-en-proceso::-webkit-scrollbar-thumb,
+.grupo-pendiente::-webkit-scrollbar-thumb {
+  background-color: #555; /* Color de fondo de la barra de desplazamiento */
+  border-radius: 5px; /* Borde redondeado de la barra de desplazamiento */
+}
+
+.grupo-terminado::-webkit-scrollbar-thumb:hover,
+.grupo-en-proceso::-webkit-scrollbar-thumb:hover,
+.grupo-pendiente::-webkit-scrollbar-thumb:hover {
+  background-color: #777; /* Color de fondo de la barra de desplazamiento al pasar el mouse */
+}
+
+
+/*Para la barra de dsplazamiento*/
+/* Estilos para personalizar la barra de desplazamiento */
+body::-webkit-scrollbar {
+  width: 12px; /* Ancho de la barra de desplazamiento */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #555; /* Color de fondo de la barra de desplazamiento */
+  border-radius: 6px; /* Borde redondeado de la barra de desplazamiento */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #777; /* Color de fondo de la barra de desplazamiento al pasar el mouse */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent; /* Fondo transparente de la pista de la barra de desplazamiento */
+}

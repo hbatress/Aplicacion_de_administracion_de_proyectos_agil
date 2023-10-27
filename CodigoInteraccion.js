@@ -8,7 +8,8 @@ import {
     AgregarHistorialMovimiento,
     AgregarProyecto,
     AgregarTarea,
-    actualizarProyecto
+    actualizarProyecto,
+    actualizarTareaEnServidor
 } from "./Intermediario.js";
 
 
@@ -377,6 +378,34 @@ function Proyecactualizar(proyectoID) {
     }
 }
 
+function EnviarActualizacionTarea(tareaId) {
+        // Obtén los valores de los campos del formulario
+        const nuevoNombre = document.getElementById('nombre-tarea').value;
+        const nuevaDescripcion = document.getElementById('descripcion-tarea').value;
+        const nuevoEstado = document.getElementById('estado-tarea').value;
+
+        // Ahora puedes utilizar estos valores para llamar a la función que actualiza la tarea en el servidor
+        actualizarTareaEnServidor(tareaId, nuevoNombre, nuevaDescripcion, nuevoEstado)
+            .then(() => {
+                // La tarea se ha actualizado con éxito, puedes mostrar un mensaje de éxito o redirigir aquí si es necesario
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Tarea actualizada',
+                    text: 'La tarea se actualizó con éxito.'
+                });
+            })
+            .catch((error) => {
+                // Hubo un error en la solicitud, puedes mostrar un mensaje de error aquí
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error en la solicitud',
+                    text: 'Hubo un error al actualizar la tarea.'
+                });
+            });
+    }
+
+
+
 
 
 //CONFIGURACIONES DE USUARIO ADMINISTRADO 
@@ -479,8 +508,6 @@ document.addEventListener("click", (ev) => {
             `para tarea con ID`,
             tareaID
         );
-        console.log(`ID del Proyecto para recibir:`, proyectoID);
-        console.log(`ID del Colaborador para recibir:`, colaboradorID);
         actualizarEstadoTarea(tareaID, estado);
 
         // Define un objeto con los datos del historial de movimiento que deseas enviar
@@ -557,9 +584,7 @@ document.addEventListener("click", (ev) => {
         Estadoregreso = "Tarea";
         const hacer = "CrearTarea"
         VerProyectos(userID, hacer);
-    } else if (ev.target.matches("#ver-tarea")) {
-        VerTareas();
-    } else if (ev.target.matches("#editar-tarea")) {
+    }else if (ev.target.matches("#editar-tarea")) {
 
         ListaoTareas();
         //UotadeTarea();
@@ -570,9 +595,7 @@ document.addEventListener("click", (ev) => {
         inicarContr(userID);
     }
     if (ev.target.matches("#AgregarTarea_proyec")) {
-        proyectoID = ev.target.getAttribute("data-proyecto-id");
-        ev.preventDefault();
-        createtarea();
+
     } else if (ev.target.matches("#boton-cancelar-proyecto")) {
         ev.preventDefault();
         proyectadmin(userID);
@@ -589,12 +612,20 @@ document.addEventListener("click", (ev) => {
         VerProyectos(userID, hacer);
     }
     else if (ev.target.matches("#boton-actualizar-proyecto")) {
-        console.log("Aqui va el ID en cada del Proyecto para actualizar", proyectoID);
         Proyecactualizar(proyectoID);
         ev.preventDefault();
         const hacer = "ActualizarProyecto";
         VerProyectos(userID, hacer);
 
+    } else if (ev.target.matches("#ActualizarTarea")) {
+        ev.preventDefault();
+        proyectoID = ev.target.getAttribute("data-tarea-id");
+        console.log(proyectoID);
+        UotadeTarea();
+    } else if (ev.target.matches("#boton-actualizar-tarea")) {
+        ev.preventDefault();
+        EnviarActualizacionTarea(proyectoID);
+        OptionTarea();
     }
 
 

@@ -1,29 +1,29 @@
 /* Funcion para agregar Usuario*/
 export function AgregarUser(data) {
-    return fetch('http://localhost:3000/AddUser', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+  return fetch('http://localhost:3000/AddUser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then(data => {
+      console.log('Respuesta del servidor:', data);
     })
-        .then((response) => response.json())
-        .then(data => {
-            console.log('Respuesta del servidor:', data);
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    .catch((error) => {
+      console.error(error);
+    });
 }
 /* Funcion para Buscar el usuario*/
 export function LeerUser() {
-    return fetch('http://localhost:3000/login', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-        .then((response) => response.json());
+  return fetch('http://localhost:3000/login', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => response.json());
 
 }
 
@@ -122,29 +122,29 @@ export function actualizarUsuario(usuarioId, datosActualizados) {
 }
 
 /* Fcuncion para saber el tipo de cuenta del usuario*/
-  export function definicionTipoCuenta(usuarioId) {
-    fetch(`http://localhost:3000/CuentaTI/${usuarioId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error en la solicitud');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Datos recibidos:', data); 
-        if (data.error) {
-          console.error(data.error);
-        } else {
-          console.log('Nombre del usuario:', data.nombre);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-  
-  
-  /*Funcion para llamar a la informacion requerida */
+export function definicionTipoCuenta(usuarioId) {
+  fetch(`http://localhost:3000/CuentaTI/${usuarioId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Datos recibidos:', data);
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        console.log('Nombre del usuario:', data.nombre);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+
+/*Funcion para llamar a la informacion requerida */
 
 export function obtenerInfoHistoria(usuarioId) {
   fetch(`http://localhost:3000/infohistoria/${usuarioId}`)
@@ -192,30 +192,30 @@ export function actualizarEstadoTarea(tareaId, nuevoEstadoId) {
 // Función para agregar un historial de movimiento
 export function AgregarHistorialMovimiento(newMovementHistory) {
   return fetch('http://localhost:3000/historialesmovimiento', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-          Fecha_y_Hora_del_Movimiento: newMovementHistory.Fecha_y_Hora_del_Movimiento,
-          Proyecto_Perteneciente: newMovementHistory.Proyecto_Perteneciente,
-          Usuario_que_Realizo_el_Movimiento: newMovementHistory.Usuario_que_Realizo_el_Movimiento,
-          Estado_de_la_Tarea: newMovementHistory.Estado_de_la_Tarea,
-          Tarea: newMovementHistory.Tarea
-      })
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      Fecha_y_Hora_del_Movimiento: newMovementHistory.Fecha_y_Hora_del_Movimiento,
+      Proyecto_Perteneciente: newMovementHistory.Proyecto_Perteneciente,
+      Usuario_que_Realizo_el_Movimiento: newMovementHistory.Usuario_que_Realizo_el_Movimiento,
+      Estado_de_la_Tarea: newMovementHistory.Estado_de_la_Tarea,
+      Tarea: newMovementHistory.Tarea
+    })
   })
-  .then(response => {
+    .then(response => {
       if (!response.ok) {
-          throw new Error('Error al agregar historial de movimiento');
+        throw new Error('Error al agregar historial de movimiento');
       }
       return response.json();
-  })
-  .then(data => {
+    })
+    .then(data => {
       console.log('Respuesta del servidor:', data);
-  })
-  .catch(error => {
+    })
+    .catch(error => {
       console.error(error);
-  });
+    });
 }
 
 /* funcion para crear nuevos proyectos */
@@ -306,3 +306,24 @@ export function obtenerInfoTareas(nombreTarea, usuarioId) {
     });
 }
 
+export function actualizarTareaEnServidor(tareaId, nuevoNombre, nuevaDescripcion, nuevoEstado) {
+  const requestBody = {
+    Nombre_de_la_Tarea: nuevoNombre,
+    Descripcion: nuevaDescripcion,
+    Estado_de_la_Tarea: nuevoEstado
+  };
+
+  return fetch(`http://localhost:3000/updatetask/${tareaId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(requestBody)
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud de actualización de tarea');
+      }
+      return response.json();
+    });
+}
