@@ -30,7 +30,8 @@ import {
     OpcionesNotificaciones,
     crearTareaForm,
     actualizarTareaForm,
-    verTareas
+    verTareas,
+    MostrarTareasDivididas
 } from "./Vistas.js";
 
 //CONTROLADORES
@@ -414,6 +415,18 @@ function VerTareas() {
     document.getElementById("Tablero").innerHTML = verTareas();
 }
 
+function ListaoTareas() {
+    const userID = localStorage.getItem("userID");
+    buscarTareasAsignadas(userID)
+        .then((data) => {
+            document.getElementById("Tablero").innerHTML = MostrarTareasDivididas(data);
+        })
+        .catch((error) => {
+
+            console.error('Error al buscar tareas:', error);
+
+        });
+}
 
 let estadoActual = "Pendiente";
 let proyectoID;
@@ -547,7 +560,9 @@ document.addEventListener("click", (ev) => {
     } else if (ev.target.matches("#ver-tarea")) {
         VerTareas();
     } else if (ev.target.matches("#editar-tarea")) {
-        UotadeTarea();
+
+        ListaoTareas();
+        //UotadeTarea();
     } else if (ev.target.matches("#boton-crear-proyecto")) {
         ev.preventDefault();
         GuardarProyecto(userID);

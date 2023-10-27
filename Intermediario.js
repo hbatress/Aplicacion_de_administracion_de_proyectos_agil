@@ -145,7 +145,7 @@ export function actualizarUsuario(usuarioId, datosActualizados) {
   
   
   /*Funcion para llamar a la informacion requerida */
-  /* Función para obtener información de la historia del usuario */
+
 export function obtenerInfoHistoria(usuarioId) {
   fetch(`http://localhost:3000/infohistoria/${usuarioId}`)
     .then((response) => {
@@ -170,11 +170,11 @@ export function obtenerInfoHistoria(usuarioId) {
 /*Actualiza el estado de la tarea*/
 export function actualizarEstadoTarea(tareaId, nuevoEstadoId) {
   fetch(`http://localhost:3000/updateTareaEstado/${tareaId}`, {
-    method: 'PUT', // Utiliza el método PUT para actualizar el estado de la tarea
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ Estado_de_la_Tarea: nuevoEstadoId }), // Enviar el nuevo estado en el cuerpo de la solicitud
+    body: JSON.stringify({ Estado_de_la_Tarea: nuevoEstadoId }),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -283,5 +283,26 @@ export function actualizarProyecto(proyectoID, nuevoNombre, nuevaDescripcion) {
         reject(error);
       });
   });
+}
+/*Funcion para leer als tareas y el stado*/
+export function obtenerInfoTareas(nombreTarea, usuarioId) {
+  fetch(`http://localhost:3000/infotareas/${nombreTarea}/${usuarioId}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Datos de las tareas recibidos:', data);
+      if (data.error) {
+        console.error(data.error);
+      } else {
+        console.log('Información de las tareas:', data);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 

@@ -12,6 +12,7 @@ module.exports = function (app, dbservice) {
             .then(usuarios => res.json(usuarios))
             .catch(error => res.status(500).send(error));
     });
+
     app.get('/usuario/:id', (req, res) => {
         const usuarioId = req.params.id;
         dbservice.getUsuarioPorIdConTipoCuenta(usuarioId)
@@ -314,5 +315,23 @@ module.exports = function (app, dbservice) {
             });
     });
 
+    // Ruta para obtener información del historial de movimientos relacionado a un usuario
+    app.get('/infotareas/:nombreTarea/:usuarioId', (req, res) => {
+        const nombreTarea = req.params.nombreTarea;
+        const usuarioId = req.params.usuarioId;
+
+        // Utiliza la función de consulta de Knex
+        dbservice.getTareasPorNombreYUsuario(nombreTarea, usuarioId)
+            .then((tareas) => {
+                if (tareas && tareas.length > 0) {
+                    res.json(tareas);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas con el nombre especificado para este usuario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas asignadas' });
+            });
+    });
 
 }

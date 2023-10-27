@@ -1,5 +1,5 @@
 export { encabezado, pie, indexView, newView, iniciarcontr, Mostrarprecios, funcionesMostrar, solucionesMO, Condiciones };
-import { obtenerInfoHistoria, actualizarEstadoTarea } from './Intermediario.js'
+import { obtenerInfoHistoria,  } from './Intermediario.js'
 // VISTA
 function encabezado() {
     var html = `
@@ -16,6 +16,7 @@ function encabezado() {
     `;
 
     return html;
+ 
 }
 function pie() {
     var html = `
@@ -593,9 +594,6 @@ function Proyectos(data, Realizar) {
 }
 
 
-
-
-
 function Opciones() {
     var html = `
     <div id="botones-container">
@@ -631,7 +629,9 @@ export {
     OpcionesNotificaciones,
     crearTareaForm,
     actualizarTareaForm,
-    verTareas
+    verTareas,
+    MostrarTareasDivididas
+    
 }
 function encabezado_admin() {
     var html = `
@@ -963,3 +963,42 @@ function SinAsignacion() {
     return html;
 }
 */
+
+function MostrarTareasDivididas(tareas) {
+  // Organiza las tareas por estado
+  const tareasTerminadas = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'Terminado');
+  const tareasEnProceso = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'En Proceso');
+  const tareasPendientes = tareas.filter(tarea => tarea.Estado_de_la_Tarea === 'Pendiente');
+
+  // Función para generar HTML de tareas
+  function generarTareasHtml(tareas) {
+    return tareas.map((tarea) => `
+      <div class="tarea">
+          <h3 class="tarea-titulo">${tarea.Nombre_de_la_Tarea}</h3>
+          <p class="tarea-descripcion">${tarea.Tarea_Descripcion}</p>
+          <button class="boton actualizar-tarea" data-tarea-id="${tarea.Tarea_ID}">
+              Actualizar
+          </button>
+      </div>
+    `).join('');
+  }
+
+  var html = `
+      <div class="tareas-divididas-seccion">
+          <div class="grupo-terminado">
+              <h2>Terminado</h2>
+              ${generarTareasHtml(tareasTerminadas)}
+          </div>
+          <div class="grupo-en-proceso">
+              <h2>En Proceso</h2>
+              ${generarTareasHtml(tareasEnProceso)}
+          </div>
+          <div class="grupo-pendiente">
+              <h2>Pendiente</h2>
+              ${generarTareasHtml(tareasPendientes)}
+          </div>
+      </div>
+  `;
+
+  return html;
+}

@@ -114,7 +114,7 @@ const dbservice = () => {
             Tarea: Tarea
         });
     };
-    
+
     const crearEstadoDeLaTarea = (
         Nombre_del_Estado,
         Descripcion_del_Estado
@@ -163,7 +163,7 @@ const dbservice = () => {
                 Estado_de_la_Tarea: nuevoEstadoId
             });
     };
-    
+
     /* Sirve para buscar y unir tablas*/
     const getBuscarUsuarioPorId = (usuarioId) => {
         return knex('Usuario')
@@ -186,9 +186,9 @@ const dbservice = () => {
                 't.Nombre_de_la_Tarea',
                 't.Descripcion as Tarea_Descripcion',
                 't.Fecha_de_Creacion as Tarea_Fecha_de_Creacion',
-                'p.ID as Proyecto_ID', 
+                'p.ID as Proyecto_ID',
                 'p.Nombre_del_Proyecto',
-                'c.ID as Colaborador_ID', 
+                'c.ID as Colaborador_ID',
                 'e.Nombre_del_Estado as Estado_de_la_Tarea'
             )
             .innerJoin('Proyectos as p', 't.Proyecto_Perteneciente', 'p.ID')
@@ -196,7 +196,7 @@ const dbservice = () => {
             .innerJoin('Colaborador as c', 't.ID', 'c.Tarea_Asiganda')
             .where('c.Usuario_Participante', usuarioId);
     };
-    
+
     const getColaboradorYProyectoPorTarea = (tareaId) => {
         return knex('Colaborador as c')
             .select('c.ID as ID_Colaborador', 'c.Proyecto_Perteneciente as ID_Proyecto')
@@ -206,14 +206,12 @@ const dbservice = () => {
 
     const actualizarNombreYDescripcionProyecto = (proyectoId, nuevoNombre, nuevaDescripcion) => {
         return knex('Proyectos')
-          .where('ID', proyectoId)
-          .update({
-            Nombre_del_Proyecto: nuevoNombre,
-            Descripcion: nuevaDescripcion
-          });
-      };
-      
-
+            .where('ID', proyectoId)
+            .update({
+                Nombre_del_Proyecto: nuevoNombre,
+                Descripcion: nuevaDescripcion
+            });
+    };
 
     return {
         getBuscarUsuarioPorId,
@@ -231,15 +229,15 @@ const dbservice = () => {
         crearHistorialDeMovimiento,
         crearEstadoDeLaTarea,
         actualizarEstadoTarea,
-        actualizarNombreYDescripcionProyecto
-
+        actualizarNombreYDescripcionProyecto,
+        
     };
 
 
 
 
 
-    
+
 };
 
 
