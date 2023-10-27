@@ -401,4 +401,37 @@ export function agregarColaborador(nuevoColaborador) {
       console.error(error);
     });
 }
+/*eliminar */
+export function EliminarProyecto(proyectoId) {
+  return fetch(`http://localhost:3000/eliminar-proyecto/${proyectoId}`, {
+      method: 'DELETE',
+  })
+      .then((response) => {
+          if (response.ok) {
+              console.log('Proyecto eliminado con éxito');
+          } else {
+              console.error('Error al eliminar el proyecto');
+          }
+      })
+      .catch((error) => {
+          console.error(error);
+      });
+}
 
+
+export function Buscarproyectosincola(usuarioId) {
+  return new Promise((resolve, reject) => {
+    fetch(`http://localhost:3000/tareanoColaborador/${usuarioId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          reject(data.error);
+        } else {
+          resolve(data);
+        }
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

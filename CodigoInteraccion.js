@@ -14,6 +14,7 @@ import {
     obtenerInfoTareasdeMienbro,
     buscarTareasSinColaborador,
     buscarTareasConColaborador,
+    Buscarproyectosincola,
     LeerUser,
     agregarColaborador
 } from "./Intermediario.js";
@@ -449,7 +450,7 @@ function mostrarIntegrantes() {
 
 function mostracola() {
     const userID = window.usuarioActual;
-    buscarTareasConColaborador(userID)
+    Buscarproyectosincola(userID)
         .then((data) => {
             document.getElementById("Tablero").innerHTML = verTareasConColaborador(data);
             console.log("Datos obtenidos:", data);
@@ -533,7 +534,6 @@ function bucarcolaborador() {
             });
     }
 }
-
 
 //CONFIGURACIONES DE USUARIO ADMINISTRADO 
 
@@ -705,11 +705,9 @@ document.addEventListener("click", (ev) => {
         VerProyectos(userID, hacer);
     } else if (ev.target.matches("#tareas-con-colaborador")) {
         mostrarsincola();
-        // ListaoTareas();
     } else if (ev.target.matches("#tareas-sin-colaborador")) {
 
         mostracola();
-        // ListaoTareas();
     } else if (ev.target.matches("#boton-crear-proyecto")) {
         ev.preventDefault();
         GuardarProyecto(userID);

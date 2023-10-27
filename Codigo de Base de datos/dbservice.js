@@ -310,9 +310,31 @@ const dbservice = () => {
             .where("p.Usuario_Propietario", usuarioPropietarioId);
     };
 
-    /*insetar colaboradores */
-    
-    // Función para agregar un registro en la tabla Colaborador
+
+    /*eliminar */
+    const eliminarProyectoPorId = (proyectoId) => {
+        return knex('Proyectos')
+            .where('ID', proyectoId)
+            .del();
+    };
+
+    const Proyectosincolaborador = (usuarioPropietarioId, estadoEnProcesoDeEsperaId) => {
+        return knex("Proyectos as p")
+            .select(
+                "p.ID as Proyecto_ID",
+                "p.Nombre_del_Proyecto as Nombre_del_Proyecto",
+                "t.ID as Tarea_ID",
+                "t.Nombre_de_la_Tarea as Nombre_de_la_Tarea",
+                "t.Descripcion as Descripcion_de_la_Tarea"
+            )
+            .leftJoin("Tarea as t", "p.ID", "t.Proyecto_Perteneciente")
+            .leftJoin("Colaborador as c", "t.ID", "c.Tarea_Asiganda")
+            .where("p.Usuario_Propietario", usuarioPropietarioId)
+            .andWhere("t.Estado_de_la_Tarea", estadoEnProcesoDeEsperaId)
+            .whereNull("c.Tarea_Asiganda") // Verifica si Tarea_Asiganda es nulo
+            .groupBy("p.ID", "p.Nombre_del_Proyecto", "t.ID", "t.Nombre_de_la_Tarea", "t.Descripcion");
+    };
+
 
     return {
         getBuscarUsuarioPorId,
@@ -334,8 +356,10 @@ const dbservice = () => {
         actualizarTarea,
         getColaboradoresYTareasPorUsuarioPropietario,
         Taressincolaborador,
-        taresconcolaborador
-        
+        taresconcolaborador,
+        eliminarProyectoPorId,
+        Proyectosincolaborador
+
     };
 };
 

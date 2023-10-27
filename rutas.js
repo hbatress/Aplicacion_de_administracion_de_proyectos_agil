@@ -397,4 +397,40 @@ module.exports = function (app, dbservice) {
     });
 
 
-}
+
+    app.delete('/eliminar-proyecto/:proyectoId', (req, res) => {
+        const proyectoIdAEliminar = req.params.proyectoId; // Obtén el ID del proyecto desde los parámetros de la URL
+
+        dbservice.eliminarProyectoPorId(proyectoIdAEliminar)
+            .then(() => {
+                res.status(204).send(); // Éxito, no hay contenido en la respuesta
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al eliminar el proyecto', message: error.message });
+            });
+    });
+
+
+    app.get('/tareanoColaborador/:id', (req, res) => {
+        const usuarioPropietarioId = req.params.id;
+        const estadoEnProcesoDeEsperaId = 1;
+
+        dbservice.Proyectosincolaborador(usuarioPropietarioId, estadoEnProcesoDeEsperaId)
+            .then((tareas) => {
+                if (tareas && tareas.length > 0) {
+                    res.json(tareas);
+                } else {
+                    res.status(404).json({ error: 'No se encontraron tareas con colaborador para este usuario propietario' });
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({ error: 'Error al buscar las tareas con colaborador' });
+            });
+        });
+
+
+
+
+
+
+    }

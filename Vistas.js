@@ -1078,44 +1078,31 @@ function verTareasSinColaborador(tareas) {
 function verTareasConColaborador(tareas) {
   var html = `
     <div class="lista-tareas">
-      <h2>Tareas Activas</h2>
-      <ul>
+      <h2>Tareas sin Colaborador</h2>
   `;
 
-  tareas.forEach(function(tarea) {
-    if (tarea.ID_del_Colaborador === null) { // Verificar si ID_del_Colaborador es nulo
-      // Verificar si los campos son nulos y asignar "Sin asignación" en su lugar
-      const nombreProyecto = tarea.Nombre_del_Proyecto || "Sin asignación";
-      const nombreTarea = tarea.Nombre_de_Tarea || "Sin asignación";
-      const nombreColaborador = tarea.Nombre_del_Colaborador || "Sin asignación";
-      const nombrePropietario = tarea.Nombre_del_Propietario || "Sin asignación";
+  tareas.forEach(function (tarea) {
+    const nombreProyecto = tarea.Nombre_del_Proyecto || "Sin asignación";
+    const nombreTarea = tarea.Nombre_de_la_Tarea || "Sin asignación";
+    const descripcionTarea = tarea.Descripcion_de_la_Tarea || "Sin asignación";
 
-      // Verificar si al menos un campo no es "Sin asignación", en cuyo caso se agrega la tarea
-      if (
-        nombreProyecto !== "Sin asignación" ||
-        nombreTarea !== "Sin asignación" ||
-        nombreColaborador !== "Sin asignación" ||
-        nombrePropietario !== "Sin asignación"
-      ) {
-        html += `
-          <li>
-            <h1>Proyecto de ${nombreProyecto}</h1>
-            <p><b>Tarea:</b> ${nombreTarea}</p>
-            <p><b>Colaborador:</b> ${nombreColaborador}</p>
-            <p><b>Propietario:</b> ${nombrePropietario}</p>
-          </li>
-        `;
-      }
-    }
+    html += `
+      <div class="grupo-tareas">
+        <h3 class="nombre-proyecto">Proyecto: ${nombreProyecto}</h3>
+        <p class="nombre-tarea"><b>Tarea:</b> ${nombreTarea}</p>
+        <p class="descripcion-tarea"><b>Descripción:</b> ${descripcionTarea}</p>
+        <button id="Agregarcolaborador"class="boton" data-tarea-id="${tarea.Tarea_ID}" data-proyecto-id="${tarea.Proyecto_ID}">Mi Botón</button>
+      </div>
+    `;
   });
 
   html += `
-      </ul>
     </div>
   `;
 
   return html;
 }
+
 
 function crearUsuarioForm() {
   var html = `
