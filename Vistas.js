@@ -1090,7 +1090,7 @@ function verTareasConColaborador(tareas) {
         <h3 class="nombre-proyecto">Proyecto: ${nombreProyecto}</h3>
         <p class="nombre-tarea"><b>Tarea:</b> ${nombreTarea}</p>
         <p class="descripcion-tarea"><b>Descripción:</b> ${descripcionTarea}</p>
-        <button id="Agregarcolaborador"class="boton" data-tarea-id="${tarea.Tarea_ID}" data-proyecto-id="${tarea.Proyecto_ID}">Mi Botón</button>
+        <button id="Agregarcolaborador"class="boton" data-tarea-id="${tarea.Tarea_ID}" data-proyecto-id="${tarea.Proyecto_ID}">Agregar Colaborador</button>
       </div>
     `;
   });

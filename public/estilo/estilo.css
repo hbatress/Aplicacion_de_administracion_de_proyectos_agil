@@ -8,7 +8,6 @@ html {
   body {
     margin: 0;
     padding: 0;
-    background-image: url(../Imagenes/fondo2.jpg);
     background-size: cover; 
     background-repeat: no-repeat;
   }
@@ -76,7 +75,7 @@ nav ul li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80vh; /* El 80% de la altura */
+  height: 80vh; 
 }
 
 

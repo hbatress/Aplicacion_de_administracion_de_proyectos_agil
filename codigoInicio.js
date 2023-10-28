@@ -100,7 +100,8 @@ function Crear() {
             title: 'Usuario creado',
             text: 'El usuario se ha creado correctamente.',
           }).then(() => {
-            window.location.href = '/Pagina/Pagina.html';
+            inicarContr();
+           // window.location.href = '/Pagina/Pagina.html';
           });
         }
       })

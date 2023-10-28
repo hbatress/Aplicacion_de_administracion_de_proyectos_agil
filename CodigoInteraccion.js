@@ -92,14 +92,14 @@ function actualizarAjustes(userID) {
         const Tipo_de_Cuenta = formulario.elements.tipoCuenta.value;
 
         // Verifica si el correo electrónico es válido
-        if (!esCorreoElectronicoValido(correo)) {
-            Swal.fire({
-                icon: "error",
-                title: "Correo no válido",
-                text: "Por favor, ingresa un correo electrónico válido.",
-            });
-            return;
-        }
+        /*  if (!esCorreoElectronicoValido(correo)) {
+              Swal.fire({
+                  icon: "error",
+                  title: "Correo no válido",
+                  text: "Por favor, ingresa un correo electrónico válido.",
+              });
+              return;
+          }*/
         // Crea un objeto con los datos
         const userData = {
             nomNombrebre,
@@ -477,6 +477,8 @@ function crearcolaborardor() {
 
 }
 function bucarcolaborador() {
+    var idProyectosenviar = null;
+    var IDencotrarTarea = null;
     var correoColaboradorInput = document.getElementById("correo-colaborador");
     const Correo_Electronico = correoColaboradorInput.value;
     console.log(Correo_Electronico);
@@ -498,28 +500,40 @@ function bucarcolaborador() {
         LeerUser()
             .then((data) => {
                 let correoEncontrado = false;
-                let IDencontra = null;
+
 
                 data.forEach((usuario) => {
                     if (usuario.Correo_Electronico === Correo_Electronico) {
                         correoEncontrado = true;
 
-                        IDencontra = usuario.ID;
+                        IDencontra = parseInt(usuario.ID);
+                        idProyectosenviar = parseInt(proyectoID);
+                        IDencotrarTarea = parseInt(idtarea)
                         console.log(IDencontra);
                     }
                 });
 
                 if (correoEncontrado) {
-                    console.log(IDencontra);
-                    // Crear un objeto nuevoColaborador con valores
+                    console.log(proyectoID);
+
+
                     var nuevoColaborador = {
                         Usuario_Participante: IDencontra,
-                        Proyecto_Perteneciente: proyectoID,
-                        Tarea_Asignada: idtarea
-                    };
+                        Proyecto_Perteneciente: IDencotrarTarea,
+                        Tarea_Asignada:idProyectosenviar
+                    }
 
-                    agregarColaborador(nuevoColaborador);
-
+                    agregarColaborador(nuevoColaborador)
+                        .then((response) => {
+                            if (response.message) {
+                                console.log('Colaborador agregado con éxito');
+                            } else {
+                                console.error(response.error);
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
 
                 } else {
                     Swal.fire({
@@ -715,7 +729,7 @@ document.addEventListener("click", (ev) => {
         console.log("Aqui va el ID en cada Proyecto", proyectoID);
         EditarProyect();
 
-    }else if (ev.target.matches("#crear-tarea")) {
+    } else if (ev.target.matches("#crear-tarea")) {
         Estadoregreso = "Tarea";
         const hacer = "CrearTarea"
         VerProyectos(userID, hacer);
